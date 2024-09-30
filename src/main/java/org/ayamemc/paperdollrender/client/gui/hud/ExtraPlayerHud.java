@@ -170,7 +170,7 @@ public class ExtraPlayerHud {
             // get the overall yaw before transforming
             var yawLerped = vehicle.getViewYRot(partialTicks);
 
-            // FIXME: NEVERFIX - the rendered yaw of minecart is determined non-trivially in its MinecartEntityRenderer#render, so it cannot be fixed to 0 easily
+            // the rendered yaw of minecart is determined non-trivially in its MinecartEntityRenderer#render, so it cannot be fixed to 0 easily
             if (vehicle instanceof LivingEntity livingVehicle) {
                 vehicleBackup = new DataBackup<>(livingVehicle, LIVINGENTITY_BACKUP_ENTRIES);
                 vehicleBackup.save();
