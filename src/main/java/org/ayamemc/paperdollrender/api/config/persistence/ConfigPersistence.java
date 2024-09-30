@@ -18,13 +18,32 @@
  *     along with PaperDoll Render.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        jcenter()
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
-        gradlePluginPortal()
-    }
+package org.ayamemc.paperdollrender.api.config.persistence;
+
+import org.ayamemc.paperdollrender.api.config.model.ConfigOption;
+
+import java.nio.file.Path;
+import java.util.List;
+
+@SuppressWarnings({"UnusedReturnValue", "unused"})
+public interface ConfigPersistence {
+    Path getPath();
+
+    /**
+     * Save config.
+     * <br/>
+     * To prevent crashing, it should log an error instead of throwing when it fails.
+     *
+     * @return save is successful
+     */
+    boolean save(List<? extends ConfigOption<?>> options);
+
+    /**
+     * Load config.
+     * <br/>
+     * To prevent crashing, it should log an error instead of throwing when it fails.
+     *
+     * @return load is successful
+     */
+    boolean load(List<? extends ConfigOption<?>> options);
 }

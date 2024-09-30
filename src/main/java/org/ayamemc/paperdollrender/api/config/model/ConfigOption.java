@@ -18,13 +18,42 @@
  *     along with PaperDoll Render.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        jcenter()
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
-        gradlePluginPortal()
+package org.ayamemc.paperdollrender.api.config.model;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.Objects;
+
+@SuppressWarnings({"BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
+public interface ConfigOption<T> {
+    T getDefaultValue();
+
+    /**
+     * Invalid {@code value} must be logged as an {@link org.slf4j.event.Level#WARN}
+     *
+     * @return a valid new value
+     */
+    T validate(T oldValue, T newValue);
+
+    /**
+     * @return if the value is changed
+     */
+    boolean setValue(T newValue);
+
+    default boolean isValueDefault() {
+        return Objects.equals(this.getValue(), this.getDefaultValue());
     }
+
+    T getValue();
+
+    ResourceLocation getCategory();
+
+    ResourceLocation getId();
+
+    Component getName();
+
+    Component getDescription();
+
+    Class<T> getType();
 }

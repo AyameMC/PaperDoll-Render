@@ -18,13 +18,16 @@
  *     along with PaperDoll Render.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        jcenter()
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
-        gradlePluginPortal()
+package org.ayamemc.paperdollrender.compat.modmenu;
+
+import com.terraformersmc.modmenu.api.ConfigScreenFactory;
+import com.terraformersmc.modmenu.api.ModMenuApi;
+import org.ayamemc.paperdollrender.PaperDollRender;
+import org.ayamemc.paperdollrender.config.ConfigScreen;
+
+public class ModMenuApiImpl implements ModMenuApi {
+    @Override
+    public ConfigScreenFactory<?> getModConfigScreenFactory() {
+        return parent -> new ConfigScreen(parent, PaperDollRender.CONFIGS.getOptions());
     }
 }

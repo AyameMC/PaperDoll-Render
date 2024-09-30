@@ -1,10 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "explayerenderer",
+  "id": "paperdollrender",
   "version": "3.0.0",
-
-  "name": "ExtraPlayerRenderer",
-  "description": "Render an extra player figure on your screen. Made for game streaming and recordings.",
+  "name": "PaperDoll Render",
+  "description": "Render an extra player figure on your screen. Made for game streaming and recordings. Well integrated with Ayame.",
   "authors": [
     "Lucun_Ji"
   ],
@@ -19,28 +18,26 @@
     "sources": "https://github.com/LucunJi/ExtraPlayerRenderer",
     "issues": "https://github.com/LucunJi/ExtraPlayerRenderer/issues"
   },
-
   "license": "LGPL-3.0-or-later",
-  "icon": "assets/explayerenderer/icon.png",
-
+  "icon": "assets/paperdollrender/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
-      "github.io.lucunji.explayerenderer.Main"
+      "org.ayamemc.paperdollrender.PaperDollRender"
     ],
     "modmenu": [
-      "github.io.lucunji.explayerenderer.compat.modmenu.ModMenuApiImpl"
+      "org.ayamemc.paperdollrender.compat.modmenu.ModMenuApiImpl"
     ]
   },
   "mixins": [
-    "explayerenderer.mixins.json"
+    "paperdollrender.mixins.json"
   ],
-
   "depends": {
     "fabricloader": ">=0.15.11",
     "minecraft": "~1.21"
   },
   "suggests": {
     "modmenu": "*"
-  }
+  },
+  "accessWidener": "paperdollrender.accesswidener"
 }

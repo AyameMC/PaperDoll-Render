@@ -18,13 +18,8 @@
  *     along with PaperDoll Render.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        jcenter()
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
-        gradlePluginPortal()
-    }
+package org.ayamemc.paperdollrender.mixininterface;
+
+public interface ImmediateMixinInterface {
+    void paperDollRender$setForceDisableCulling(boolean disableCulling);
 }

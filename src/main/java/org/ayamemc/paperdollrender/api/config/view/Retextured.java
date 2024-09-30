@@ -18,13 +18,10 @@
  *     along with PaperDoll Render.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        jcenter()
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
-        gradlePluginPortal()
-    }
+package org.ayamemc.paperdollrender.api.config.view;
+
+import net.minecraft.resources.ResourceLocation;
+
+public interface Retextured {
+    ResourceLocation retexture(ResourceLocation oldTexture);
 }

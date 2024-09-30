@@ -18,13 +18,14 @@
  *     along with PaperDoll Render.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        jcenter()
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
-        gradlePluginPortal()
-    }
+package org.ayamemc.paperdollrender.api.config.model;
+
+import org.jetbrains.annotations.NotNull;
+
+public interface RangedConfigOption<T extends Comparable<T>> extends ConfigOption<T> {
+    @NotNull
+    T getMax();
+
+    @NotNull
+    T getMin();
 }
