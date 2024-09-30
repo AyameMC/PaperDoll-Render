@@ -1,4 +1,4 @@
-# Extra Player Renderer
+# PaperDoll Render
 
 ![](logo/800x256.svg)
 
@@ -8,6 +8,7 @@
 
 [![](https://cf.way2muchnoise.eu/versions/extraplayerrenderer.svg)](https://www.curseforge.com/minecraft/mc-mods/extraplayerrenderer)
 
+A Fork of [Extra Player Renderer](https://github.com/LucunJi/ExtraPlayerRenderer). Well integrated with Ayame.
 
 **In short, this mod:**
 
