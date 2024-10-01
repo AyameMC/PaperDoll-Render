@@ -1,37 +1,43 @@
 {
   "schemaVersion": 1,
   "id": "paperdollrender",
-  "version": "${version}",
+  "version": "0.1.0",
   "name": "PaperDoll Render",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "Render an extra player figure on your screen. Made for game streaming and recordings. Well integrated with Ayame.",
   "authors": [
-    "Me!"
+    "Lucun_Ji"
+  ],
+  "contributors": [
+    "Fallen_Breath",
+    "X-Green",
+    "altrisi",
+    "plusls"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/extraplayerrenderer",
+    "sources": "https://github.com/LucunJi/ExtraPlayerRenderer",
+    "issues": "https://github.com/LucunJi/ExtraPlayerRenderer/issues"
   },
-  "license": "CC0-1.0",
+  "license": "LGPL-3.0-or-later",
   "icon": "assets/paperdollrender/icon.png",
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
-    "main": [
-      "org.ayamemc.paperdollrender.fabric.ExampleModFabric"
-    ],
     "client": [
-      "org.ayamemc.paperdollrender.fabric.client.ExampleModFabricClient"
+      "org.ayamemc.paperdollrender.PaperDollRender"
+    ],
+    "modmenu": [
+      "org.ayamemc.paperdollrender.compat.modmenu.ModMenuApiImpl"
     ]
   },
   "mixins": [
     "paperdollrender.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.16.5",
-    "minecraft": "~1.21",
-    "java": ">=21",
-    "fabric-api": "*"
+    "fabricloader": ">=0.15.11",
+    "minecraft": "~1.21"
   },
   "suggests": {
-    "another-mod": "*"
-  }
+    "modmenu": "*"
+  },
+  "accessWidener": "paperdollrender.accesswidener"
 }
