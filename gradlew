@@ -2,7 +2,7 @@
 
 #
 #     Highly configurable paper doll mod, well integrated with Ayame.
-#     Copyright (C) 2024  LucunJi(Original author), CrystalNeko, HappyRespawnanchor, pertaz(Icon Designer)
+#     Copyright (C) 2024  LucunJi(Original author), CrystalNeko, HappyRespawnanchor
 #
 #     This file is part of PaperDoll Render.
 #
