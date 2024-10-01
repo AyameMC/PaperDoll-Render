@@ -18,17 +18,13 @@
  *     along with PaperDoll Render.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        maven { url "https://maven.fabricmc.net/" }
-        maven { url "https://maven.architectury.dev/" }
-        maven { url "https://files.minecraftforge.net/maven/" }
-        gradlePluginPortal()
+package org.ayamemc.paperdollrender.fabric.client;
+
+import net.fabricmc.api.ClientModInitializer;
+
+public final class ExampleModFabricClient implements ClientModInitializer {
+    @Override
+    public void onInitializeClient() {
+        // This entrypoint is suitable for setting up client-specific logic, such as rendering.
     }
 }
-
-rootProject.name = 'paperdollrender'
-
-include 'common'
-include 'fabric'
-include 'neoforge'

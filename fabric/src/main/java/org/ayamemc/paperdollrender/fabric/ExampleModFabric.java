@@ -18,17 +18,20 @@
  *     along with PaperDoll Render.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        maven { url "https://maven.fabricmc.net/" }
-        maven { url "https://maven.architectury.dev/" }
-        maven { url "https://files.minecraftforge.net/maven/" }
-        gradlePluginPortal()
+package org.ayamemc.paperdollrender.fabric;
+
+import net.fabricmc.api.ModInitializer;
+
+import org.ayamemc.paperdollrender.ExampleMod;
+
+public final class ExampleModFabric implements ModInitializer {
+    @Override
+    public void onInitialize() {
+        // This code runs as soon as Minecraft is in a mod-load-ready state.
+        // However, some things (like resources) may still be uninitialized.
+        // Proceed with mild caution.
+
+        // Run our common setup.
+        ExampleMod.init();
     }
 }
-
-rootProject.name = 'paperdollrender'
-
-include 'common'
-include 'fabric'
-include 'neoforge'

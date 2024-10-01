@@ -18,17 +18,16 @@
  *     along with PaperDoll Render.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        maven { url "https://maven.fabricmc.net/" }
-        maven { url "https://maven.architectury.dev/" }
-        maven { url "https://files.minecraftforge.net/maven/" }
-        gradlePluginPortal()
+package org.ayamemc.paperdollrender.neoforge;
+
+import net.neoforged.fml.common.Mod;
+
+import org.ayamemc.paperdollrender.ExampleMod;
+
+@Mod(ExampleMod.MOD_ID)
+public final class ExampleModNeoForge {
+    public ExampleModNeoForge() {
+        // Run our common setup.
+        ExampleMod.init();
     }
 }
-
-rootProject.name = 'paperdollrender'
-
-include 'common'
-include 'fabric'
-include 'neoforge'
