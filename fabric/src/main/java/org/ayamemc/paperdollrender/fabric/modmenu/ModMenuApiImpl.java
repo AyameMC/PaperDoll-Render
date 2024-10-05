@@ -1,6 +1,6 @@
 /*
  *     Highly configurable paper doll mod, well integrated with Ayame.
- *     Copyright (C) 2024  LucunJi(Original author), CrystalNeko, HappyRespawnanchor
+ *     Copyright (C) 2024  LucunJi(Original author), CrystalNeko, HappyRespawnanchor, pertaz(Icon Designer)
  *
  *     This file is part of PaperDoll Render.
  *
@@ -18,20 +18,16 @@
  *     along with PaperDoll Render.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.ayamemc.paperdollrender.neoforge;
+package org.ayamemc.paperdollrender.fabric.modmenu;
 
-import net.minecraft.client.KeyMapping;
-import net.neoforged.fml.common.Mod;
+import com.terraformersmc.modmenu.api.ConfigScreenFactory;
+import com.terraformersmc.modmenu.api.ModMenuApi;
+import org.ayamemc.paperdollrender.PaperDollRender;
+import org.ayamemc.paperdollrender.config.ConfigScreen;
 
-import org.ayamemc.paperdollrender.CommonInterfaceInstances;
-import org.ayamemc.paperdollrender.ExampleMod;
-
-@Mod(ExampleMod.MOD_ID)
-public final class ExampleModNeoForge {
-    public ExampleModNeoForge() {
-        CommonInterfaceInstances.keyHelper=KeyMapping::getKey;
-
-        // Run our common setup.
-        ExampleMod.init();
+public class ModMenuApiImpl implements ModMenuApi {
+    @Override
+    public ConfigScreenFactory<?> getModConfigScreenFactory() {
+        return parent -> new ConfigScreen(parent, PaperDollRender.CONFIGS.getOptions());
     }
 }

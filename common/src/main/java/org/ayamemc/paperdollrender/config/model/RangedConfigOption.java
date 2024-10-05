@@ -1,6 +1,6 @@
 /*
  *     Highly configurable paper doll mod, well integrated with Ayame.
- *     Copyright (C) 2024  LucunJi(Original author), CrystalNeko, HappyRespawnanchor
+ *     Copyright (C) 2024  LucunJi(Original author), CrystalNeko, HappyRespawnanchor, pertaz(Icon Designer)
  *
  *     This file is part of PaperDoll Render.
  *
@@ -18,20 +18,14 @@
  *     along with PaperDoll Render.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.ayamemc.paperdollrender.neoforge;
+package org.ayamemc.paperdollrender.config.model;
 
-import net.minecraft.client.KeyMapping;
-import net.neoforged.fml.common.Mod;
+import org.jetbrains.annotations.NotNull;
 
-import org.ayamemc.paperdollrender.CommonInterfaceInstances;
-import org.ayamemc.paperdollrender.ExampleMod;
+public interface RangedConfigOption<T extends Comparable<T>> extends ConfigOption<T> {
+    @NotNull
+    T getMax();
 
-@Mod(ExampleMod.MOD_ID)
-public final class ExampleModNeoForge {
-    public ExampleModNeoForge() {
-        CommonInterfaceInstances.keyHelper=KeyMapping::getKey;
-
-        // Run our common setup.
-        ExampleMod.init();
-    }
+    @NotNull
+    T getMin();
 }

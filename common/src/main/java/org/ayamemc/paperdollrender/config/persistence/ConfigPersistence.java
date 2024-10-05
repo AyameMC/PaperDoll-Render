@@ -1,6 +1,6 @@
 /*
  *     Highly configurable paper doll mod, well integrated with Ayame.
- *     Copyright (C) 2024  LucunJi(Original author), CrystalNeko, HappyRespawnanchor
+ *     Copyright (C) 2024  LucunJi(Original author), CrystalNeko, HappyRespawnanchor, pertaz(Icon Designer)
  *
  *     This file is part of PaperDoll Render.
  *
@@ -18,20 +18,32 @@
  *     along with PaperDoll Render.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.ayamemc.paperdollrender.neoforge;
+package org.ayamemc.paperdollrender.config.persistence;
 
-import net.minecraft.client.KeyMapping;
-import net.neoforged.fml.common.Mod;
+import org.ayamemc.paperdollrender.config.model.ConfigOption;
 
-import org.ayamemc.paperdollrender.CommonInterfaceInstances;
-import org.ayamemc.paperdollrender.ExampleMod;
+import java.nio.file.Path;
+import java.util.List;
 
-@Mod(ExampleMod.MOD_ID)
-public final class ExampleModNeoForge {
-    public ExampleModNeoForge() {
-        CommonInterfaceInstances.keyHelper=KeyMapping::getKey;
+@SuppressWarnings({"UnusedReturnValue", "unused"})
+public interface ConfigPersistence {
+    Path getPath();
 
-        // Run our common setup.
-        ExampleMod.init();
-    }
+    /**
+     * Save config.
+     * <br/>
+     * To prevent crashing, it should log an error instead of throwing when it fails.
+     *
+     * @return save is successful
+     */
+    boolean save(List<? extends ConfigOption<?>> options);
+
+    /**
+     * Load config.
+     * <br/>
+     * To prevent crashing, it should log an error instead of throwing when it fails.
+     *
+     * @return load is successful
+     */
+    boolean load(List<? extends ConfigOption<?>> options);
 }

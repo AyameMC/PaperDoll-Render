@@ -23,10 +23,10 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "org.ayamemc.paperdollrender.PaperDollRender"
+      "org.ayamemc.paperdollrender.fabric.FabricPaperDollClientInit"
     ],
     "modmenu": [
-      "org.ayamemc.paperdollrender.compat.modmenu.ModMenuApiImpl"
+      "org.ayamemc.paperdollrender.fabric.modmenu.ModMenuApiImpl"
     ]
   },
   "mixins": [
