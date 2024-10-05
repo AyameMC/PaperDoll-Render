@@ -1,6 +1,6 @@
 /*
  *     Highly configurable paper doll mod, well integrated with Ayame.
- *     Copyright (C) 2024  LucunJi(Original author), CrystalNeko, HappyRespawnanchor
+ *     Copyright (C) 2024  LucunJi(Original author), CrystalNeko, HappyRespawnanchor, pertaz(Icon Designer)
  *
  *     This file is part of PaperDoll Render.
  *
@@ -18,20 +18,20 @@
  *     along with PaperDoll Render.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.ayamemc.paperdollrender.neoforge;
+package org.ayamemc.paperdollrender.fabric;
 
-import net.minecraft.client.KeyMapping;
-import net.neoforged.fml.common.Mod;
-
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import org.ayamemc.paperdollrender.CommonInterfaceInstances;
-import org.ayamemc.paperdollrender.ExampleMod;
+import org.ayamemc.paperdollrender.PaperDollRender;
 
-@Mod(ExampleMod.MOD_ID)
-public final class ExampleModNeoForge {
-    public ExampleModNeoForge() {
-        CommonInterfaceInstances.keyHelper=KeyMapping::getKey;
+public class FabricPaperDollClientInit implements ClientModInitializer {
+    @Override
+    public void onInitializeClient() {
+        CommonInterfaceInstances.keyHelper= KeyBindingHelper::getBoundKeyOf;
 
-        // Run our common setup.
-        ExampleMod.init();
+        PaperDollRender.CONFIG_PERSISTENCE.load(PaperDollRender.CONFIGS.getOptions());
+
+        KeyBindingHelper.registerKeyBinding(PaperDollRender.CONFIG_KEY);
     }
 }
