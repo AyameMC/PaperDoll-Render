@@ -42,8 +42,6 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static org.ayamemc.paperdollrender.PaperDollRender.id;
-
 public class ConfigWidgetRegistry {
     public static final int RESET_BUTTON_WIDTH = 50;
     public static final ConfigWidgetRegistry DEFAULT = new ConfigWidgetRegistry();

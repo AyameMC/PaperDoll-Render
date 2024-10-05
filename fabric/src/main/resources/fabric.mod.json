@@ -26,7 +26,7 @@
       "org.ayamemc.paperdollrender.fabric.FabricPaperDollClientInit"
     ],
     "modmenu": [
-      "org.ayamemc.paperdollrender.modmenu.ModMenuApiImpl"
+      "org.ayamemc.paperdollrender.fabric.modmenu.ModMenuApiImpl"
     ]
   },
   "mixins": [

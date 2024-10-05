@@ -49,9 +49,6 @@ import org.joml.Vector3f;
 
 import java.util.List;
 
-import static org.ayamemc.paperdollrender.PaperDollRender.CONFIGS;
-
-
 public class ExtraPlayerHud {
     private static final List<DataBackup.DataBackupEntry<LivingEntity, ?>> LIVINGENTITY_BACKUP_ENTRIES = ImmutableList.of(
             new DataBackup.DataBackupEntry<>(LivingEntity::getPose, LivingEntity::setPose),
