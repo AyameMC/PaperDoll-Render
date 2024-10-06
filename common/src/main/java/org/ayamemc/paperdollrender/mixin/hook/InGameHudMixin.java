@@ -28,6 +28,7 @@ import org.ayamemc.paperdollrender.PaperDollRender;
 import org.ayamemc.paperdollrender.hud.ExtraPlayerHud;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -58,32 +59,34 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  *     </ul>
  *     <li>{@link Gui#renderExperienceLevel} (the text)</li>
  *     <li>{@link Gui#renderEffects}</li>
- *     <li>{@link Gui#bossBarHud}</li>
+ *     <li>{@link Gui#bossOverlay}</li>
  *     <li>{@link Gui#renderSleepOverlay}</li>
  *     <li>{@link Gui#renderDemoOverlay}</li>
- *     <li>{@link Gui#debugHud}</li>
+ *     <li>{@link Gui#debugOverlay}</li>
  *     <li>{@link Gui#renderScoreboardSidebar}</li>
  *     <li>{@link Gui#renderOverlayMessage}</li>
  *     <li>{@link Gui#renderTitle} (message given by /title)</li>
  *     <li>{@link Gui#renderChat}</li>
  *     <li>{@link Gui#renderTabList}</li>
- *     <li>{@link Gui#subtitlesHud} (sound subtitles)</li>
+ *     <li>{@link Gui#subtitleOverlay} (sound subtitles)</li>
  * </ul>
  */
 @Mixin(Gui.class)
 public class InGameHudMixin {
     //@Shadow
-    @Final
-    private Minecraft client = Minecraft.getInstance();
     @Unique
-    private ExtraPlayerHud extraPlayerHud;
+    @Mutable
+    @Final
+    private Minecraft paperdollrender$client = Minecraft.getInstance();
+    @Unique
+    private ExtraPlayerHud paperdollrender$extraPlayerHud;
 
     /**
      * Initialization should go after initialization to prevent using uninitialized fields.
      */
     @Inject(method = "<init>", at = @At("RETURN"))
     public void onInit(Minecraft client, CallbackInfo ci) {
-        this.extraPlayerHud = new ExtraPlayerHud(this.client);
+        this.paperdollrender$extraPlayerHud = new ExtraPlayerHud(this.paperdollrender$client);
     }
 
     /**
@@ -101,16 +104,17 @@ public class InGameHudMixin {
      */
     @Inject(method = "renderCameraOverlays", at = @At("RETURN"))
     void onRenderMiscOverlayFinish(GuiGraphics context, DeltaTracker tickCounter, CallbackInfo ci) {
-        if (!this.client.options.hideGui
-                && !(PaperDollRender.CONFIGS.hideUnderDebug.getValue() && this.client.getDebugOverlay().showDebugScreen())
-                && this.client.screen == null) {
-            this.extraPlayerHud.render(tickCounter.getGameTimeDeltaPartialTick(true));
+        if (!this.paperdollrender$client.options.hideGui
+                && !(PaperDollRender.CONFIGS.hideUnderDebug.getValue() && this.paperdollrender$client.getDebugOverlay().showDebugScreen())
+                && this.paperdollrender$client.screen == null) {
+            this.paperdollrender$extraPlayerHud.render(tickCounter.getGameTimeDeltaPartialTick(true));
         }
         // follow convention in LayeredDrawer#renderInternal
         context.pose().translate(0, 0, 200);
     }
 
-    public void setClient(Minecraft client) {
-        this.client = client;
+    @Unique
+    public void paperdollrender$setClient(Minecraft client) {
+        this.paperdollrender$client = client;
     }
 }

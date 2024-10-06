@@ -27,7 +27,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "org.ayamemc.paperdollrender.fabric.FabricPaperDollClientInit"
+      "org.ayamemc.paperdollrender.fabric.PaperDollRenderFabric"
     ],
     "modmenu": [
       "org.ayamemc.paperdollrender.fabric.modmenu.ModMenuApiImpl"

@@ -18,20 +18,23 @@
  *     along with PaperDoll Render.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.ayamemc.paperdollrender.neoforge;
+package org.ayamemc.paperdollrender.fabric;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import org.ayamemc.paperdollrender.CommonInterfaceInstances;
 import org.ayamemc.paperdollrender.PaperDollRender;
 
-@EventBusSubscriber(modid = PaperDollRender.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class ForgePaperDollClientInit {
+public class PaperDollRenderFabric implements ClientModInitializer {
+    @Override
+    public void onInitializeClient() {
+        CommonInterfaceInstances.keyHelper = KeyBindingHelper::getBoundKeyOf;
 
-    @SubscribeEvent
-    public static void registerKeyMapping(RegisterKeyMappingsEvent event) {
-        event.register(PaperDollRender.CONFIG_KEY);
+
+        KeyBindingHelper.registerKeyBinding(PaperDollRender.CONFIG_KEY);
+
+        PaperDollRender.init();
+
+
     }
-
 }
