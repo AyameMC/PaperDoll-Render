@@ -1,6 +1,6 @@
 /*
  *     Highly configurable paper doll mod, well integrated with Ayame.
- *     Copyright (C) 2024  LucunJi(Original author), CrystalNeko, HappyRespawnanchor, pertaz(Icon Designer)
+ *     Copyright (C) 2024  LucunJi(Original author), HappyRespawnanchor, pertaz(Port to Architectury)
  *
  *     This file is part of PaperDoll Render.
  *
@@ -170,7 +170,7 @@ public class ConfigWidgetRegistry {
 
         @Override
         public ResourceLocation retexture(ResourceLocation oldTexture) {
-            return PaperDollRender.id(oldTexture.getPath());
+            return PaperDollRender.withPaperDollRenderNamespace(oldTexture.getPath());
         }
     }
 
@@ -181,7 +181,7 @@ public class ConfigWidgetRegistry {
 
         @Override
         public ResourceLocation retexture(ResourceLocation oldTexture) {
-            return PaperDollRender.id(oldTexture.getPath());
+            return PaperDollRender.withPaperDollRenderNamespace(oldTexture.getPath());
         }
     }
 
@@ -201,7 +201,7 @@ public class ConfigWidgetRegistry {
 
         @Override
         public ResourceLocation retexture(ResourceLocation oldTexture) {
-            return PaperDollRender.id(oldTexture.getPath());
+            return PaperDollRender.withPaperDollRenderNamespace(oldTexture.getPath());
         }
 
         @Override

@@ -1,6 +1,6 @@
 /*
  *     Highly configurable paper doll mod, well integrated with Ayame.
- *     Copyright (C) 2024  LucunJi(Original author), CrystalNeko, HappyRespawnanchor, pertaz(Icon Designer)
+ *     Copyright (C) 2024  LucunJi(Original author), HappyRespawnanchor, pertaz(Port to Architectury)
  *
  *     This file is part of PaperDoll Render.
  *
@@ -108,7 +108,7 @@ public class ConfigScreen extends Screen {
             }
             categoryLists.get(category).addEntry(configEntryOptioal.get());
 
-            if (option.getId().equals(PaperDollRender.id("enabled"))) {
+            if (option.getId().equals(PaperDollRender.withPaperDollRenderNamespace("enabled"))) {
                 categoryLists.get(category).addEntry(this.getPresetsConfigEntry());
             }
         }

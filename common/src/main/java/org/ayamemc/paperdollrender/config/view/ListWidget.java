@@ -1,6 +1,6 @@
 /*
  *     Highly configurable paper doll mod, well integrated with Ayame.
- *     Copyright (C) 2024  LucunJi(Original author), CrystalNeko, HappyRespawnanchor, pertaz(Icon Designer)
+ *     Copyright (C) 2024  LucunJi(Original author), HappyRespawnanchor, pertaz(Port to Architectury)
  *
  *     This file is part of PaperDoll Render.
  *
@@ -24,8 +24,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.resources.ResourceLocation;
 import org.ayamemc.paperdollrender.PaperDollRender;
-
-import static org.ayamemc.paperdollrender.PaperDollRender.id;
 
 public class ListWidget extends ContainerObjectSelectionList<ListWidget.ListEntry> implements Retextured {
 
@@ -52,7 +50,7 @@ public class ListWidget extends ContainerObjectSelectionList<ListWidget.ListEntr
 
     @Override
     public ResourceLocation retexture(ResourceLocation oldTexture) {
-        return PaperDollRender.id(oldTexture.getPath());
+        return PaperDollRender.withPaperDollRenderNamespace(oldTexture.getPath());
     }
 
     public static abstract class ListEntry extends ContainerObjectSelectionList.Entry<ListEntry> {

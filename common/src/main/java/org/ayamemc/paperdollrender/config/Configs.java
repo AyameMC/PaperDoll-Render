@@ -1,6 +1,6 @@
 /*
  *     Highly configurable paper doll mod, well integrated with Ayame.
- *     Copyright (C) 2024  LucunJi(Original author), CrystalNeko, HappyRespawnanchor, pertaz(Icon Designer)
+ *     Copyright (C) 2024  LucunJi(Original author), HappyRespawnanchor, pertaz(Port to Architectury)
  *
  *     This file is part of PaperDoll Render.
  *
@@ -34,39 +34,39 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public class Configs {
-    public static final ResourceLocation GENERAL_CATEGORY = PaperDollRender.id("general");
-    public static final ResourceLocation ROTATIONS_CATEGORY = PaperDollRender.id("rotations");
-    public static final ResourceLocation POSTURES_CATEGORY = PaperDollRender.id("postures");
-    public static final ResourceLocation DETAILS_CATEGORY = PaperDollRender.id("details");
-    public static final ResourceLocation HIDDEN_CATEGORY = PaperDollRender.id("hidden");
-    public final SimpleOption<Boolean> enabled = new SimpleOption<>(GENERAL_CATEGORY, PaperDollRender.id("enabled"), true);
-    public final SimpleNumericOption<Double> offsetX = new SimpleNumericOption<>(GENERAL_CATEGORY, PaperDollRender.id("offset_x"), 0.14, -0.5, 1.5);
-    public final SimpleNumericOption<Double> offsetY = new SimpleNumericOption<>(GENERAL_CATEGORY, PaperDollRender.id("offset_y"), 1.27, -0.5, 2.5);
-    public final SimpleNumericOption<Double> rotationX = new SimpleNumericOption<>(GENERAL_CATEGORY, PaperDollRender.id("rotation_x"), 0D, -180D, 180D);
-    public final SimpleNumericOption<Double> rotationY = new SimpleNumericOption<>(GENERAL_CATEGORY, PaperDollRender.id("rotation_y"), 0D, -180D, 180D);
-    public final SimpleNumericOption<Double> rotationZ = new SimpleNumericOption<>(GENERAL_CATEGORY, PaperDollRender.id("rotation_z"), 0D, -180D, 180D);
-    public final SimpleNumericOption<Double> size = new SimpleNumericOption<>(GENERAL_CATEGORY, PaperDollRender.id("size"), 0.29, 0D, 2D);
-    public final SimpleOption<Boolean> mirrored = new SimpleOption<>(GENERAL_CATEGORY, PaperDollRender.id("mirrored"), true);
-    public final SimpleNumericOption<Double> pitch = new SimpleNumericOption<>(ROTATIONS_CATEGORY, PaperDollRender.id("pitch"), 0D, -90D, 90D);
-    public final SimpleNumericOption<Double> pitchRange = new SimpleNumericOption<>(ROTATIONS_CATEGORY, PaperDollRender.id("pitch_range"), 20D, 0D, 90D);
-    public final SimpleNumericOption<Double> headYaw = new SimpleNumericOption<>(ROTATIONS_CATEGORY, PaperDollRender.id("head_yaw"), -7.5D, -180D, 180D);
-    public final SimpleNumericOption<Double> headYawRange = new SimpleNumericOption<>(ROTATIONS_CATEGORY, PaperDollRender.id("head_yaw_range"), 0D, 0D, 180D);
-    public final SimpleNumericOption<Double> bodyYaw = new SimpleNumericOption<>(ROTATIONS_CATEGORY, PaperDollRender.id("body_yaw"), 0D, -180D, 180D);
-    public final SimpleNumericOption<Double> bodyYawRange = new SimpleNumericOption<>(ROTATIONS_CATEGORY, PaperDollRender.id("body_yaw_range"), 0D, 0D, 180D);
-    public final SimpleOption<PoseOffsetMethod> poseOffsetMethod = new SimpleOption<>(POSTURES_CATEGORY, PaperDollRender.id("pose_offset_method"), PoseOffsetMethod.AUTO);
-    public final SimpleNumericOption<Double> sneakOffsetY = new SimpleNumericOption<>(POSTURES_CATEGORY, PaperDollRender.id("sneak_offset_y"), -0.35, -3D, 3D);
-    public final SimpleNumericOption<Double> swimCrawlOffsetY = new SimpleNumericOption<>(POSTURES_CATEGORY, PaperDollRender.id("swim_crawl_offset_y"), -1.22, -3D, 3D);
-    public final SimpleNumericOption<Double> elytraOffsetY = new SimpleNumericOption<>(POSTURES_CATEGORY, PaperDollRender.id("elytra_offset_y"), -1.22, -3D, 3D);
-    public final SimpleOption<Boolean> hurtFlash = new SimpleOption<>(DETAILS_CATEGORY, PaperDollRender.id("hurt_flash"), true);
-    public final SimpleOption<Boolean> swingHands = new SimpleOption<>(DETAILS_CATEGORY, PaperDollRender.id("swing_hands"), true);
-    public final SimpleNumericOption<Double> lightDegree = new SimpleNumericOption<>(DETAILS_CATEGORY, PaperDollRender.id("light_degree"), 0D, -180D, 180D);
-    public final SimpleOption<Boolean> useWorldLight = new SimpleOption<>(DETAILS_CATEGORY, PaperDollRender.id("use_world_light"), true);
-    public final SimpleNumericOption<Integer> worldLightMin = new SimpleNumericOption<>(DETAILS_CATEGORY, PaperDollRender.id("world_light_min"), 2, 0, 15);
-    public final SimpleOption<Boolean> renderVehicle = new SimpleOption<>(DETAILS_CATEGORY, PaperDollRender.id("render_vehicle"), true);
-    public final SimpleOption<Boolean> hideUnderDebug = new SimpleOption<>(DETAILS_CATEGORY, PaperDollRender.id("hide_under_debug"), true);
-    public final SimpleOption<Boolean> spectatorAutoSwitch = new SimpleOption<>(DETAILS_CATEGORY, PaperDollRender.id("spectator_auto_switch"), true);
-    public final SimpleOption<String> playerName = new SimpleOption<>(DETAILS_CATEGORY, PaperDollRender.id("player_name"), "");
-    public final SimpleOption<Integer> lastConfigTabIdx = new SimpleOption<>(HIDDEN_CATEGORY, PaperDollRender.id("last_config_tab_idx"), 0);
+    public static final ResourceLocation GENERAL_CATEGORY = PaperDollRender.withPaperDollRenderNamespace("general");
+    public static final ResourceLocation ROTATIONS_CATEGORY = PaperDollRender.withPaperDollRenderNamespace("rotations");
+    public static final ResourceLocation POSTURES_CATEGORY = PaperDollRender.withPaperDollRenderNamespace("postures");
+    public static final ResourceLocation DETAILS_CATEGORY = PaperDollRender.withPaperDollRenderNamespace("details");
+    public static final ResourceLocation HIDDEN_CATEGORY = PaperDollRender.withPaperDollRenderNamespace("hidden");
+    public final SimpleOption<Boolean> enabled = new SimpleOption<>(GENERAL_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("enabled"), true);
+    public final SimpleNumericOption<Double> offsetX = new SimpleNumericOption<>(GENERAL_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("offset_x"), 0.14, -0.5, 1.5);
+    public final SimpleNumericOption<Double> offsetY = new SimpleNumericOption<>(GENERAL_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("offset_y"), 1.27, -0.5, 2.5);
+    public final SimpleNumericOption<Double> rotationX = new SimpleNumericOption<>(GENERAL_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("rotation_x"), 0D, -180D, 180D);
+    public final SimpleNumericOption<Double> rotationY = new SimpleNumericOption<>(GENERAL_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("rotation_y"), 0D, -180D, 180D);
+    public final SimpleNumericOption<Double> rotationZ = new SimpleNumericOption<>(GENERAL_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("rotation_z"), 0D, -180D, 180D);
+    public final SimpleNumericOption<Double> size = new SimpleNumericOption<>(GENERAL_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("size"), 0.29, 0D, 2D);
+    public final SimpleOption<Boolean> mirrored = new SimpleOption<>(GENERAL_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("mirrored"), true);
+    public final SimpleNumericOption<Double> pitch = new SimpleNumericOption<>(ROTATIONS_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("pitch"), 0D, -90D, 90D);
+    public final SimpleNumericOption<Double> pitchRange = new SimpleNumericOption<>(ROTATIONS_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("pitch_range"), 20D, 0D, 90D);
+    public final SimpleNumericOption<Double> headYaw = new SimpleNumericOption<>(ROTATIONS_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("head_yaw"), -7.5D, -180D, 180D);
+    public final SimpleNumericOption<Double> headYawRange = new SimpleNumericOption<>(ROTATIONS_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("head_yaw_range"), 0D, 0D, 180D);
+    public final SimpleNumericOption<Double> bodyYaw = new SimpleNumericOption<>(ROTATIONS_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("body_yaw"), 0D, -180D, 180D);
+    public final SimpleNumericOption<Double> bodyYawRange = new SimpleNumericOption<>(ROTATIONS_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("body_yaw_range"), 0D, 0D, 180D);
+    public final SimpleOption<PoseOffsetMethod> poseOffsetMethod = new SimpleOption<>(POSTURES_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("pose_offset_method"), PoseOffsetMethod.AUTO);
+    public final SimpleNumericOption<Double> sneakOffsetY = new SimpleNumericOption<>(POSTURES_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("sneak_offset_y"), -0.35, -3D, 3D);
+    public final SimpleNumericOption<Double> swimCrawlOffsetY = new SimpleNumericOption<>(POSTURES_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("swim_crawl_offset_y"), -1.22, -3D, 3D);
+    public final SimpleNumericOption<Double> elytraOffsetY = new SimpleNumericOption<>(POSTURES_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("elytra_offset_y"), -1.22, -3D, 3D);
+    public final SimpleOption<Boolean> hurtFlash = new SimpleOption<>(DETAILS_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("hurt_flash"), true);
+    public final SimpleOption<Boolean> swingHands = new SimpleOption<>(DETAILS_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("swing_hands"), true);
+    public final SimpleNumericOption<Double> lightDegree = new SimpleNumericOption<>(DETAILS_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("light_degree"), 0D, -180D, 180D);
+    public final SimpleOption<Boolean> useWorldLight = new SimpleOption<>(DETAILS_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("use_world_light"), true);
+    public final SimpleNumericOption<Integer> worldLightMin = new SimpleNumericOption<>(DETAILS_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("world_light_min"), 2, 0, 15);
+    public final SimpleOption<Boolean> renderVehicle = new SimpleOption<>(DETAILS_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("render_vehicle"), true);
+    public final SimpleOption<Boolean> hideUnderDebug = new SimpleOption<>(DETAILS_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("hide_under_debug"), true);
+    public final SimpleOption<Boolean> spectatorAutoSwitch = new SimpleOption<>(DETAILS_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("spectator_auto_switch"), true);
+    public final SimpleOption<String> playerName = new SimpleOption<>(DETAILS_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("player_name"), "");
+    public final SimpleOption<Integer> lastConfigTabIdx = new SimpleOption<>(HIDDEN_CATEGORY, PaperDollRender.withPaperDollRenderNamespace("last_config_tab_idx"), 0);
     public final Presets topLeft = new Presets.PresetsBuilder()
             .with(offsetX, 0.08)
             .with(offsetY, 0.23)

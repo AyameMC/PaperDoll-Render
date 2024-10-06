@@ -1,6 +1,6 @@
 /*
  *     Highly configurable paper doll mod, well integrated with Ayame.
- *     Copyright (C) 2024  LucunJi(Original author), CrystalNeko, HappyRespawnanchor
+ *     Copyright (C) 2024  LucunJi(Original author), HappyRespawnanchor, pertaz(Port to Architectury)
  *
  *     This file is part of PaperDoll Render.
  *
@@ -21,17 +21,27 @@
 package org.ayamemc.paperdollrender.neoforge;
 
 import net.minecraft.client.KeyMapping;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
-
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import org.ayamemc.paperdollrender.CommonInterfaceInstances;
-import org.ayamemc.paperdollrender.ExampleMod;
+import org.ayamemc.paperdollrender.PaperDollRender;
+import org.ayamemc.paperdollrender.config.ConfigScreen;
 
-@Mod(ExampleMod.MOD_ID)
-public final class ExampleModNeoForge {
-    public ExampleModNeoForge() {
-        CommonInterfaceInstances.keyHelper=KeyMapping::getKey;
+import static org.ayamemc.paperdollrender.PaperDollRender.CONFIG_PERSISTENCE;
+
+@Mod(value = PaperDollRender.MOD_ID, dist = Dist.CLIENT)
+public final class PaperDollRenderNeoForge {
+    public PaperDollRenderNeoForge() {
+        CommonInterfaceInstances.keyHelper = KeyMapping::getKey;
 
         // Run our common setup.
-        ExampleMod.init();
+        PaperDollRender.init();
+
+        ModLoadingContext.get().registerExtensionPoint(
+                IConfigScreenFactory.class,
+                () -> (modContainer, lastScreen) -> new ConfigScreen(lastScreen, PaperDollRender.CONFIGS.getOptions())
+        );
     }
 }

@@ -1,6 +1,6 @@
 /*
  *     Highly configurable paper doll mod, well integrated with Ayame.
- *     Copyright (C) 2024  LucunJi(Original author), CrystalNeko, HappyRespawnanchor, pertaz(Icon Designer)
+ *     Copyright (C) 2024  LucunJi(Original author), HappyRespawnanchor, pertaz(Port to Architectury)
  *
  *     This file is part of PaperDoll Render.
  *
@@ -26,11 +26,11 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import org.ayamemc.paperdollrender.PaperDollRender;
 
-@EventBusSubscriber(Dist.CLIENT)
+@EventBusSubscriber(modid = PaperDollRender.MOD_ID,  bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ForgePaperDollClientInit {
 
     @SubscribeEvent
-    public static void registerKeyMapping(RegisterKeyMappingsEvent event){
+    public static void registerKeyMapping(RegisterKeyMappingsEvent event) {
         event.register(PaperDollRender.CONFIG_KEY);
     }
 

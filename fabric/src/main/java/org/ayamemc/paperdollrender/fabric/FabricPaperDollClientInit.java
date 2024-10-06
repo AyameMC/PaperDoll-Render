@@ -1,6 +1,6 @@
 /*
  *     Highly configurable paper doll mod, well integrated with Ayame.
- *     Copyright (C) 2024  LucunJi(Original author), CrystalNeko, HappyRespawnanchor, pertaz(Icon Designer)
+ *     Copyright (C) 2024  LucunJi(Original author), HappyRespawnanchor, pertaz(Port to Architectury)
  *
  *     This file is part of PaperDoll Render.
  *
@@ -25,13 +25,20 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import org.ayamemc.paperdollrender.CommonInterfaceInstances;
 import org.ayamemc.paperdollrender.PaperDollRender;
 
+import java.awt.print.Paper;
+
+import static org.ayamemc.paperdollrender.PaperDollRender.CONFIG_PERSISTENCE;
+
 public class FabricPaperDollClientInit implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        CommonInterfaceInstances.keyHelper= KeyBindingHelper::getBoundKeyOf;
+        CommonInterfaceInstances.keyHelper = KeyBindingHelper::getBoundKeyOf;
 
-        PaperDollRender.CONFIG_PERSISTENCE.load(PaperDollRender.CONFIGS.getOptions());
 
         KeyBindingHelper.registerKeyBinding(PaperDollRender.CONFIG_KEY);
+
+        PaperDollRender.init();
+
+
     }
 }
