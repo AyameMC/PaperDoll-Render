@@ -35,7 +35,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MinecraftClientMixin {
     //@Shadow
     @Nullable
-    public Screen currentScreen;
+    public Screen paperdollrender$currentScreen;
 
     @Shadow
     public abstract void setScreen(@Nullable Screen screen);
@@ -43,7 +43,7 @@ public abstract class MinecraftClientMixin {
     @Inject(method = "handleKeybinds", at = @At("RETURN"))
     private void onHandleInputEventsFinish(CallbackInfo ci) {
         while (PaperDollRender.CONFIG_KEY.consumeClick()) {
-            this.setScreen(new ConfigScreen(this.currentScreen, PaperDollRender.CONFIGS.getOptions()));
+            this.setScreen(new ConfigScreen(this.paperdollrender$currentScreen, PaperDollRender.CONFIGS.getOptions()));
         }
     }
 }

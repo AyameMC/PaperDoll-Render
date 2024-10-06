@@ -1,17 +1,21 @@
 {
   "schemaVersion": 1,
   "id": "paperdollrender",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "name": "PaperDoll Render",
   "description": "Render an extra player figure on your screen. Made for game streaming and recordings. Well integrated with Ayame.",
   "authors": [
-    "Lucun_Ji"
+    "Lucun_Ji",
+    "HappyRespawnanchor",
+    "pertaz(Port to Architectury)"
   ],
   "contributors": [
     "Fallen_Breath",
     "X-Green",
     "altrisi",
-    "plusls"
+    "plusls",
+    "HappyRespawnanchor",
+    "pertaz(Port to Architectury)"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/extraplayerrenderer",

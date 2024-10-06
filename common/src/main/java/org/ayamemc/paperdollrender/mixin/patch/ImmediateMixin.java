@@ -35,18 +35,18 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class ImmediateMixin implements ImmediateMixinInterface {
 
     @Unique
-    private boolean forceDisableCulling = false;
+    private boolean paperdollrender$forceDisableCulling = false;
 
     @Override
     public void paperDollRender$setForceDisableCulling(boolean disableCulling) {
-        this.forceDisableCulling = disableCulling;
+        this.paperdollrender$forceDisableCulling = disableCulling;
     }
 
     // strangely, WrapMethod has no effect
     @WrapOperation(method = "endBatch(Lnet/minecraft/client/renderer/RenderType;)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;endBatch(Lnet/minecraft/client/renderer/RenderType;Lcom/mojang/blaze3d/vertex/BufferBuilder;)V"))
     void disableCulling(MultiBufferSource.BufferSource instance, RenderType layer, BufferBuilder builder, Operation<Void> original) {
-        if (this.forceDisableCulling) {
+        if (this.paperdollrender$forceDisableCulling) {
             RenderSystem.disableCull();
             original.call(instance, layer, builder);
             RenderSystem.enableCull();

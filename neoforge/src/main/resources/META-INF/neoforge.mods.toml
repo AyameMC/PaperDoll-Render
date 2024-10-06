@@ -1,18 +1,31 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
-#issueTrackerURL = ""
-license = "Insert License Here"
+issueTrackerURL = "https://github.com/AyameMC/PaperDoll-Renderer/issues"
+license = "LGPL-3.0-or-later"
 
 [[mods]]
 modId = "paperdollrender"
 version = "${version}"
 displayName = "PaperDoll Render"
-authors = "Me!"
-description = '''
-This is an example description! Tell everyone what your mod is about!
+displayURL = "https://github.com/AyameMC/PaperDoll-Renderer"
+authors = '''
+LucunJi(Original author)
+HappyRespawnanchor
+pertaz(Port to Architectury)
 '''
-#logoFile = ""
-
+credits = '''
+Fallen_Breath
+X-Green
+altrisi
+plusls
+HappyRespawnanchor
+pertaz(Port to Architectury)
+'''
+description = '''
+Render an extra player figure on your screen. Made for game streaming and recordings. Well integrated with Ayame.
+'''
+logoFile = "paperdollrender_logo.png"
+updateJSONURL = "https://updatechecker.ayamemc.org/neoforge/paperdollrender/update.json"
 [[dependencies.paperdollrender]]
 modId = "neoforge"
 type = "required"

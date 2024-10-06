@@ -29,8 +29,6 @@ import org.ayamemc.paperdollrender.CommonInterfaceInstances;
 import org.ayamemc.paperdollrender.PaperDollRender;
 import org.ayamemc.paperdollrender.config.ConfigScreen;
 
-import static org.ayamemc.paperdollrender.PaperDollRender.CONFIG_PERSISTENCE;
-
 @Mod(value = PaperDollRender.MOD_ID, dist = Dist.CLIENT)
 public final class PaperDollRenderNeoForge {
     public PaperDollRenderNeoForge() {
