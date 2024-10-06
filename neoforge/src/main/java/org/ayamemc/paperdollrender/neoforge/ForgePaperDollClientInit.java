@@ -26,7 +26,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import org.ayamemc.paperdollrender.PaperDollRender;
 
-@EventBusSubscriber(modid = PaperDollRender.MOD_ID,  bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = PaperDollRender.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ForgePaperDollClientInit {
 
     @SubscribeEvent
