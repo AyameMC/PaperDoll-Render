@@ -66,19 +66,6 @@ subprojects {
             name = "Terraformers"
             url = "https://maven.terraformersmc.com/"
         }
-
-//         Modrinth Maven
-//         exclusiveContent {
-//            forRepository {
-//                maven {
-//                    name = "Modrinth"
-//                    url = "https://api.modrinth.com/maven"
-//                }
-//            }
-//            filter {
-//                includeGroup "maven.modrinth"
-//            }
-//         }
     }
 
     loom {
@@ -93,6 +80,11 @@ subprojects {
             officialMojangMappings()
             parchment("org.parchmentmc.data:parchment-${minecraft_version}:${parchment_version}@zip")
         }
+    }
+
+    jar {
+        from(rootProject.file('COPYING'))
+        from(rootProject.file('COPYING.LESSER'))
     }
 
     java {
