@@ -27,7 +27,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'paperdollrender'
+rootProject.name = 'PaperDoll-Render'
 
 include 'common'
 include 'fabric'

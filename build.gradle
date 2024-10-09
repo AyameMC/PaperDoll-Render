@@ -70,7 +70,6 @@ subprojects {
 
     loom {
         silentMojangMappingsLicense()
-        accessWidenerPath = file("src/main/resources/paperdollrender.accesswidener")
     }
 
     dependencies {

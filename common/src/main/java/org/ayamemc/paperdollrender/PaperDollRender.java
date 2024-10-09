@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.file.Path;
 
 public final class PaperDollRender {
-    public static final String MOD_ID = "paperdollrender";
+    public static final String MOD_ID = "paperdoll_render";
     public static final String MOD_NAME = "PaperDoll Render";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
     public static final KeyMapping CONFIG_KEY = new KeyMapping(

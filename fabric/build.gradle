@@ -64,6 +64,16 @@ processResources {
     }
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/paperdoll-render-fabric.accesswidener")
+}
+
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+}
+
 shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'

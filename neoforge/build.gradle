@@ -66,6 +66,12 @@ processResources {
     }
 }
 
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+}
+
 shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'
@@ -76,5 +82,5 @@ remapJar {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/paperdollrender.accesswidener")
+    accessWidenerPath = file("src/main/resources/paperdoll-render-neoforge.accesswidener")
 }

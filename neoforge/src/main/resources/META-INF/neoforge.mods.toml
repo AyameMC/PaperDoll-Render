@@ -4,7 +4,7 @@ issueTrackerURL = "https://github.com/AyameMC/PaperDoll-Renderer/issues"
 license = "LGPL-3.0-or-later"
 
 [[mods]]
-modId = "paperdollrender"
+modId = "paperdoll_render"
 version = "${version}"
 displayName = "PaperDoll Render"
 displayURL = "https://github.com/AyameMC/PaperDoll-Renderer"
@@ -24,16 +24,16 @@ pertaz(Port to Architectury)
 description = '''
 Render an extra player figure on your screen. Made for game streaming and recordings. Well integrated with Ayame.
 '''
-logoFile = "paperdollrender_logo.png"
+logoFile = "../icon.png"
 updateJSONURL = "https://updatechecker.ayamemc.org/neoforge/paperdollrender/update.json"
-[[dependencies.paperdollrender]]
+[[dependencies.paperdoll-render]]
 modId = "neoforge"
 type = "required"
 versionRange = "[21.0,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.paperdollrender]]
+[[dependencies.paperdoll-render]]
 modId = "minecraft"
 type = "required"
 versionRange = "[1.21,)"
@@ -41,4 +41,4 @@ ordering = "NONE"
 side = "BOTH"
 
 [[mixins]]
-config = "paperdollrender.mixins.json"
+config = "paperdoll-render.mixins.json"
