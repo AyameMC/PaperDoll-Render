@@ -42,6 +42,5 @@
   },
   "suggests": {
     "modmenu": "*"
-  },
-  "accessWidener": "paperdoll-render-fabric.accesswidener"
+  }
 }
