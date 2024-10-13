@@ -24,7 +24,7 @@ description = '''
 Highly configurable PaperDoll mod.
 Fork from Extra Player Renderer.
 '''
-logoFile = "../icon.png"
+logoFile = "icon.png"
 updateJSONURL = "https://updatechecker.ayamemc.org/neoforge/ayame-paperdoll/update.json"
 [[dependencies.ayame_paperdoll]]
 modId = "neoforge"
