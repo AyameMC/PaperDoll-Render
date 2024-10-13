@@ -27,7 +27,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'PaperDoll-Render'
+rootProject.name = 'Ayame-PaperDoll'
 
 include 'common'
 include 'fabric'

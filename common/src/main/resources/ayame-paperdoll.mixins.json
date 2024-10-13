@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "package": "org.ayamemc.ayamepaperdoll.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "client": [
+    "hook.InGameHudMixin",
+    "hook.MinecraftClientMixin",
+    "patch.ImmediateMixin",
+    "retexture.EntryListWidgetMixin",
+    "retexture.PressableWidgetMixin",
+    "retexture.SliderWidgetMixin",
+    "retexture.TextFieldWidgetMixin"
+  ],
+  "mixins": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

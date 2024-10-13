@@ -1,24 +1,22 @@
 {
   "schemaVersion": 1,
-  "id": "paperdoll-render",
+  "id": "ayame_paperdoll",
   "version": "4.0.0",
-  "name": "PaperDoll Render",
-  "description": "Render an extra player figure on your screen. Made for game streaming and recordings. Well integrated with Ayame.",
+  "name": "Ayame PaperDoll",
+  "description": "Highly configurable PaperDoll mod.\nFork from Extra Player Renderer.",
   "authors": [
     "Lucun_Ji",
-    "HappyRespawnanchor",
-    "pertaz(Port to Architectury)"
+    "HappyRespawnanchor"
   ],
   "contributors": [
     "Fallen_Breath",
     "X-Green",
     "altrisi",
     "plusls",
-    "HappyRespawnanchor",
+    "HappyRespawnanchor(Port to Architectury)",
     "pertaz(Port to Architectury)"
   ],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/extraplayerrenderer",
     "sources": "https://github.com/AyameMC/PaperDoll-Renderer",
     "issues": "https://github.com/AyameMC/PaperDoll-Renderer/issues"
   },
@@ -27,17 +25,17 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "org.ayamemc.paperdollrender.fabric.PaperDollRenderFabric"
+      "org.ayamemc.ayamepaperdoll.fabric.AyamePaperDollFabric"
     ],
     "modmenu": [
-      "org.ayamemc.paperdollrender.fabric.modmenu.ModMenuApiImpl"
+      "org.ayamemc.ayamepaperdoll.fabric.AyamePaperDollFabric"
     ]
   },
   "mixins": [
-    "paperdoll-render.mixins.json"
+    "ayame-paperdoll.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.15.11",
+    "fabricloader": ">=0.16.7",
     "minecraft": "~1.21"
   },
   "suggests": {

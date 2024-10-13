@@ -39,7 +39,7 @@ jobs:
       - name: Upload JAR artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: PaperDoll_Render_nightly_unstable
+          name: Ayame_PaperDoll_nightly_unstable
           path: ./result/ # or path/to/artifact
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).

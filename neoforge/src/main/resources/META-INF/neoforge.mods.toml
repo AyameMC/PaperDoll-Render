@@ -4,36 +4,36 @@ issueTrackerURL = "https://github.com/AyameMC/PaperDoll-Renderer/issues"
 license = "LGPL-3.0-or-later"
 
 [[mods]]
-modId = "paperdoll_render"
+modId = "ayame_paperdoll"
 version = "${version}"
-displayName = "PaperDoll Render"
+displayName = "Ayame PaperDoll"
 displayURL = "https://github.com/AyameMC/PaperDoll-Renderer"
 authors = '''
 LucunJi(Original author)
 HappyRespawnanchor
-pertaz(Port to Architectury)
 '''
 credits = '''
 Fallen_Breath
 X-Green
 altrisi
 plusls
-HappyRespawnanchor
+HappyRespawnanchor(Port to Architectury)
 pertaz(Port to Architectury)
 '''
 description = '''
-Render an extra player figure on your screen. Made for game streaming and recordings. Well integrated with Ayame.
+Highly configurable PaperDoll mod.
+Fork from Extra Player Renderer.
 '''
 logoFile = "../icon.png"
-updateJSONURL = "https://updatechecker.ayamemc.org/neoforge/paperdollrender/update.json"
-[[dependencies.paperdoll-render]]
+updateJSONURL = "https://updatechecker.ayamemc.org/neoforge/ayame-paperdoll/update.json"
+[[dependencies.ayame_paperdoll]]
 modId = "neoforge"
 type = "required"
 versionRange = "[21.0,)"
 ordering = "NONE"
-side = "BOTH"
+side = "CLIENT"
 
-[[dependencies.paperdoll-render]]
+[[dependencies.ayame_paperdoll]]
 modId = "minecraft"
 type = "required"
 versionRange = "[1.21,)"
@@ -41,4 +41,4 @@ ordering = "NONE"
 side = "BOTH"
 
 [[mixins]]
-config = "paperdoll-render.mixins.json"
+config = "ayame-paperdoll.mixins.json"

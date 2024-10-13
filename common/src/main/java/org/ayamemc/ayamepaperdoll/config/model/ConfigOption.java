@@ -18,16 +18,42 @@
  *     along with PaperDoll Render.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-architectury {
-    common rootProject.enabled_platforms.split(',')
-}
+package org.ayamemc.ayamepaperdoll.config.model;
 
-dependencies {
-    // We depend on Fabric Loader here to use the Fabric @Environment annotations,
-    // which get remapped to the correct annotations on each platform.
-    // Do NOT use other classes from Fabric Loader.
-    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
-}
-loom {
-    accessWidenerPath = file("src/main/resources/ayame-paperdoll.accesswidener")
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.Objects;
+
+@SuppressWarnings({"BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
+public interface ConfigOption<T> {
+    T getDefaultValue();
+
+    /**
+     * Invalid {@code value} must be logged as an {@link org.slf4j.event.Level#WARN}
+     *
+     * @return a valid new value
+     */
+    T validate(T oldValue, T newValue);
+
+    /**
+     * @return if the value is changed
+     */
+    boolean setValue(T newValue);
+
+    default boolean isValueDefault() {
+        return Objects.equals(this.getValue(), this.getDefaultValue());
+    }
+
+    T getValue();
+
+    ResourceLocation getCategory();
+
+    ResourceLocation getId();
+
+    Component getName();
+
+    Component getDescription();
+
+    Class<T> getType();
 }

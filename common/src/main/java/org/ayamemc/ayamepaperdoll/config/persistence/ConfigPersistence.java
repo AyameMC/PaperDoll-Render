@@ -18,16 +18,32 @@
  *     along with PaperDoll Render.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-architectury {
-    common rootProject.enabled_platforms.split(',')
-}
+package org.ayamemc.ayamepaperdoll.config.persistence;
 
-dependencies {
-    // We depend on Fabric Loader here to use the Fabric @Environment annotations,
-    // which get remapped to the correct annotations on each platform.
-    // Do NOT use other classes from Fabric Loader.
-    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
-}
-loom {
-    accessWidenerPath = file("src/main/resources/ayame-paperdoll.accesswidener")
+import org.ayamemc.ayamepaperdoll.config.model.ConfigOption;
+
+import java.nio.file.Path;
+import java.util.List;
+
+@SuppressWarnings({"UnusedReturnValue", "unused"})
+public interface ConfigPersistence {
+    Path getPath();
+
+    /**
+     * Save config.
+     * <br/>
+     * To prevent crashing, it should log an error instead of throwing when it fails.
+     *
+     * @return save is successful
+     */
+    boolean save(List<? extends ConfigOption<?>> options);
+
+    /**
+     * Load config.
+     * <br/>
+     * To prevent crashing, it should log an error instead of throwing when it fails.
+     *
+     * @return load is successful
+     */
+    boolean load(List<? extends ConfigOption<?>> options);
 }

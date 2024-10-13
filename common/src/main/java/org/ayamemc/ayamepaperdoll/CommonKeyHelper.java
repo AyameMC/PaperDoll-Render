@@ -18,16 +18,11 @@
  *     along with PaperDoll Render.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-architectury {
-    common rootProject.enabled_platforms.split(',')
-}
+package org.ayamemc.ayamepaperdoll;
 
-dependencies {
-    // We depend on Fabric Loader here to use the Fabric @Environment annotations,
-    // which get remapped to the correct annotations on each platform.
-    // Do NOT use other classes from Fabric Loader.
-    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
-}
-loom {
-    accessWidenerPath = file("src/main/resources/ayame-paperdoll.accesswidener")
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.KeyMapping;
+
+public interface CommonKeyHelper {
+    InputConstants.Key getBoundKeyOf(KeyMapping keyBinding);
 }
