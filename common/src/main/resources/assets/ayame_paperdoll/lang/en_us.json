@@ -5,6 +5,7 @@
   "config.ayame_paperdoll.off": "Off",
   "config.ayame_paperdoll.reset": "RESET",
   "key.ayame_paperdoll.category": "Ayame PaperDoll",
+  "key.ayame_paperdoll.openConfigGui": "Open Config GUI",
   "key.ayame_paperdoll.showPaperDoll": "Show/Hide PaperDoll",
   "config.ayame_paperdoll.presets.top_left": "Top Left",
   "config.ayame_paperdoll.presets.top_right": "Top Right",

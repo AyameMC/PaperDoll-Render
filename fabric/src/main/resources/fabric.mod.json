@@ -28,7 +28,7 @@
       "org.ayamemc.ayamepaperdoll.fabric.AyamePaperDollFabric"
     ],
     "modmenu": [
-      "org.ayamemc.ayamepaperdoll.fabric.AyamePaperDollFabric"
+      "org.ayamemc.ayamepaperdoll.fabric.AyamePaperDollModMenuApiImpl"
     ]
   },
   "mixins": [
@@ -36,7 +36,8 @@
   ],
   "depends": {
     "fabricloader": ">=0.16.7",
-    "minecraft": "~1.21"
+    "minecraft": "~1.21",
+    "fabric-api": "*"
   },
   "suggests": {
     "modmenu": "*"

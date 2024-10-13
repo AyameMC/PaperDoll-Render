@@ -22,23 +22,12 @@ package org.ayamemc.ayamepaperdoll.fabric;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import org.ayamemc.ayamepaperdoll.AyamePaperDoll;
-import org.ayamemc.ayamepaperdoll.CommonInterfaceInstances;
 import org.ayamemc.ayamepaperdoll.config.ConfigScreen;
 
-public class AyamePaperDollFabric implements ClientModInitializer {
+public class AyamePaperDollModMenuApiImpl implements ModMenuApi {
     @Override
-    public void onInitializeClient() {
-        // Run our Fabric setup.
-
-        CommonInterfaceInstances.keyHelper = KeyBindingHelper::getBoundKeyOf;
-
-        KeyBindingHelper.registerKeyBinding(AyamePaperDoll.SHOW_PAPERDOLL_KEY);
-        KeyBindingHelper.registerKeyBinding(AyamePaperDoll.OPEN_CONFIG_GUI);
-
-        AyamePaperDoll.init();
-
+    public ConfigScreenFactory<?> getModConfigScreenFactory() {
+        return parent -> new ConfigScreen(parent, AyamePaperDoll.CONFIGS.getOptions());
     }
 }

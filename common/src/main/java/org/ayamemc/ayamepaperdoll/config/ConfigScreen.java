@@ -160,14 +160,14 @@ public class ConfigScreen extends Screen {
         return false;
     }
 
-//    @Override
-//    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-//        if (keyCode == CommonInterfaceInstances.keyHelper.getBoundKeyOf(AyamePaperDoll.SHOW_PAPERDOLL_KEY).getValue() && this.shouldCloseOnEsc()) {
-//            this.onClose();
-//            return true;
-//        }
-//        return super.keyPressed(keyCode, scanCode, modifiers);
-//    }
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == CommonInterfaceInstances.keyHelper.getBoundKeyOf(AyamePaperDoll.OPEN_CONFIG_GUI).getValue() && this.shouldCloseOnEsc()) {
+            this.onClose();
+            return true;
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
 
     private ListWidget.ListEntry getPresetsConfigEntry() {
         final int buttonWidth = 70, gap = 10, buttonHeight = 20, labelYOffset = 7;

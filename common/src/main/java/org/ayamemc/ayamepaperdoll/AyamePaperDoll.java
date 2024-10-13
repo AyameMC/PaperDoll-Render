@@ -41,6 +41,12 @@ public final class AyamePaperDoll {
             InputConstants.Type.KEYSYM,
             GLFW.GLFW_KEY_F8,
             "key.%s.category".formatted(MOD_ID));
+    public static final KeyMapping OPEN_CONFIG_GUI = new KeyMapping(
+            "key.%s.openConfigGui".formatted(MOD_ID),
+            InputConstants.Type.KEYSYM,
+            InputConstants.UNKNOWN.getValue(),
+            "key.%s.category".formatted(MOD_ID));
+
     public static final Configs CONFIGS = new Configs();
     public static final ConfigPersistence CONFIG_PERSISTENCE = new GsonConfigPersistence(Path.of("config/" + MOD_ID + ".json"));
 
