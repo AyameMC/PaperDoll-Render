@@ -41,6 +41,5 @@
   },
   "suggests": {
     "modmenu": "*"
-  },
-  "accessWidener": "ayame-paperdoll.accesswidener"
+  }
 }
