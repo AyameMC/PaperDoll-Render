@@ -17,8 +17,8 @@
     "pertaz(Port to Architectury)"
   ],
   "contact": {
-    "sources": "https://github.com/AyameMC/PaperDoll-Renderer",
-    "issues": "https://github.com/AyameMC/PaperDoll-Renderer/issues"
+    "sources": "https://github.com/AyameMC/Ayame-PaperDoll",
+    "issues": "https://github.com/AyameMC/Ayame-PaperDoll/issues"
   },
   "license": "LGPL-3.0-or-later",
   "icon": "assets/paperdollrender/icon.png",

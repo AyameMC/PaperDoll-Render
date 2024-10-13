@@ -1,13 +1,13 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
-issueTrackerURL = "https://github.com/AyameMC/PaperDoll-Renderer/issues"
+issueTrackerURL = "https://github.com/AyameMC/Ayame-PaperDoll/issues"
 license = "LGPL-3.0-or-later"
 
 [[mods]]
 modId = "ayame_paperdoll"
 version = "${version}"
 displayName = "Ayame PaperDoll"
-displayURL = "https://github.com/AyameMC/PaperDoll-Renderer"
+displayURL = "https://github.com/AyameMC/Ayame-PaperDoll"
 authors = '''
 LucunJi(Original author)
 HappyRespawnanchor
