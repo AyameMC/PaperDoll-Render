@@ -48,7 +48,7 @@ public final class AyamePaperDoll {
             "key.%s.category".formatted(MOD_ID));
 
     public static final Configs CONFIGS = new Configs();
-    public static final ConfigPersistence CONFIG_PERSISTENCE = new GsonConfigPersistence(Path.of("config/" + MOD_ID + ".json"));
+    public static final ConfigPersistence CONFIG_PERSISTENCE = new GsonConfigPersistence(Path.of("config/" + MOD_ID + "_v0.json"));
 
     public static ResourceLocation path(String path) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);

@@ -318,9 +318,9 @@ public class ExtraPlayerHud {
         );
         // disable cull to fix item rendering glitches when mirror option is on
         ImmediateMixinInterface immediateMixined = (ImmediateMixinInterface) immediate;
-        immediateMixined.paperDollRender$setForceDisableCulling(mirror);
+        immediateMixined.ayame_PaperDoll$setForceDisableCulling(mirror);
         immediate.endBatch();
-        immediateMixined.paperDollRender$setForceDisableCulling(false);
+        immediateMixined.ayame_PaperDoll$setForceDisableCulling(false);
 
         // do not need to restore this value in fact
         entityRenderDispatcher.setRenderShadow(true);

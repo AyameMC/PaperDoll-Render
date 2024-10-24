@@ -21,7 +21,7 @@
     "issues": "https://github.com/AyameMC/Ayame-PaperDoll/issues"
   },
   "license": "LGPL-3.0-or-later",
-  "icon": "assets/paperdollrender/icon.png",
+  "icon": "assets/ayame_paperdoll/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [

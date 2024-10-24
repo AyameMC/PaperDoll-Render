@@ -38,7 +38,7 @@ public abstract class ImmediateMixin implements ImmediateMixinInterface {
     private boolean ayame_PaperDoll$forceDisableCulling = false;
 
     @Override
-    public void paperDollRender$setForceDisableCulling(boolean disableCulling) {
+    public void ayame_PaperDoll$setForceDisableCulling(boolean disableCulling) {
         this.ayame_PaperDoll$forceDisableCulling = disableCulling;
     }
 

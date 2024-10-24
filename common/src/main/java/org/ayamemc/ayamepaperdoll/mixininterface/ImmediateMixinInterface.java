@@ -21,5 +21,5 @@
 package org.ayamemc.ayamepaperdoll.mixininterface;
 
 public interface ImmediateMixinInterface {
-    void paperDollRender$setForceDisableCulling(boolean disableCulling);
+    void ayame_PaperDoll$setForceDisableCulling(boolean disableCulling);
 }

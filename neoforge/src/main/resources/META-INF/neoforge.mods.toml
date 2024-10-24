@@ -40,15 +40,15 @@ versionRange = "[1.21,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.ayame_paperdoll]]
-modId = "immediatelyfast"
-type = "incompatible"
-reason = '''
-The NeoForge version of ImmediatelyFast will break the cape rendering in Ayame PaperDoll. Please remove ImmediatelyFast.
-NeoForge版ImmediatelyFast会破坏Ayame纸娃娃的披风渲染，请移除ImmediatelyFast。
-'''
-ordering = "NONE"
-side = "BOTH"
+#[[dependencies.ayame_paperdoll]]
+#modId = "immediatelyfast"
+#type = "incompatible"
+#reason = '''
+#The NeoForge version of ImmediatelyFast will break the cape rendering in Ayame PaperDoll. Please remove ImmediatelyFast.
+#NeoForge版ImmediatelyFast会破坏Ayame纸娃娃的披风渲染，请移除ImmediatelyFast。
+#'''
+#ordering = "NONE"
+#side = "BOTH"
 
 
 [[mixins]]
