@@ -22,28 +22,40 @@ package org.ayamemc.ayamepaperdoll.mixin.retexture;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractButton;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ARGB;
 import org.ayamemc.ayamepaperdoll.config.view.Retextured;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.function.Function;
 
-@Mixin(AbstractButton.class)
-public class PressableWidgetMixin {
-    @WrapOperation(method = "renderWidget", at = {
-            @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIIII)V")
-    })
-    public void drawTransparentTextFieldTexture(GuiGraphics instance, Function<ResourceLocation, RenderType> function, ResourceLocation resourceLocation, int i, int j, int k, int l, int m, Operation<Void> original) {
-        if (this instanceof Retextured retextured) {
-            retextured.retexture(resourceLocation);
-            original.call(instance, function, resourceLocation, i, j, k, l, m);
-        } else {
-            original.call(instance, function, resourceLocation, i, j, k, l, m);
-        }
+@Mixin(EditBox.class)
+public abstract class EditBoxtMixin extends AbstractWidget {
+    public EditBoxtMixin(int x, int y, int width, int height, Component message) {
+        super(x, y, width, height, message);
+    }
 
+    @WrapOperation(method = "renderWidget", at = {
+            @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V")
+    })
+    public void drawTransparentTextFieldTexture(GuiGraphics instance, Function<ResourceLocation, RenderType> function, ResourceLocation resourceLocation, int i, int j, int k, int l, Operation<Void> original) {
+        if (this instanceof Retextured retextured) {
+            ResourceLocation retexturedResource = retextured.retexture(resourceLocation);
+            int color = ARGB.white(this.alpha);
+
+            RenderSystem.enableBlend();
+            RenderSystem.enableDepthTest();
+
+            instance.blitSprite(function, retexturedResource, i, j, k, l, color);
+        } else {
+            original.call(instance, function, resourceLocation, i, j, k, l);
+        }
     }
 }
