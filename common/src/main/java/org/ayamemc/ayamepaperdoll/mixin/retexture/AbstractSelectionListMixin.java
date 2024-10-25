@@ -42,8 +42,7 @@ public class AbstractSelectionListMixin {
     })
     public void drawTransparentTextFieldTexture(GuiGraphics instance, Function<ResourceLocation, RenderType> function, ResourceLocation resourceLocation, int i, int j, int k, int l, Operation<Void> original) {
         if (this instanceof Retextured retextured) {
-            ResourceLocation retexturedResource = retextured.retexture(resourceLocation);
-            original.call(instance, function, retexturedResource, i, j, k, l);
+            original.call(instance, function, retextured.retexture(resourceLocation), i, j, k, l);
         } else {
             original.call(instance, function, resourceLocation, i, j, k, l);
         }

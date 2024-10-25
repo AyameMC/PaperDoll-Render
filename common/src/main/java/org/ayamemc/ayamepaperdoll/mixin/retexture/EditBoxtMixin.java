@@ -47,13 +47,12 @@ public abstract class EditBoxtMixin extends AbstractWidget {
     })
     public void drawTransparentTextFieldTexture(GuiGraphics instance, Function<ResourceLocation, RenderType> function, ResourceLocation resourceLocation, int i, int j, int k, int l, Operation<Void> original) {
         if (this instanceof Retextured retextured) {
-            ResourceLocation retexturedResource = retextured.retexture(resourceLocation);
             int color = ARGB.white(this.alpha);
 
             RenderSystem.enableBlend();
             RenderSystem.enableDepthTest();
 
-            instance.blitSprite(function, retexturedResource, i, j, k, l, color);
+            instance.blitSprite(function, retextured.retexture(resourceLocation), i, j, k, l, color);
         } else {
             original.call(instance, function, resourceLocation, i, j, k, l);
         }

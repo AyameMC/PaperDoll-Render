@@ -39,8 +39,7 @@ public class AbstractButtonMixin {
     })
     public void drawTransparentTextFieldTexture(GuiGraphics instance, Function<ResourceLocation, RenderType> function, ResourceLocation resourceLocation, int i, int j, int k, int l, int m, Operation<Void> original) {
         if (this instanceof Retextured retextured) {
-            retextured.retexture(resourceLocation);
-            original.call(instance, function, resourceLocation, i, j, k, l, m);
+            original.call(instance, function, retextured.retexture(resourceLocation), i, j, k, l, m);
         } else {
             original.call(instance, function, resourceLocation, i, j, k, l, m);
         }
