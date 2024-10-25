@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "ayame_paperdoll",
-  "version": "4.0.0",
+  "version": "${version}",
   "name": "Ayame PaperDoll",
   "description": "Highly configurable PaperDoll mod.\nFork from Extra Player Renderer.",
   "authors": [
