@@ -7,8 +7,8 @@
     "hook.InGameHudMixin",
     "hook.MinecraftClientMixin",
     "patch.ImmediateMixin",
-    "retexture.AbstractSelectionListMixin",
     "retexture.AbstractButtonMixin",
+    "retexture.AbstractSelectionListMixin",
     "retexture.AbstractSliderButtonMixin",
     "retexture.EditBoxtMixin"
   ],
