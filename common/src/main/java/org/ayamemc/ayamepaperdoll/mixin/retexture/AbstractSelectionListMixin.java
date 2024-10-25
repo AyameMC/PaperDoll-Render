@@ -23,14 +23,17 @@ package org.ayamemc.ayamepaperdoll.mixin.retexture;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractButton;
+import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.resources.ResourceLocation;
 import org.ayamemc.ayamepaperdoll.config.view.Retextured;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(AbstractButton.class)
-public class PressableWidgetMixin {
+@Mixin(AbstractSelectionList.class)
+public class AbstractSelectionListMixin {
+    /**
+     * This is an incomplete implementation. The background and separator/header/footer are untouched.
+     */
     @WrapOperation(method = "renderWidget", at = {
             @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V")
     })

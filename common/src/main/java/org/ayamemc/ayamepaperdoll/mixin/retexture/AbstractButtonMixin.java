@@ -22,34 +22,21 @@ package org.ayamemc.ayamepaperdoll.mixin.retexture;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.network.chat.Component;
+import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.resources.ResourceLocation;
 import org.ayamemc.ayamepaperdoll.config.view.Retextured;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(EditBox.class)
-public abstract class TextFieldWidgetMixin extends AbstractWidget {
-    public TextFieldWidgetMixin(int x, int y, int width, int height, Component message) {
-        super(x, y, width, height, message);
-    }
-
+@Mixin(AbstractButton.class)
+public class AbstractButtonMixin {
     @WrapOperation(method = "renderWidget", at = {
             @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V")
     })
     public void drawTransparentTextFieldTexture(GuiGraphics instance, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original) {
-        if (this instanceof Retextured retextured) {
-            instance.setColor(1.0f, 1.0f, 1.0f, this.alpha);
-            RenderSystem.enableBlend();
-            RenderSystem.enableDepthTest();
+        if (this instanceof Retextured retextured)
             original.call(instance, retextured.retexture(texture), x, y, width, height);
-            instance.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-            return;
-        }
-        original.call(instance, texture, x, y, width, height);
+        else original.call(instance, texture, x, y, width, height);
     }
 }

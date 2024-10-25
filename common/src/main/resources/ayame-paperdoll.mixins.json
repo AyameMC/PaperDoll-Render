@@ -7,10 +7,10 @@
     "hook.InGameHudMixin",
     "hook.MinecraftClientMixin",
     "patch.ImmediateMixin",
-    "retexture.EntryListWidgetMixin",
-    "retexture.PressableWidgetMixin",
-    "retexture.SliderWidgetMixin",
-    "retexture.TextFieldWidgetMixin"
+    "retexture.AbstractSelectionListMixin",
+    "retexture.AbstractButtonMixin",
+    "retexture.AbstractSliderButtonMixin",
+    "retexture.EditBoxMixin"
   ],
   "mixins": [
   ],
