@@ -24,19 +24,28 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSliderButton;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ARGB;
 import org.ayamemc.ayamepaperdoll.config.view.Retextured;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
+import java.util.function.Function;
+
 @Mixin(AbstractSliderButton.class)
 public class SliderWidgetMixin {
     @WrapOperation(method = "renderWidget", at = {
-            @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V")
+            @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIIII)V")
     })
-    public void drawTransparentTextFieldTexture(GuiGraphics instance, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original) {
-        if (this instanceof Retextured retextured)
-            original.call(instance, retextured.retexture(texture), x, y, width, height);
-        else original.call(instance, texture, x, y, width, height);
+    public void drawTransparentTextFieldTexture(GuiGraphics instance, Function<ResourceLocation, RenderType> function, ResourceLocation resourceLocation, int i, int j, int k, int l, int m, Operation<Void> original) {
+        if (this instanceof Retextured retextured) {
+            ResourceLocation retexturedTexture = retextured.retexture(resourceLocation);
+            original.call(instance, function, retexturedTexture, i, j, k, l, m);
+        } else {
+            original.call(instance, function, resourceLocation, i, j, k, l, m);
+        }
+
+
     }
 }

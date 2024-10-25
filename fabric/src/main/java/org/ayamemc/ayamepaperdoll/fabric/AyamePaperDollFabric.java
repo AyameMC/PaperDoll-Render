@@ -20,13 +20,10 @@
 
 package org.ayamemc.ayamepaperdoll.fabric;
 
-import com.terraformersmc.modmenu.api.ConfigScreenFactory;
-import com.terraformersmc.modmenu.api.ModMenuApi;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import org.ayamemc.ayamepaperdoll.AyamePaperDoll;
 import org.ayamemc.ayamepaperdoll.CommonInterfaceInstances;
-import org.ayamemc.ayamepaperdoll.config.ConfigScreen;
 
 public class AyamePaperDollFabric implements ClientModInitializer {
     @Override

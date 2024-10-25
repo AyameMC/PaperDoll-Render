@@ -45,6 +45,7 @@ public abstract class MinecraftClientMixin {
     private Boolean ayame_PaperDoll$getPaperDollEnabled() {
         return AyamePaperDoll.CONFIGS.enabled.getValue();
     }
+
     @Unique
     private void ayame_PaperDoll$setPaperDollEnabled(Boolean enabled) {
         AyamePaperDoll.CONFIGS.enabled.setValue(enabled);

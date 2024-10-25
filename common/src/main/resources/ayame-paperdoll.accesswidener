@@ -4,3 +4,5 @@ accessible field net/minecraft/world/entity/LivingEntity swimAmountO F
 accessible field net/minecraft/world/entity/Entity vehicle Lnet/minecraft/world/entity/Entity;
 accessible field net/minecraft/world/entity/LivingEntity fallFlyTicks I
 accessible field net/minecraft/client/player/LocalPlayer crouching Z
+accessible method net/minecraft/client/renderer/entity/EntityRenderDispatcher render (Lnet/minecraft/world/entity/Entity;DDDFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/renderer/entity/EntityRenderer;)V
+

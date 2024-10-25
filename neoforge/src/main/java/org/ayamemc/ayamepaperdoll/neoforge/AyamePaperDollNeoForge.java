@@ -44,6 +44,7 @@ public final class AyamePaperDollNeoForge {
         );
 
     }
+
     private static void registerKeyMapping(RegisterKeyMappingsEvent event) {
         event.register(AyamePaperDoll.SHOW_PAPERDOLL_KEY);
         event.register(AyamePaperDoll.OPEN_CONFIG_GUI);

@@ -140,7 +140,7 @@ public class ConfigScreen extends Screen {
     }
 
     @Override
-    protected void renderBlurredBackground(float delta) {
+    protected void renderBlurredBackground() {
     }
 
     @Override
@@ -148,7 +148,7 @@ public class ConfigScreen extends Screen {
         // only render when the screen is opened in game
         //noinspection DataFlowIssue
         if (this.minecraft.level != null) {
-            this.previewHud.render(this.minecraft.getTimer().getGameTimeDeltaPartialTick(true));
+            this.previewHud.render(this.minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(true));
             // put behind GUI
             context.pose().translate(0, 0, 200);
         }

@@ -274,7 +274,6 @@ public class ExtraPlayerHud {
     private void setRemainingFireTicks(LivingEntity targetEntity, int i) {
     }
 
-    @SuppressWarnings("deprecation")
     private void performRendering(Entity targetEntity, double posX, double posY, double size, boolean mirror,
                                   Vector3f offset, double lightDegree, float partialTicks) {
         EntityRenderDispatcher entityRenderDispatcher = client.getEntityRenderDispatcher();
@@ -285,7 +284,7 @@ public class ExtraPlayerHud {
         // IDK what shit Mojang made but let's add 180 deg to restore the old behavior
         matrixStack1.rotateY((float) Math.toRadians(lightDegree + 180));
 
-        RenderSystem.applyModelViewMatrix();
+        //RenderSystem.applyModelViewMatrix();
 
         PoseStack matrixStack2 = new PoseStack();
         matrixStack2.mulPose(Axis.YP.rotationDegrees(-(float) lightDegree - 180));
@@ -313,9 +312,9 @@ public class ExtraPlayerHud {
         entityRenderDispatcher.setRenderShadow(false);
 
         MultiBufferSource.BufferSource immediate = Minecraft.getInstance().renderBuffers().bufferSource();
-        RenderSystem.runAsFancy(() ->
-                entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, 0, partialTicks, matrixStack2, immediate, getLight(targetEntity, partialTicks))
-        );
+
+        entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, partialTicks, matrixStack2, immediate, getLight(targetEntity, partialTicks));
+
         // disable cull to fix item rendering glitches when mirror option is on
         ImmediateMixinInterface immediateMixined = (ImmediateMixinInterface) immediate;
         immediateMixined.ayame_PaperDoll$setForceDisableCulling(mirror);
@@ -327,7 +326,7 @@ public class ExtraPlayerHud {
         entityRenderDispatcher.setRenderHitBoxes(renderHitbox);
 
         matrixStack1.popMatrix();
-        RenderSystem.applyModelViewMatrix();
+        //RenderSystem.applyModelViewMatrix();
         Lighting.setupFor3DItems();
     }
 
