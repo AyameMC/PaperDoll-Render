@@ -67,6 +67,7 @@ public class Configs {
     public final SimpleOption<Boolean> spectatorAutoSwitch = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("spectator_auto_switch"), true);
     public final SimpleOption<String> playerName = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("player_name"), "");
     public final SimpleOption<Integer> lastConfigTabIdx = new SimpleOption<>(HIDDEN_CATEGORY, AyamePaperDoll.path("last_config_tab_idx"), 0);
+    public final SimpleOption<Boolean> noEntityRotate = new SimpleOption<>(ROTATIONS_CATEGORY, AyamePaperDoll.path("no_entity_rotate"), false);
     public final Presets topLeft = new Presets.PresetsBuilder()
             .with(offsetX, 0.08)
             .with(offsetY, 0.23)
