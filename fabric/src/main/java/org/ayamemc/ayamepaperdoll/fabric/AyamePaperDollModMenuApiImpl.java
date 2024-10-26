@@ -28,6 +28,6 @@ import org.ayamemc.ayamepaperdoll.config.ConfigScreen;
 public class AyamePaperDollModMenuApiImpl implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return parent -> new ConfigScreen(parent, AyamePaperDoll.CONFIGS.getOptions());
+        return lastScreen -> new ConfigScreen(lastScreen, AyamePaperDoll.CONFIGS.getOptions());
     }
 }

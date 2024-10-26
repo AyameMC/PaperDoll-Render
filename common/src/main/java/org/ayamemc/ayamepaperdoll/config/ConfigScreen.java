@@ -61,9 +61,9 @@ public class ConfigScreen extends Screen {
     private Tab[] tabs;
     private TabNavigationBar tabNav;
 
-    public ConfigScreen(Screen parent, List<? extends ConfigOption<?>> options) {
+    public ConfigScreen(Screen lastScreen, List<? extends ConfigOption<?>> options) {
         super(Component.nullToEmpty("Config Screen"));
-        this.parent = parent;
+        this.parent = lastScreen;
         this.previewHud = new ExtraPlayerHud(Minecraft.getInstance());
         this.tabManager = new TabManager(this::addRenderableWidget, this::removeWidget);
         this.options = options;
