@@ -311,7 +311,7 @@ public class ExtraPlayerHud {
         entityRenderDispatcher.setRenderHitBoxes(false);
         entityRenderDispatcher.setRenderShadow(false);
 
-        if(AyamePaperDoll.CONFIGS.facingLock.getValue() ) {  //Rotate offset to entity
+        if(AyamePaperDoll.CONFIGS.facingLock.getValue() && !(targetEntity instanceof Boat)) {  //Rotate offset to entity
             float yRotO;
             float yRot;
             if(targetEntity instanceof LivingEntity livingEntity){
