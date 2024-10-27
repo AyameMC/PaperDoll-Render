@@ -312,20 +312,19 @@ public class ExtraPlayerHud {
         entityRenderDispatcher.setRenderHitBoxes(false);
         entityRenderDispatcher.setRenderShadow(false);
 
-        if(AyamePaperDoll.CONFIGS.facingLock.getValue() && !(targetEntity instanceof Boat)) {  //Rotate offset to entity
+        if (AyamePaperDoll.CONFIGS.facingLock.getValue()) {  //Rotate offset to entity
             float yRotO;
             float yRot;
-            if(targetEntity instanceof LivingEntity livingEntity){
-                yRotO=livingEntity.yBodyRotO;
-                yRot=livingEntity.yBodyRot;
+            if (targetEntity instanceof LivingEntity livingEntity) {
+                yRotO = livingEntity.yBodyRotO;
+                yRot = livingEntity.yBodyRot;
+            } else {
+                yRotO = targetEntity.yRotO;
+                yRot = targetEntity.getYRot();
             }
-            else {
-                yRotO=targetEntity.yRotO;
-                yRot=targetEntity.getYRot();
-            }
-            Quaternionf rotateEntity=new Quaternionf()
-                    .rotateY((float) Math.toRadians(Mth.lerp(partialTicks, yRotO, yRot))+Mth.PI);
-            matrixStack2.rotateAround(rotateEntity,0,0,0);
+            Quaternionf rotateEntity = new Quaternionf()
+                    .rotateY((float) Math.toRadians(Mth.lerp(partialTicks, yRotO, yRot)) + Mth.PI);
+            matrixStack2.rotateAround(rotateEntity, 0, 0, 0);
         }
 
         MultiBufferSource.BufferSource immediate = Minecraft.getInstance().renderBuffers().bufferSource();
