@@ -312,6 +312,22 @@ public class ExtraPlayerHud {
         entityRenderDispatcher.setRenderHitBoxes(false);
         entityRenderDispatcher.setRenderShadow(false);
 
+        if(AyamePaperDoll.CONFIGS.facingLock.getValue() && !(targetEntity instanceof Boat)) {  //Rotate offset to entity
+            float yRotO;
+            float yRot;
+            if(targetEntity instanceof LivingEntity livingEntity){
+                yRotO=livingEntity.yBodyRotO;
+                yRot=livingEntity.yBodyRot;
+            }
+            else {
+                yRotO=targetEntity.yRotO;
+                yRot=targetEntity.getYRot();
+            }
+            Quaternionf rotateEntity=new Quaternionf()
+                    .rotateY((float) Math.toRadians(Mth.lerp(partialTicks, yRotO, yRot))+Mth.PI);
+            matrixStack2.rotateAround(rotateEntity,0,0,0);
+        }
+
         MultiBufferSource.BufferSource immediate = Minecraft.getInstance().renderBuffers().bufferSource();
         RenderSystem.runAsFancy(() ->
                 entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, 0, partialTicks, matrixStack2, immediate, getLight(targetEntity, partialTicks))
