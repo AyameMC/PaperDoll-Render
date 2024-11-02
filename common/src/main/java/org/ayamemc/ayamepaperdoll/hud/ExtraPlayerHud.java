@@ -312,19 +312,32 @@ public class ExtraPlayerHud {
         entityRenderDispatcher.setRenderHitBoxes(false);
         entityRenderDispatcher.setRenderShadow(false);
 
-        if (AyamePaperDoll.CONFIGS.facingLock.getValue()) {  //Rotate offset to entity
+        if (AyamePaperDoll.CONFIGS.facingLock.getValue()) {
             float yRotO;
             float yRot;
+
             if (targetEntity instanceof LivingEntity livingEntity) {
                 yRotO = livingEntity.yBodyRotO;
                 yRot = livingEntity.yBodyRot;
-            } else {
-                yRotO = targetEntity.yRotO;
-                yRot = targetEntity.getYRot();
+
+                Quaternionf rotateEntity = new Quaternionf()
+                        .rotateY((float) Math.toRadians(Mth.lerp(partialTicks, yRotO, yRot)) + Mth.PI);
+                matrixStack2.rotateAround(rotateEntity, 0, 0, 0);
+                entityRenderDispatcher.overrideCameraOrientation(rotateEntity);
+
+            } else if (targetEntity instanceof Boat) {
+                Quaternionf rotateBoat = new Quaternionf().rotateY((float) Math.toRadians(180));
+                matrixStack2.mulPose(rotateBoat);
+                entityRenderDispatcher.overrideCameraOrientation(rotateBoat);
             }
-            Quaternionf rotateEntity = new Quaternionf()
-                    .rotateY((float) Math.toRadians(Mth.lerp(partialTicks, yRotO, yRot)) + Mth.PI);
-            matrixStack2.rotateAround(rotateEntity, 0, 0, 0);
+        } else {
+            if (targetEntity instanceof Boat boat) {
+
+                float boatYRot = boat.getYRot();
+                Quaternionf rotateBoat = new Quaternionf()
+                        .rotateY((float) Math.toRadians(boatYRot));
+                matrixStack2.mulPose(rotateBoat);
+            }
         }
 
         MultiBufferSource.BufferSource immediate = Minecraft.getInstance().renderBuffers().bufferSource();
