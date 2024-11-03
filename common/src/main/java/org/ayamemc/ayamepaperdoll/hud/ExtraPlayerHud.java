@@ -40,8 +40,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
-import org.ayamemc.ayamepaperdoll.AyamePaperDoll;
 import org.ayamemc.ayamepaperdoll.config.Configs;
+import org.ayamemc.ayamepaperdoll.hud.DataBackup.DataBackupEntry;
 import org.ayamemc.ayamepaperdoll.mixininterface.ImmediateMixinInterface;
 import org.joml.Matrix4fStack;
 import org.joml.Quaternionf;
@@ -49,99 +49,49 @@ import org.joml.Vector3f;
 
 import java.util.List;
 
+import static org.ayamemc.ayamepaperdoll.AyamePaperDoll.CONFIGS;
+
 public class ExtraPlayerHud {
-    private static final List<DataBackup.DataBackupEntry<LivingEntity, ?>> LIVINGENTITY_BACKUP_ENTRIES = ImmutableList.of(
-            new DataBackup.DataBackupEntry<>(LivingEntity::getPose, LivingEntity::setPose),
-            new DataBackup.DataBackupEntry<>(Entity::isCrouching, (e, flag) -> {
-                if (e instanceof LocalPlayer) {
-                    ExtraPlayerHud.setIsCrouching((LocalPlayer) e, flag);
-                }
+    private static final List<DataBackupEntry<LivingEntity, ?>> LIVINGENTITY_BACKUP_ENTRIES = ImmutableList.of(
+            new DataBackupEntry<>(LivingEntity::getPose, LivingEntity::setPose),
+            // required for player on client side
+            new DataBackupEntry<>(Entity::isCrouching, (e, flag) -> {
+                if (e instanceof LocalPlayer player) player.crouching = flag;
             }),
-            new DataBackup.DataBackupEntry<>(ExtraPlayerHud::getSwimAmount, ExtraPlayerHud::setSwimAmount),
-            new DataBackup.DataBackupEntry<>(ExtraPlayerHud::getSwimAmountO, ExtraPlayerHud::setSwimAmountO),
-            new DataBackup.DataBackupEntry<>(LivingEntity::isFallFlying, (e, flag) -> ExtraPlayerHud.setFallFlying(e, flag)),
-            new DataBackup.DataBackupEntry<>(ExtraPlayerHud::getFallFlyTicks, ExtraPlayerHud::setFallFlyingTicks),
-            new DataBackup.DataBackupEntry<>(LivingEntity::getVehicle, ExtraPlayerHud::setVehicle),
-            new DataBackup.DataBackupEntry<>(e -> e.yBodyRotO, (e, yaw) -> e.yBodyRotO = yaw),
-            new DataBackup.DataBackupEntry<>(e -> e.yBodyRot, (e, yaw) -> e.yBodyRot = yaw),
-            new DataBackup.DataBackupEntry<>(e -> e.yHeadRotO, (e, yaw) -> e.yHeadRotO = yaw),
-            new DataBackup.DataBackupEntry<>(e -> e.yHeadRot, (e, yaw) -> e.yHeadRot = yaw),
-            new DataBackup.DataBackupEntry<>(e -> e.xRotO, (e, pitch) -> e.xRotO = pitch),
-            new DataBackup.DataBackupEntry<>(LivingEntity::getXRot, LivingEntity::setXRot),
-            new DataBackup.DataBackupEntry<>(e -> e.attackAnim, (e, prog) -> e.attackAnim = prog),
-            new DataBackup.DataBackupEntry<>(e -> e.oAttackAnim, (e, prog) -> e.oAttackAnim = prog),
-            new DataBackup.DataBackupEntry<>(e -> e.hurtTime, (e, time) -> e.hurtTime = time),
-            new DataBackup.DataBackupEntry<>(LivingEntity::getRemainingFireTicks, LivingEntity::setRemainingFireTicks),
-            new DataBackup.DataBackupEntry<>(e -> e.isOnFire(), (e, flag) -> ExtraPlayerHud.setOnFire(e, flag)) // on fire
+            new DataBackupEntry<>(e -> e.swimAmount, (e, pitch) -> e.swimAmount = pitch),
+            new DataBackupEntry<>(e -> e.swimAmountO, (e, pitch) -> e.swimAmountO = pitch),
+            new DataBackupEntry<>(LivingEntity::isFallFlying, (e, flag) -> e.setSharedFlag(7, flag)),
+            new DataBackupEntry<>(LivingEntity::getFallFlyingTicks, (e, ticks) -> e.fallFlyTicks = ticks),
+
+            new DataBackupEntry<>(LivingEntity::getVehicle, (e, vehicle) -> e.vehicle = vehicle),
+
+            new DataBackupEntry<>(e -> e.yBodyRotO, (e, yaw) -> e.yBodyRotO = yaw),
+            new DataBackupEntry<>(e -> e.yBodyRot, (e, yaw) -> e.yBodyRot = yaw),
+            new DataBackupEntry<>(e -> e.yHeadRotO, (e, yaw) -> e.yHeadRotO = yaw),
+            new DataBackupEntry<>(e -> e.yHeadRot, (e, yaw) -> e.yHeadRot = yaw),
+            new DataBackupEntry<>(e -> e.xRotO, (e, pitch) -> e.xRotO = pitch),
+            new DataBackupEntry<>(LivingEntity::getXRot, LivingEntity::setXRot),
+
+            new DataBackupEntry<>(e -> e.attackAnim, (e, prog) -> e.attackAnim = prog),
+            new DataBackupEntry<>(e -> e.oAttackAnim, (e, prog) -> e.oAttackAnim = prog),
+            new DataBackupEntry<>(e -> e.hurtTime, (e, time) -> e.hurtTime = time),
+            new DataBackupEntry<>(LivingEntity::getRemainingFireTicks, LivingEntity::setRemainingFireTicks),
+            new DataBackupEntry<>(e -> e.getSharedFlag(0), (e, flag) -> e.setSharedFlag(0, flag)) // on fire
     );
-    private final Minecraft client;
 
-    public ExtraPlayerHud(Minecraft client) {
-        this.client = client;
-    }
+    private final Minecraft minecraft;
 
-    private static void setSwimAmount(LivingEntity livingEntity, float swimAmount) {
-        livingEntity.swimAmount = swimAmount; // 假设 swimAmount 是 float 类型
-    }
-
-    private static float getSwimAmount(LivingEntity livingEntity) {
-        return livingEntity.swimAmount; // 假设返回的是 float 类型
-    }
-
-    private static float getSwimAmountO(LivingEntity livingEntity) {
-        return livingEntity.swimAmountO; // 假设返回的是 float 类型
-    }
-
-    private static void setSwimAmountO(LivingEntity livingEntity, float swimAmountO) {
-        livingEntity.swimAmountO = swimAmountO; // 假设 swimAmountO 是 float 类型
-    }
-
-    private static void setVehicle(LivingEntity livingEntity, Entity entity) {
-        livingEntity.vehicle = entity;
-    }
-
-    private static int getFallFlyTicks(LivingEntity livingEntity) {
-        return livingEntity.fallFlyTicks; // 假设返回的是 int 类型
-    }
-
-    private static void setIsCrouching(LocalPlayer player, boolean flag) {
-        player.crouching = flag; // 假设 crouching 是 boolean 类型
-    }
-
-    private static int getLight(Entity entity, float tickDelta) {
-        if (AyamePaperDoll.CONFIGS.useWorldLight.getValue()) {
-            Level world = entity.level();
-            int blockLight = world.getBrightness(LightLayer.BLOCK, BlockPos.containing(entity.getEyePosition(tickDelta)));
-            int skyLight = world.getBrightness(LightLayer.SKY, BlockPos.containing(entity.getEyePosition(tickDelta)));
-            int min = AyamePaperDoll.CONFIGS.worldLightMin.getValue();
-            blockLight = Mth.clamp(blockLight, min, 15);
-            skyLight = Mth.clamp(skyLight, min, 15);
-            return LightTexture.pack(blockLight, skyLight);
-        }
-        return LightTexture.pack(15, 15);
-    }
-
-    private static float getFallFlyingLeaning(LivingEntity entity, float partialTicks) {
-        float ticks = partialTicks + entity.getFallFlyingTicks();
-        return Mth.clamp(ticks * ticks / 100f, 0f, 1f);
-    }
-
-    private static void setFallFlying(LivingEntity targetEntity, boolean b) {
-    }
-
-    private static void setFallFlyingTicks(LivingEntity targetEntity, int i) {
-    }
-
-    private static void setOnFire(LivingEntity targetEntity, boolean b) {
+    public ExtraPlayerHud(Minecraft minecraft) {
+        this.minecraft = minecraft;
     }
 
     /**
      * Mimics the code in {@link InventoryScreen#renderEntityInInventory}
      */
     public void render(float partialTicks) {
-        if (client.level == null || client.player == null || !AyamePaperDoll.CONFIGS.enabled.getValue()) return;
-        LivingEntity targetEntity = client.level.players().stream().filter(p -> p.getName().getString().equals(AyamePaperDoll.CONFIGS.playerName.getValue())).findFirst().orElse(client.player);
-        if (AyamePaperDoll.CONFIGS.spectatorAutoSwitch.getValue() && client.player.isSpectator()) {
+        if (minecraft.level == null || minecraft.player == null || !CONFIGS.enabled.getValue()) return;
+        LivingEntity targetEntity = minecraft.level.players().stream().filter(p -> p.getName().getString().equals(CONFIGS.playerName.getValue())).findFirst().orElse(minecraft.player);
+        if (CONFIGS.spectatorAutoSwitch.getValue() && minecraft.player.isSpectator()) {
             Entity cameraEntity = Minecraft.getInstance().getCameraEntity();
             if (cameraEntity instanceof LivingEntity) {
                 targetEntity = (LivingEntity) cameraEntity;
@@ -150,9 +100,9 @@ public class ExtraPlayerHud {
             }
         }
 
-        int scaledWidth = client.getWindow().getGuiScaledWidth();
-        int scaledHeight = client.getWindow().getGuiScaledHeight();
-        Configs.PoseOffsetMethod poseOffsetMethod = AyamePaperDoll.CONFIGS.poseOffsetMethod.getValue();
+        int scaledWidth = minecraft.getWindow().getGuiScaledWidth();
+        int scaledHeight = minecraft.getWindow().getGuiScaledHeight();
+        Configs.PoseOffsetMethod poseOffsetMethod = CONFIGS.poseOffsetMethod.getValue();
 
         var backup = new DataBackup<>(targetEntity, LIVINGENTITY_BACKUP_ENTRIES);
         backup.save();
@@ -160,14 +110,14 @@ public class ExtraPlayerHud {
         transformEntity(targetEntity, partialTicks, poseOffsetMethod == Configs.PoseOffsetMethod.FORCE_STANDING);
 
         DataBackup<LivingEntity> vehicleBackup = null;
-        if (AyamePaperDoll.CONFIGS.renderVehicle.getValue() && poseOffsetMethod != Configs.PoseOffsetMethod.FORCE_STANDING && targetEntity.isPassenger()) {
+        if (CONFIGS.renderVehicle.getValue() && poseOffsetMethod != Configs.PoseOffsetMethod.FORCE_STANDING && targetEntity.isPassenger()) {
             var vehicle = targetEntity.getVehicle();
             assert vehicle != null;
 
             // get the overall yaw before transforming
             var yawLerped = vehicle.getViewYRot(partialTicks);
 
-            // the rendered yaw of minecart is determined non-trivially in its MinecartEntityRenderer#render, so it cannot be fixed to 0 easily
+            // FIXME: NEVERFIX - the rendered yaw of minecart is determined non-trivially in its MinecartEntityRenderer#render, so it cannot be fixed to 0 easily
             if (vehicle instanceof LivingEntity livingVehicle) {
                 vehicleBackup = new DataBackup<>(livingVehicle, LIVINGENTITY_BACKUP_ENTRIES);
                 vehicleBackup.save();
@@ -175,24 +125,24 @@ public class ExtraPlayerHud {
             }
 
             performRendering(vehicle,
-                    AyamePaperDoll.CONFIGS.offsetX.getValue() * scaledWidth,
-                    AyamePaperDoll.CONFIGS.offsetY.getValue() * scaledHeight,
-                    AyamePaperDoll.CONFIGS.size.getValue() * scaledHeight,
-                    AyamePaperDoll.CONFIGS.mirrored.getValue(),
+                    CONFIGS.offsetX.getValue() * scaledWidth,
+                    CONFIGS.offsetY.getValue() * scaledHeight,
+                    CONFIGS.size.getValue() * scaledHeight,
+                    CONFIGS.mirrored.getValue(),
                     vehicle.getPosition(partialTicks).subtract(targetEntity.getPosition(partialTicks))
                             .yRot((float) Math.toRadians(yawLerped)).toVector3f(), // undo the rotation
-                    AyamePaperDoll.CONFIGS.lightDegree.getValue(),
+                    CONFIGS.lightDegree.getValue(),
                     partialTicks);
         }
 
 
         performRendering(targetEntity,
-                AyamePaperDoll.CONFIGS.offsetX.getValue() * scaledWidth,
-                AyamePaperDoll.CONFIGS.offsetY.getValue() * scaledHeight,
-                AyamePaperDoll.CONFIGS.size.getValue() * scaledHeight,
-                AyamePaperDoll.CONFIGS.mirrored.getValue(),
+                CONFIGS.offsetX.getValue() * scaledWidth,
+                CONFIGS.offsetY.getValue() * scaledHeight,
+                CONFIGS.size.getValue() * scaledHeight,
+                CONFIGS.mirrored.getValue(),
                 new Vector3f(0, (float) getPoseOffsetY(targetEntity, partialTicks, poseOffsetMethod), 0),
-                AyamePaperDoll.CONFIGS.lightDegree.getValue(),
+                CONFIGS.lightDegree.getValue(),
                 partialTicks);
 
         if (vehicleBackup != null) vehicleBackup.restore();
@@ -218,65 +168,73 @@ public class ExtraPlayerHud {
             }
         } else if (poseOffsetMethod == Configs.PoseOffsetMethod.MANUAL) {
             if (targetEntity.isFallFlying()) {
-                return AyamePaperDoll.CONFIGS.elytraOffsetY.getValue() * getFallFlyingLeaning(targetEntity, partialTicks);
+                return CONFIGS.elytraOffsetY.getValue() * getFallFlyingLeaning(targetEntity, partialTicks);
             } else if ((targetEntity.isVisuallySwimming()) && targetEntity.getSwimAmount(partialTicks) > 0 || targetEntity.isAutoSpinAttack()) { // require nonzero leaning to filter out glitch
-                return AyamePaperDoll.CONFIGS.swimCrawlOffsetY.getValue();
+                return CONFIGS.swimCrawlOffsetY.getValue();
             } else if (!targetEntity.isVisuallySwimming() && targetEntity.getSwimAmount(partialTicks) > 0) { // for swimming/crawling pose, only smooth the falling edge
-                return AyamePaperDoll.CONFIGS.swimCrawlOffsetY.getValue() * targetEntity.getSwimAmount(partialTicks);
+                return CONFIGS.swimCrawlOffsetY.getValue() * targetEntity.getSwimAmount(partialTicks);
             } else if (targetEntity.isCrouching()) {
-                return AyamePaperDoll.CONFIGS.sneakOffsetY.getValue();
+                return CONFIGS.sneakOffsetY.getValue();
             }
         }
         return 0;
     }
 
     private void transformEntity(LivingEntity targetEntity, float partialTicks, boolean forceStanding) {
-        // Sync values to avoid visual inconsistencies
+        // synchronize values to remove glitch
         if (!targetEntity.isSwimming() && !targetEntity.isFallFlying() && !targetEntity.isVisuallyCrawling()) {
             targetEntity.setPose(targetEntity.isCrouching() ? Pose.CROUCHING : Pose.STANDING);
         }
 
         if (forceStanding) {
-            // If the entity is a player, force standing by cancelling sneaking pose
-            if (targetEntity instanceof LocalPlayer) {
-                setIsCrouching((LocalPlayer) targetEntity, false);
+            if (targetEntity instanceof LocalPlayer player) {
+                player.crouching = false;
             }
-            // Cancel riding
-            setVehicle(targetEntity, null);
+            targetEntity.vehicle = null;
 
-            // Reset leaningPitch and lastLeaningPitch
-            setSwimAmount(targetEntity, 0);
-            setSwimAmountO(targetEntity, 0);
+            targetEntity.swimAmount = 0;
+            targetEntity.swimAmountO = 0;
 
-            // Cancel fall flying state
-            setFallFlying(targetEntity, false);
-            setFallFlyingTicks(targetEntity, 0);
+            targetEntity.setSharedFlag(7, false);
+            targetEntity.fallFlyTicks = 0;
         }
 
-        // Set body and head rotation angles
-        targetEntity.yBodyRot = targetEntity.yBodyRotO;
-        targetEntity.yHeadRot = targetEntity.yHeadRotO;
+        // FIXME: NEVERFIX - glitch when the mouse moves too fast, caused by lerping a warped value, it is possibly wrapped in LivingEntity#tick or LivingEntity#turnHead
+        float headLerp = Mth.lerp(partialTicks, targetEntity.yHeadRotO, targetEntity.yHeadRot);
+        double headYaw = CONFIGS.headYaw.getValue(), headYawRange = CONFIGS.headYawRange.getValue();
+        float headClamp = (float) Mth.clamp(headLerp, headYaw - headYawRange, headYaw + headYawRange);
+        float bodyLerp = Mth.lerp(partialTicks, targetEntity.yBodyRotO, targetEntity.yBodyRot);
+        float diff = headLerp - bodyLerp;
 
-        // Reset attack animation related properties
-        targetEntity.attackAnim = targetEntity.oAttackAnim;
+        targetEntity.yHeadRotO = targetEntity.yHeadRot = 180 - headClamp;
+        double bodyYaw = CONFIGS.bodyYaw.getValue(), bodyYawRange = CONFIGS.bodyYawRange.getValue();
+        targetEntity.yBodyRotO = targetEntity.yBodyRot = 180 - (float) Mth.clamp(
+                Mth.wrapDegrees(headClamp - diff), bodyYaw - bodyYawRange, bodyYaw + bodyYawRange);
+        double pitch = CONFIGS.pitch.getValue(), pitchRange = CONFIGS.pitchRange.getValue();
+        targetEntity.setXRot(targetEntity.xRotO = (float) (Mth.clamp(
+                Mth.lerp(partialTicks, targetEntity.xRotO, targetEntity.getXRot()),
+                -pitchRange, pitchRange)
+                + pitch)
+        );
 
-        // Reset hurt time
-        targetEntity.hurtTime = 0;
+        if (!CONFIGS.swingHands.getValue()) {
+            targetEntity.attackAnim = 0;
+            targetEntity.oAttackAnim = 0;
+        }
 
-        // Clear fire status
-        setRemainingFireTicks(targetEntity, 0);
-        setOnFire(targetEntity, false);
+        if (!CONFIGS.hurtFlash.getValue()) {
+            targetEntity.hurtTime = 0;
+        }
 
-        // Reset rotation angle
-        targetEntity.setXRot(targetEntity.xRotO);
+        targetEntity.setRemainingFireTicks(0);
+
+        targetEntity.setSharedFlag(0, false);
     }
 
-    private void setRemainingFireTicks(LivingEntity targetEntity, int i) {
-    }
-
+    @SuppressWarnings("deprecation")
     private void performRendering(Entity targetEntity, double posX, double posY, double size, boolean mirror,
                                   Vector3f offset, double lightDegree, float partialTicks) {
-        EntityRenderDispatcher entityRenderDispatcher = client.getEntityRenderDispatcher();
+        EntityRenderDispatcher entityRenderDispatcher = minecraft.getEntityRenderDispatcher();
 
         Matrix4fStack matrixStack1 = RenderSystem.getModelViewStack();
         matrixStack1.pushMatrix();
@@ -284,7 +242,6 @@ public class ExtraPlayerHud {
         // IDK what shit Mojang made but let's add 180 deg to restore the old behavior
         matrixStack1.rotateY((float) Math.toRadians(lightDegree + 180));
 
-        //RenderSystem.applyModelViewMatrix();
 
         PoseStack matrixStack2 = new PoseStack();
         matrixStack2.mulPose(Axis.YP.rotationDegrees(-(float) lightDegree - 180));
@@ -292,9 +249,9 @@ public class ExtraPlayerHud {
         matrixStack2.scale((float) size, (float) size, (float) size);
         Quaternionf quaternion = new Quaternionf().rotateZ((float) Math.PI);
         Quaternionf quaternion2 = new Quaternionf()
-                .rotateXYZ((float) Math.toRadians(AyamePaperDoll.CONFIGS.rotationX.getValue()),
-                        (float) Math.toRadians(AyamePaperDoll.CONFIGS.rotationY.getValue()),
-                        (float) Math.toRadians(AyamePaperDoll.CONFIGS.rotationZ.getValue()));
+                .rotateXYZ((float) Math.toRadians(CONFIGS.rotationX.getValue()),
+                        (float) Math.toRadians(CONFIGS.rotationY.getValue()),
+                        (float) Math.toRadians(CONFIGS.rotationZ.getValue()));
 
         quaternion.mul(quaternion2);
         matrixStack2.mulPose(quaternion);
@@ -311,27 +268,8 @@ public class ExtraPlayerHud {
         entityRenderDispatcher.setRenderHitBoxes(false);
         entityRenderDispatcher.setRenderShadow(false);
 
-
-        if (AyamePaperDoll.CONFIGS.facingLock.getValue()) {  //Rotate offset to entity
-            float yRotO;
-            float yRot;
-            if (targetEntity instanceof LivingEntity livingEntity) {
-                yRotO = livingEntity.yBodyRotO;
-                yRot = livingEntity.yBodyRot;
-            } else {
-                yRotO = targetEntity.yRotO;
-                yRot = targetEntity.getYRot();
-            }
-            Quaternionf rotateEntity = new Quaternionf()
-                    .rotateY((float) Math.toRadians(Mth.lerp(partialTicks, yRotO, yRot)) + Mth.PI);
-            matrixStack2.rotateAround(rotateEntity, 0, 0, 0);
-        }
-
-
         MultiBufferSource.BufferSource immediate = Minecraft.getInstance().renderBuffers().bufferSource();
-
         entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, partialTicks, matrixStack2, immediate, getLight(targetEntity, partialTicks));
-
         // disable cull to fix item rendering glitches when mirror option is on
         ImmediateMixinInterface immediateMixined = (ImmediateMixinInterface) immediate;
         immediateMixined.ayame_PaperDoll$setForceDisableCulling(mirror);
@@ -343,8 +281,24 @@ public class ExtraPlayerHud {
         entityRenderDispatcher.setRenderHitBoxes(renderHitbox);
 
         matrixStack1.popMatrix();
-        //RenderSystem.applyModelViewMatrix();
         Lighting.setupFor3DItems();
     }
 
+    private static int getLight(Entity entity, float tickDelta) {
+        if (CONFIGS.useWorldLight.getValue()) {
+            Level world = entity.level();
+            int blockLight = world.getBrightness(LightLayer.BLOCK, BlockPos.containing(entity.getEyePosition(tickDelta)));
+            int skyLight = world.getBrightness(LightLayer.SKY, BlockPos.containing(entity.getEyePosition(tickDelta)));
+            int min = CONFIGS.worldLightMin.getValue();
+            blockLight = Mth.clamp(blockLight, min, 15);
+            skyLight = Mth.clamp(skyLight, min, 15);
+            return LightTexture.pack(blockLight, skyLight);
+        }
+        return LightTexture.pack(15, 15);
+    }
+
+    private static float getFallFlyingLeaning(LivingEntity entity, float partialTicks) {
+        float ticks = partialTicks + entity.getFallFlyingTicks();
+        return Mth.clamp(ticks * ticks / 100f, 0f, 1f);
+    }
 }

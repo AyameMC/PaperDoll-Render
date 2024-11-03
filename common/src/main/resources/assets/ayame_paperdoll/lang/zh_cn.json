@@ -22,7 +22,7 @@
   "config.ayame_paperdoll.option.rotation_z": "Z轴旋转",
   "config.ayame_paperdoll.option.size": "大小",
   "config.ayame_paperdoll.option.mirrored": "镜像",
-  "config.ayame_paperdoll.option.enabled.desc": "本模组是否启用",
+  "config.ayame_paperdoll.option.enabled.desc": "显示/隐藏纸娃娃",
   "config.ayame_paperdoll.option.presets.desc": "加载其中一个预设",
   "config.ayame_paperdoll.option.offset_x.desc": "X轴偏移",
   "config.ayame_paperdoll.option.offset_y.desc": "Y轴偏移",
