@@ -26,10 +26,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import org.ayamemc.ayamepaperdoll.AyamePaperDoll;
 import org.ayamemc.ayamepaperdoll.hud.ExtraPlayerHud;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
-import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -73,20 +70,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(Gui.class)
 public class InGameHudMixin {
-    //@Shadow
-    @Unique
-    @Mutable
-    @Final
-    private Minecraft ayame_PaperDoll$client = Minecraft.getInstance();
-    @Unique
-    private ExtraPlayerHud ayame_PaperDoll$extraPlayerHud;
+    @Shadow @Final private Minecraft minecraft;
+
+    @Unique private ExtraPlayerHud ayame_PaperDoll$extraPlayerHud;
 
     /**
      * Initialization should go after initialization to prevent using uninitialized fields.
      */
     @Inject(method = "<init>", at = @At("RETURN"))
     public void onInit(Minecraft client, CallbackInfo ci) {
-        this.ayame_PaperDoll$extraPlayerHud = new ExtraPlayerHud(this.ayame_PaperDoll$client);
+        this.ayame_PaperDoll$extraPlayerHud = new ExtraPlayerHud(this.minecraft);
     }
 
     /**
@@ -104,9 +97,9 @@ public class InGameHudMixin {
      */
     @Inject(method = "renderCameraOverlays", at = @At("RETURN"))
     void onRenderMiscOverlayFinish(GuiGraphics context, DeltaTracker tickCounter, CallbackInfo ci) {
-        if (!this.ayame_PaperDoll$client.options.hideGui
-                && !(AyamePaperDoll.CONFIGS.hideUnderDebug.getValue() && this.ayame_PaperDoll$client.getDebugOverlay().showDebugScreen())
-                && this.ayame_PaperDoll$client.screen == null) {
+        if (!this.minecraft.options.hideGui
+                && !(AyamePaperDoll.CONFIGS.hideUnderDebug.getValue() && this.minecraft.getDebugOverlay().showDebugScreen())
+                && this.minecraft.screen == null) {
             this.ayame_PaperDoll$extraPlayerHud.render(tickCounter.getGameTimeDeltaPartialTick(true));
         }
         // follow convention in LayeredDrawer#renderInternal
@@ -115,6 +108,6 @@ public class InGameHudMixin {
 
     @Unique
     public void paperdollrender$setClient(Minecraft client) {
-        this.ayame_PaperDoll$client = client;
+        this.minecraft = client;
     }
 }
