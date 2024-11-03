@@ -6,3 +6,4 @@ accessible field net/minecraft/world/entity/LivingEntity fallFlyTicks I
 accessible field net/minecraft/client/player/LocalPlayer crouching Z
 accessible method net/minecraft/world/entity/Entity setSharedFlag (IZ)V
 accessible method net/minecraft/world/entity/Entity getSharedFlag (I)Z
+accessible method net/minecraft/client/renderer/entity/EntityRenderDispatcher render (Lnet/minecraft/world/entity/Entity;DDDFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/renderer/entity/EntityRenderer;)V
