@@ -22,7 +22,7 @@
   "config.ayame_paperdoll.option.rotation_z": "Z Rotation",
   "config.ayame_paperdoll.option.size": "Size",
   "config.ayame_paperdoll.option.mirrored": "Mirrored",
-  "config.ayame_paperdoll.option.enabled.desc": "If this mod is enabled.",
+  "config.ayame_paperdoll.option.enabled.desc": "Show/Hide PaperDoll",
   "config.ayame_paperdoll.option.presets.desc": "Load one of the presets",
   "config.ayame_paperdoll.option.offset_x.desc": "X offset of rendered model.",
   "config.ayame_paperdoll.option.offset_y.desc": "Y offset of rendered model.",
