@@ -1,6 +1,6 @@
 # Ayame PaperDoll
 
-### [Modrinth](https://modrinth.com/mod/ayame-paperdoll) | [CurseForge](https://www.curseforge.com/minecraft/mc-mods/ayame-paperdoll) | [McMod](https://www.mcmod.cn/404)
+### [Modrinth](https://modrinth.com/mod/ayame-paperdoll) | [CurseForge](https://www.curseforge.com/minecraft/mc-mods/ayame-paperdoll) | [McMod](https://www.mcmod.cn/class/17015.html)
 
 Ayame PaperDoll is a highly configurable paper doll mod and a fork of [Extra Player Renderer](https://github.com/LucunJi/ExtraPlayerRenderer). It adds support for NeoForge and higher versions of Minecraft, along with more useful key bindings.
 
