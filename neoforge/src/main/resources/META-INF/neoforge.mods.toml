@@ -36,7 +36,7 @@ side = "CLIENT"
 [[dependencies.ayame_paperdoll]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21,)"
+versionRange = "[1.21.3,)"
 ordering = "NONE"
 side = "BOTH"
 
