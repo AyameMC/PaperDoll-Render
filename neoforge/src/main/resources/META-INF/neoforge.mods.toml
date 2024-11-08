@@ -17,26 +17,25 @@ Fallen_Breath
 X-Green
 altrisi
 plusls
-HappyRespawnanchor(Port to Architectury)
-pertaz(Port to Architectury)
+pertaz
 '''
 description = '''
 Highly configurable PaperDoll mod.
-Fork from Extra Player Renderer.
+Forked from Extra Player Renderer.
 '''
 logoFile = "icon.png"
 updateJSONURL = "https://updatechecker.ayamemc.org/neoforge/ayame-paperdoll/update.json"
 [[dependencies.ayame_paperdoll]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.3,)"
+versionRange = "[21.3.12-beta,)"
 ordering = "NONE"
 side = "CLIENT"
 
 [[dependencies.ayame_paperdoll]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.3,)"
+versionRange = "[1.21.3,1.22)"
 ordering = "NONE"
 side = "BOTH"
 

@@ -3,7 +3,7 @@
   "id": "ayame_paperdoll",
   "version": "${version}",
   "name": "Ayame PaperDoll",
-  "description": "Highly configurable PaperDoll mod.\nFork from Extra Player Renderer.",
+  "description": "Highly configurable PaperDoll mod.\nForked from Extra Player Renderer.",
   "authors": [
     "Lucun_Ji(Original author)",
     "HappyRespawnanchor"
@@ -13,8 +13,7 @@
     "X-Green",
     "altrisi",
     "plusls",
-    "HappyRespawnanchor(Port to Architectury)",
-    "pertaz(Port to Architectury)"
+    "pertaz"
   ],
   "contact": {
     "sources": "https://github.com/AyameMC/Ayame-PaperDoll",
@@ -35,7 +34,7 @@
     "ayame-paperdoll.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.16.7",
+    "fabricloader": ">=0.16.9",
     "minecraft": "~1.21.3",
     "fabric-api": "*"
   },

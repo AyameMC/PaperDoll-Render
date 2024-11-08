@@ -21,21 +21,29 @@
 package org.ayamemc.ayamepaperdoll.fabric;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.gui.screens.Screen;
 import org.ayamemc.ayamepaperdoll.AyamePaperDoll;
 import org.ayamemc.ayamepaperdoll.CommonInterfaceInstances;
+import org.ayamemc.ayamepaperdoll.handler.EventHandler;
 
 public class AyamePaperDollFabric implements ClientModInitializer {
+    public Screen currentScreen;
     @Override
     public void onInitializeClient() {
         // Run our Fabric setup.
-
         CommonInterfaceInstances.keyHelper = KeyBindingHelper::getBoundKeyOf;
-
-        KeyBindingHelper.registerKeyBinding(AyamePaperDoll.SHOW_PAPERDOLL_KEY);
-        KeyBindingHelper.registerKeyBinding(AyamePaperDoll.OPEN_CONFIG_GUI);
+        KeyMapping showPaperDollKey = KeyBindingHelper.registerKeyBinding(AyamePaperDoll.SHOW_PAPERDOLL_KEY);
+        KeyMapping openConfigGuiKey = KeyBindingHelper.registerKeyBinding(AyamePaperDoll.OPEN_CONFIG_GUI);
 
         AyamePaperDoll.init();
-
+        // consumeClick
+        ClientTickEvents.END_CLIENT_TICK.register((minecraft) -> {
+            EventHandler.consumeClick();
+        });
+        HudRenderCallback.EVENT.register((EventHandler::renderPaperDoll));
     }
 }
