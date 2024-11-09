@@ -21,15 +21,17 @@
 package org.ayamemc.ayamepaperdoll.fabric;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import org.ayamemc.ayamepaperdoll.AyamePaperDoll;
 import org.ayamemc.ayamepaperdoll.CommonInterfaceInstances;
+import org.ayamemc.ayamepaperdoll.handler.EventHandler;
 
 public class AyamePaperDollFabric implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         // Run our Fabric setup.
-
         CommonInterfaceInstances.keyHelper = KeyBindingHelper::getBoundKeyOf;
 
         KeyBindingHelper.registerKeyBinding(AyamePaperDoll.SHOW_PAPERDOLL_KEY);
@@ -37,5 +39,10 @@ public class AyamePaperDollFabric implements ClientModInitializer {
 
         AyamePaperDoll.init();
 
+        ClientTickEvents.END_CLIENT_TICK.register((minecraft) ->
+                EventHandler.keyPressed()
+        );
+
+        HudRenderCallback.EVENT.register((EventHandler::renderPaperDoll));
     }
 }

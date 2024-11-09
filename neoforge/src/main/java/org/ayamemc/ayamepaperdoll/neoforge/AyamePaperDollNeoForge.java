@@ -20,24 +20,36 @@
 
 package org.ayamemc.ayamepaperdoll.neoforge;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.gui.GuiGraphics;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.common.NeoForge;
 import org.ayamemc.ayamepaperdoll.AyamePaperDoll;
 import org.ayamemc.ayamepaperdoll.CommonInterfaceInstances;
 import org.ayamemc.ayamepaperdoll.config.ConfigScreen;
+import org.ayamemc.ayamepaperdoll.handler.EventHandler;
 
 @Mod(value = AyamePaperDoll.MOD_ID, dist = Dist.CLIENT)
 public final class AyamePaperDollNeoForge {
     public AyamePaperDollNeoForge(IEventBus modBus) {
         // Run our NeoForge setup.
         CommonInterfaceInstances.keyHelper = KeyMapping::getKey;
+
         AyamePaperDoll.init();
+
         modBus.addListener(AyamePaperDollNeoForge::registerKeyMapping);
+
+        NeoForge.EVENT_BUS.addListener(AyamePaperDollNeoForge::renderPaperDoll);
+        NeoForge.EVENT_BUS.addListener(AyamePaperDollNeoForge::onClientTick);
+
         ModLoadingContext.get().registerExtensionPoint(
                 IConfigScreenFactory.class,
                 () -> (modContainer, lastScreen) -> new ConfigScreen(lastScreen, AyamePaperDoll.CONFIGS.getOptions())
@@ -45,8 +57,18 @@ public final class AyamePaperDollNeoForge {
 
     }
 
+    private static void renderPaperDoll(RenderGuiEvent.Post event) {
+        final GuiGraphics guiGraphics = event.getGuiGraphics();
+        final DeltaTracker partialTick = event.getPartialTick();
+        EventHandler.renderPaperDoll(guiGraphics, partialTick);
+    }
+
     private static void registerKeyMapping(RegisterKeyMappingsEvent event) {
         event.register(AyamePaperDoll.SHOW_PAPERDOLL_KEY);
         event.register(AyamePaperDoll.OPEN_CONFIG_GUI);
+    }
+
+    private static void onClientTick(ClientTickEvent.Post event) {
+        EventHandler.keyPressed();
     }
 }

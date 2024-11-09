@@ -18,46 +18,41 @@
  *     along with Ayame PaperDoll.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.ayamemc.ayamepaperdoll.mixin.hook;
+package org.ayamemc.ayamepaperdoll.handler;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import org.ayamemc.ayamepaperdoll.AyamePaperDoll;
 import org.ayamemc.ayamepaperdoll.config.ConfigScreen;
-import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.ayamemc.ayamepaperdoll.hud.ExtraPlayerHud;
 
-@Mixin(Minecraft.class)
-public abstract class MinecraftClientMixin {
-    @Unique
-    @Nullable
-    public Screen ayame_PaperDoll$currentScreen;
+import static org.ayamemc.ayamepaperdoll.AyamePaperDoll.CONFIGS;
 
-    @Shadow
-    public abstract void setScreen(@Nullable Screen screen);
+public class EventHandler {
+    private static final Minecraft minecraft = Minecraft.getInstance();
+    private static final ExtraPlayerHud extraPlayerHud = new ExtraPlayerHud(minecraft);
+    public static Screen lastScreen;
 
-    @Unique
-    private Boolean ayame_PaperDoll$getPaperDollEnabled() {
-        return AyamePaperDoll.CONFIGS.enabled.getValue();
+    public static void renderPaperDoll(GuiGraphics guiGraphics, DeltaTracker partialTick) {
+        if (
+                !minecraft.options.hideGui &&
+                        !(AyamePaperDoll.CONFIGS.hideUnderDebug.getValue() && minecraft.getDebugOverlay().showDebugScreen())
+                        && (minecraft.screen == null || !CONFIGS.hideOnScreenOpen.getValue())
+        ) {
+            extraPlayerHud.render(partialTick.getGameTimeDeltaPartialTick(true));
+        }
+        // follow convention in LayeredDrawer#renderInternal
+        guiGraphics.pose().translate(0, 0, 200);
     }
 
-    @Unique
-    private void ayame_PaperDoll$setPaperDollEnabled(Boolean enabled) {
-        AyamePaperDoll.CONFIGS.enabled.setValue(enabled);
-    }
-
-    @Inject(method = "handleKeybinds", at = @At("RETURN"))
-    private void onHandleInputEventsFinish(CallbackInfo ci) {
+    public static void keyPressed() {
         while (AyamePaperDoll.SHOW_PAPERDOLL_KEY.consumeClick()) {
-            ayame_PaperDoll$setPaperDollEnabled(!ayame_PaperDoll$getPaperDollEnabled());
+            CONFIGS.enabled.setValue(!CONFIGS.enabled.getValue());
         }
         while (AyamePaperDoll.OPEN_CONFIG_GUI.consumeClick()) {
-            this.setScreen(new ConfigScreen(this.ayame_PaperDoll$currentScreen, AyamePaperDoll.CONFIGS.getOptions()));
+            minecraft.setScreen(new ConfigScreen(lastScreen, AyamePaperDoll.CONFIGS.getOptions()));
         }
     }
 }
