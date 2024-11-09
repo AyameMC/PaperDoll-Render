@@ -27,6 +27,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
@@ -41,9 +42,14 @@ public final class AyamePaperDollNeoForge {
     public AyamePaperDollNeoForge(IEventBus modBus) {
         // Run our NeoForge setup.
         CommonInterfaceInstances.keyHelper = KeyMapping::getKey;
+
         AyamePaperDoll.init();
+
         modBus.addListener(AyamePaperDollNeoForge::registerKeyMapping);
+
         NeoForge.EVENT_BUS.addListener(AyamePaperDollNeoForge::renderPaperDoll);
+        NeoForge.EVENT_BUS.addListener(AyamePaperDollNeoForge::onClientTick);
+
         ModLoadingContext.get().registerExtensionPoint(
                 IConfigScreenFactory.class,
                 () -> (modContainer, lastScreen) -> new ConfigScreen(lastScreen, AyamePaperDoll.CONFIGS.getOptions())
@@ -60,5 +66,9 @@ public final class AyamePaperDollNeoForge {
     private static void registerKeyMapping(RegisterKeyMappingsEvent event) {
         event.register(AyamePaperDoll.SHOW_PAPERDOLL_KEY);
         event.register(AyamePaperDoll.OPEN_CONFIG_GUI);
+    }
+
+    private static void onClientTick(ClientTickEvent.Post event) {
+        EventHandler.keyPressed();
     }
 }

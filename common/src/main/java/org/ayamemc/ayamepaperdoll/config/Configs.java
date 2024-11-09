@@ -45,9 +45,9 @@ public class Configs {
     public final SimpleNumericOption<Double> rotationX = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("rotation_x"), -4.96, -180D, 180D);
     public final SimpleNumericOption<Double> rotationY = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("rotation_y"), -4.96, -180D, 180D);
     public final SimpleNumericOption<Double> rotationZ = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("rotation_z"), 0D, -180D, 180D);
-    //public final SimpleOption<Boolean> facingLock = new SimpleOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("facing_lock"), true);
     public final SimpleNumericOption<Double> size = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("size"), 0.1, 0D, 2D);
     public final SimpleOption<Boolean> mirrored = new SimpleOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("mirrored"), true);
+    public final SimpleOption<RotationUnlock> rotationUnlock = new SimpleOption<>(POSTURES_CATEGORY, AyamePaperDoll.path("rotation_unlock"), RotationUnlock.ALL);
     public final SimpleNumericOption<Double> pitch = new SimpleNumericOption<>(ROTATIONS_CATEGORY, AyamePaperDoll.path("pitch"), 0D, -90D, 90D);
     public final SimpleNumericOption<Double> pitchRange = new SimpleNumericOption<>(ROTATIONS_CATEGORY, AyamePaperDoll.path("pitch_range"), 20D, 0D, 90D);
     public final SimpleNumericOption<Double> headYaw = new SimpleNumericOption<>(ROTATIONS_CATEGORY, AyamePaperDoll.path("head_yaw"), -7.5D, -180D, 180D);
@@ -133,6 +133,9 @@ public class Configs {
 
     public enum PoseOffsetMethod {
         AUTO, MANUAL, FORCE_STANDING, DISABLED
+    }
+    public enum RotationUnlock{
+        ALL, HEAD, BODY, DISABLED
     }
 
     @FunctionalInterface

@@ -41,6 +41,7 @@ import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import org.ayamemc.ayamepaperdoll.config.Configs;
+import org.ayamemc.ayamepaperdoll.config.Configs.RotationUnlock;
 import org.ayamemc.ayamepaperdoll.hud.DataBackup.DataBackupEntry;
 import org.ayamemc.ayamepaperdoll.mixininterface.ImmediateMixinInterface;
 import org.joml.Matrix4fStack;
@@ -93,8 +94,8 @@ public class ExtraPlayerHud {
         LivingEntity targetEntity = minecraft.level.players().stream().filter(p -> p.getName().getString().equals(CONFIGS.playerName.getValue())).findFirst().orElse(minecraft.player);
         if (CONFIGS.spectatorAutoSwitch.getValue() && minecraft.player.isSpectator()) {
             Entity cameraEntity = Minecraft.getInstance().getCameraEntity();
-            if (cameraEntity instanceof LivingEntity) {
-                targetEntity = (LivingEntity) cameraEntity;
+            if (cameraEntity instanceof LivingEntity livingEntity) {
+                targetEntity = livingEntity;
             } else if (cameraEntity != null) {
                 return;
             }
@@ -206,10 +207,20 @@ public class ExtraPlayerHud {
         float bodyLerp = Mth.lerp(partialTicks, targetEntity.yBodyRotO, targetEntity.yBodyRot);
         float diff = headLerp - bodyLerp;
 
-        targetEntity.yHeadRotO = targetEntity.yHeadRot = 180 - headClamp;
+        final RotationUnlock rotationUnlock = CONFIGS.rotationUnlock.getValue();
+
+        targetEntity.yHeadRotO = targetEntity.yHeadRot =
+                ((rotationUnlock == RotationUnlock.ALL || rotationUnlock == RotationUnlock.HEAD))
+                        ? targetEntity.yHeadRot
+                        : 180 - headClamp;
+
         double bodyYaw = CONFIGS.bodyYaw.getValue(), bodyYawRange = CONFIGS.bodyYawRange.getValue();
-        targetEntity.yBodyRotO = targetEntity.yBodyRot = 180 - (float) Mth.clamp(
-                Mth.wrapDegrees(headClamp - diff), bodyYaw - bodyYawRange, bodyYaw + bodyYawRange);
+
+        targetEntity.yBodyRotO = targetEntity.yBodyRot =
+                ((rotationUnlock == RotationUnlock.ALL || rotationUnlock == RotationUnlock.BODY))
+                        ? targetEntity.yBodyRot
+                        : 180 - (float) Mth.clamp(Mth.wrapDegrees(headClamp - diff), bodyYaw - bodyYawRange, bodyYaw + bodyYawRange);
+
         double pitch = CONFIGS.pitch.getValue(), pitchRange = CONFIGS.pitchRange.getValue();
         targetEntity.setXRot(targetEntity.xRotO = (float) (Mth.clamp(
                 Mth.lerp(partialTicks, targetEntity.xRotO, targetEntity.getXRot()),
@@ -231,7 +242,6 @@ public class ExtraPlayerHud {
         targetEntity.setSharedFlag(0, false);
     }
 
-    @SuppressWarnings("deprecation")
     private void performRendering(Entity targetEntity, double posX, double posY, double size, boolean mirror,
                                   Vector3f offset, double lightDegree, float partialTicks) {
         EntityRenderDispatcher entityRenderDispatcher = minecraft.getEntityRenderDispatcher();
@@ -284,6 +294,7 @@ public class ExtraPlayerHud {
         Lighting.setupFor3DItems();
     }
 
+    @SuppressWarnings("resource")
     private static int getLight(Entity entity, float tickDelta) {
         if (CONFIGS.useWorldLight.getValue()) {
             Level world = entity.level();
