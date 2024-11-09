@@ -1,21 +1,21 @@
 /*
- *     Highly configurable paper doll mod, well integrated with Ayame.
- *     Copyright (C) 2024  LucunJi(Original author), HappyRespawnanchor, pertaz(Port to Architectury)
+ *     Highly configurable PaperDoll mod. Forked from Extra Player Renderer.
+ *     Copyright (C) 2024  LucunJi(Original author), HappyRespawnanchor
  *
- *     This file is part of PaperDoll Render.
+ *     This file is part of Ayame PaperDoll.
  *
- *     PaperDoll Render is free software: you can redistribute it and/or modify
+ *     Ayame PaperDoll is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU Lesser General Public License as published by
  *     the Free Software Foundation, either version 3 of the License, or
  *     (at your option) any later version.
  *
- *     PaperDoll Render is distributed in the hope that it will be useful,
+ *     Ayame PaperDoll is distributed in the hope that it will be useful,
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
  *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *     GNU Lesser General Public License for more details.
  *
  *     You should have received a copy of the GNU Lesser General Public License
- *     along with PaperDoll Render.  If not, see <https://www.gnu.org/licenses/>.
+ *     along with Ayame PaperDoll.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package org.ayamemc.ayamepaperdoll.hud;
@@ -83,6 +83,24 @@ public class ExtraPlayerHud {
 
     public ExtraPlayerHud(Minecraft minecraft) {
         this.minecraft = minecraft;
+    }
+
+    private static int getLight(Entity entity, float tickDelta) {
+        if (CONFIGS.useWorldLight.getValue()) {
+            Level world = entity.level();
+            int blockLight = world.getBrightness(LightLayer.BLOCK, BlockPos.containing(entity.getEyePosition(tickDelta)));
+            int skyLight = world.getBrightness(LightLayer.SKY, BlockPos.containing(entity.getEyePosition(tickDelta)));
+            int min = CONFIGS.worldLightMin.getValue();
+            blockLight = Mth.clamp(blockLight, min, 15);
+            skyLight = Mth.clamp(skyLight, min, 15);
+            return LightTexture.pack(blockLight, skyLight);
+        }
+        return LightTexture.pack(15, 15);
+    }
+
+    private static float getFallFlyingLeaning(LivingEntity entity, float partialTicks) {
+        float ticks = partialTicks + entity.getFallFlyingTicks();
+        return Mth.clamp(ticks * ticks / 100f, 0f, 1f);
     }
 
     /**
@@ -286,23 +304,5 @@ public class ExtraPlayerHud {
         matrixStack1.popMatrix();
         RenderSystem.applyModelViewMatrix();
         Lighting.setupFor3DItems();
-    }
-
-    private static int getLight(Entity entity, float tickDelta) {
-        if (CONFIGS.useWorldLight.getValue()) {
-            Level world = entity.level();
-            int blockLight = world.getBrightness(LightLayer.BLOCK, BlockPos.containing(entity.getEyePosition(tickDelta)));
-            int skyLight = world.getBrightness(LightLayer.SKY, BlockPos.containing(entity.getEyePosition(tickDelta)));
-            int min = CONFIGS.worldLightMin.getValue();
-            blockLight = Mth.clamp(blockLight, min, 15);
-            skyLight = Mth.clamp(skyLight, min, 15);
-            return LightTexture.pack(blockLight, skyLight);
-        }
-        return LightTexture.pack(15, 15);
-    }
-
-    private static float getFallFlyingLeaning(LivingEntity entity, float partialTicks) {
-        float ticks = partialTicks + entity.getFallFlyingTicks();
-        return Mth.clamp(ticks * ticks / 100f, 0f, 1f);
     }
 }
