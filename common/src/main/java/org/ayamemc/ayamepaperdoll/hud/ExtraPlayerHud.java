@@ -41,6 +41,7 @@ import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import org.ayamemc.ayamepaperdoll.config.Configs;
+import org.ayamemc.ayamepaperdoll.config.Configs.RotationUnlock;
 import org.ayamemc.ayamepaperdoll.hud.DataBackup.DataBackupEntry;
 import org.ayamemc.ayamepaperdoll.mixininterface.ImmediateMixinInterface;
 import org.joml.Matrix4fStack;
@@ -85,6 +86,7 @@ public class ExtraPlayerHud {
         this.minecraft = minecraft;
     }
 
+    @SuppressWarnings("resource")
     private static int getLight(Entity entity, float tickDelta) {
         if (CONFIGS.useWorldLight.getValue()) {
             Level world = entity.level();
@@ -111,8 +113,8 @@ public class ExtraPlayerHud {
         LivingEntity targetEntity = minecraft.level.players().stream().filter(p -> p.getName().getString().equals(CONFIGS.playerName.getValue())).findFirst().orElse(minecraft.player);
         if (CONFIGS.spectatorAutoSwitch.getValue() && minecraft.player.isSpectator()) {
             Entity cameraEntity = Minecraft.getInstance().getCameraEntity();
-            if (cameraEntity instanceof LivingEntity) {
-                targetEntity = (LivingEntity) cameraEntity;
+            if (cameraEntity instanceof LivingEntity livingEntity) {
+                targetEntity = livingEntity;
             } else if (cameraEntity != null) {
                 return;
             }
@@ -224,10 +226,20 @@ public class ExtraPlayerHud {
         float bodyLerp = Mth.lerp(partialTicks, targetEntity.yBodyRotO, targetEntity.yBodyRot);
         float diff = headLerp - bodyLerp;
 
-        targetEntity.yHeadRotO = targetEntity.yHeadRot = 180 - headClamp;
+        final RotationUnlock rotationUnlock = CONFIGS.rotationUnlock.getValue();
+
+        targetEntity.yHeadRotO = targetEntity.yHeadRot =
+                ((rotationUnlock == RotationUnlock.ALL || rotationUnlock == RotationUnlock.HEAD))
+                        ? targetEntity.yHeadRot
+                        : 180 - headClamp;
+
         double bodyYaw = CONFIGS.bodyYaw.getValue(), bodyYawRange = CONFIGS.bodyYawRange.getValue();
-        targetEntity.yBodyRotO = targetEntity.yBodyRot = 180 - (float) Mth.clamp(
-                Mth.wrapDegrees(headClamp - diff), bodyYaw - bodyYawRange, bodyYaw + bodyYawRange);
+
+        targetEntity.yBodyRotO = targetEntity.yBodyRot =
+                ((rotationUnlock == RotationUnlock.ALL || rotationUnlock == RotationUnlock.BODY))
+                        ? targetEntity.yBodyRot
+                        : 180 - (float) Mth.clamp(Mth.wrapDegrees(headClamp - diff), bodyYaw - bodyYawRange, bodyYaw + bodyYawRange);
+
         double pitch = CONFIGS.pitch.getValue(), pitchRange = CONFIGS.pitchRange.getValue();
         targetEntity.setXRot(targetEntity.xRotO = (float) (Mth.clamp(
                 Mth.lerp(partialTicks, targetEntity.xRotO, targetEntity.getXRot()),
@@ -260,7 +272,6 @@ public class ExtraPlayerHud {
         // IDK what shit Mojang made but let's add 180 deg to restore the old behavior
         matrixStack1.rotateY((float) Math.toRadians(lightDegree + 180));
 
-        RenderSystem.applyModelViewMatrix();
 
         PoseStack matrixStack2 = new PoseStack();
         matrixStack2.mulPose(Axis.YP.rotationDegrees(-(float) lightDegree - 180));
@@ -290,8 +301,7 @@ public class ExtraPlayerHud {
         MultiBufferSource.BufferSource immediate = Minecraft.getInstance().renderBuffers().bufferSource();
         RenderSystem.runAsFancy(() ->
                 entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, 0, partialTicks, matrixStack2, immediate, getLight(targetEntity, partialTicks))
-        );
-        // disable cull to fix item rendering glitches when mirror option is on
+        );        // disable cull to fix item rendering glitches when mirror option is on
         ImmediateMixinInterface immediateMixined = (ImmediateMixinInterface) immediate;
         immediateMixined.ayame_PaperDoll$setForceDisableCulling(mirror);
         immediate.endBatch();
@@ -302,7 +312,6 @@ public class ExtraPlayerHud {
         entityRenderDispatcher.setRenderHitBoxes(renderHitbox);
 
         matrixStack1.popMatrix();
-        RenderSystem.applyModelViewMatrix();
         Lighting.setupFor3DItems();
     }
 }
