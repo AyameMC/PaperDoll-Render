@@ -36,7 +36,11 @@ public class EventHandler {
     public static Screen lastScreen;
 
     public static void renderPaperDoll(GuiGraphics guiGraphics, DeltaTracker partialTick) {
-        if (!minecraft.options.hideGui && !(AyamePaperDoll.CONFIGS.hideUnderDebug.getValue() && minecraft.getDebugOverlay().showDebugScreen()) && minecraft.screen == null) {
+        if (
+                !minecraft.options.hideGui &&
+                !(AyamePaperDoll.CONFIGS.hideUnderDebug.getValue() && minecraft.getDebugOverlay().showDebugScreen())
+                && (minecraft.screen == null || !CONFIGS.hideOnScreenOpen.getValue())
+        ) {
             extraPlayerHud.render(partialTick.getGameTimeDeltaPartialTick(true));
         }
         // follow convention in LayeredDrawer#renderInternal

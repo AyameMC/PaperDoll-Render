@@ -28,7 +28,7 @@
   "config.ayame_paperdoll.option.rotation_x.desc": "X轴旋转",
   "config.ayame_paperdoll.option.rotation_y.desc": "Y轴旋转",
   "config.ayame_paperdoll.option.rotation_z.desc": "Z轴旋转",
-  "config.ayame_paperdoll.option.rotation_unlock.desc": "允许玩家旋转至任意角度\n\n§e全部§r：解锁头部与身体的角度\n§e头部§r：仅解锁头部角度\n§e身体§r：仅解锁身体角度",
+  "config.ayame_paperdoll.option.rotation_unlock.desc": "允许玩家旋转至任意角度\n\n§e全部§r：解锁头部与身体的角度\n§e头部§r：仅解锁头部角度\n§e身体§r：仅解锁身体角度\n§e关闭§r：不进行解锁",
   "config.ayame_paperdoll.option.size.desc": "渲染大小",
   "config.ayame_paperdoll.option.mirrored.desc": "将渲染模型水平镜像",
   "config.ayame_paperdoll.category.rotations": "旋转",
@@ -49,6 +49,7 @@
   "config.ayame_paperdoll.enum.RotationUnlock.ALL": "全部",
   "config.ayame_paperdoll.enum.RotationUnlock.HEAD": "头部",
   "config.ayame_paperdoll.enum.RotationUnlock.BODY": "身体",
+  "config.ayame_paperdoll.enum.RotationUnlock.DISABLED": "关闭",
   "config.ayame_paperdoll.option.pose_offset_method": "姿态修正方法",
   "config.ayame_paperdoll.enum.PoseOffsetMethod.AUTO": "自动",
   "config.ayame_paperdoll.enum.PoseOffsetMethod.MANUAL": "手动",
@@ -69,6 +70,7 @@
   "config.ayame_paperdoll.option.world_light_min": "最小世界光",
   "config.ayame_paperdoll.option.render_vehicle": "渲染坐骑",
   "config.ayame_paperdoll.option.hide_under_debug": "调试屏幕下隐藏",
+  "config.ayame_paperdoll.option.hide_on_screen_open": "屏幕开启时隐藏",
   "config.ayame_paperdoll.option.spectator_auto_switch": "旁观者自动切换",
   "config.ayame_paperdoll.option.player_name": "渲染玩家名",
   "config.ayame_paperdoll.option.hurt_flash.desc": "玩家受伤时是否有红色闪烁",
@@ -78,6 +80,7 @@
   "config.ayame_paperdoll.option.world_light_min.desc": "打开§2使用世界光§r时的亮度下限",
   "config.ayame_paperdoll.option.render_vehicle.desc": "渲染身下的坐骑，§a姿态修正方法§r为§e强制站立§r时无效",
   "config.ayame_paperdoll.option.hide_under_debug.desc": "是否在 F3 打开的调试屏幕下隐藏",
+  "config.ayame_paperdoll.option.hide_on_screen_open.desc": "是否在屏幕打开（例如游戏菜单或背包）时隐藏",
   "config.ayame_paperdoll.option.spectator_auto_switch.desc": "旁观者模式下自动切换实体模型\n\n打开后会覆盖§2渲染玩家名§r的功能",
   "config.ayame_paperdoll.option.player_name.desc": "被渲染实体的玩家名，空白代表你自己的名称"
 }
