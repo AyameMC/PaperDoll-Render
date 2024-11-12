@@ -43,5 +43,6 @@ public class AyamePaperDollFabric implements ClientModInitializer {
                 EventHandler.keyPressed()
         );
 
+        HudRenderCallback.EVENT.register((EventHandler::renderPaperDoll));
     }
 }
