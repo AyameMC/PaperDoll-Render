@@ -88,7 +88,7 @@ public class InGameHudMixin {
      * to act like a layer of HUD.
      */
     @Inject(method = "renderCameraOverlays", at = @At("RETURN"))
-    void onRenderMiscOverlayFinish(GuiGraphics context, DeltaTracker tickCounter, CallbackInfo ci) {
+    void onRenderMiscOverlayFinish(GuiGraphics guiGraphics, DeltaTracker tickCounter, CallbackInfo ci) {
 	    EventHandler.renderPaperDoll(guiGraphics, tickCounter);
     }
 }
