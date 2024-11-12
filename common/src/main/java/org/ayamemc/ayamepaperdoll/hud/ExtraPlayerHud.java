@@ -272,7 +272,7 @@ public class ExtraPlayerHud {
         // IDK what shit Mojang made but let's add 180 deg to restore the old behavior
         matrixStack1.rotateY((float) Math.toRadians(lightDegree + 180));
 
-
+        RenderSystem.applyModelViewMatrix();
         PoseStack matrixStack2 = new PoseStack();
         matrixStack2.mulPose(Axis.YP.rotationDegrees(-(float) lightDegree - 180));
         matrixStack2.translate((mirror ? -1 : 1) * posX, posY, 0);
@@ -312,6 +312,7 @@ public class ExtraPlayerHud {
         entityRenderDispatcher.setRenderHitBoxes(renderHitbox);
 
         matrixStack1.popMatrix();
+        RenderSystem.applyModelViewMatrix();
         Lighting.setupFor3DItems();
     }
 }
