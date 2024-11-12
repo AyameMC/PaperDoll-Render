@@ -47,7 +47,6 @@ public final class AyamePaperDollNeoForge {
 
         modBus.addListener(AyamePaperDollNeoForge::registerKeyMapping);
 
-        NeoForge.EVENT_BUS.addListener(AyamePaperDollNeoForge::renderPaperDoll);
         NeoForge.EVENT_BUS.addListener(AyamePaperDollNeoForge::onClientTick);
 
         ModLoadingContext.get().registerExtensionPoint(
@@ -55,12 +54,6 @@ public final class AyamePaperDollNeoForge {
                 () -> (modContainer, lastScreen) -> new ConfigScreen(lastScreen, AyamePaperDoll.CONFIGS.getOptions())
         );
 
-    }
-
-    private static void renderPaperDoll(RenderGuiEvent.Post event) {
-        final GuiGraphics guiGraphics = event.getGuiGraphics();
-        final DeltaTracker partialTick = event.getPartialTick();
-        EventHandler.renderPaperDoll(guiGraphics, partialTick);
     }
 
     private static void registerKeyMapping(RegisterKeyMappingsEvent event) {
