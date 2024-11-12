@@ -32,10 +32,10 @@ import static org.ayamemc.ayamepaperdoll.AyamePaperDoll.CONFIGS;
 
 public class EventHandler {
     private static final Minecraft minecraft = Minecraft.getInstance();
-    private static final ExtraPlayerHud extraPlayerHud = new ExtraPlayerHud(minecraft);
+    // private static final ExtraPlayerHud extraPlayerHud; = new ExtraPlayerHud(minecraft);
     public static Screen lastScreen;
 
-    public static void renderPaperDoll(GuiGraphics guiGraphics, DeltaTracker partialTick) {
+    public static void renderPaperDoll(ExtraPlayerHud extraPlayerHud, GuiGraphics guiGraphics, DeltaTracker partialTick) {
         if (
                 !minecraft.options.hideGui &&
                         !(AyamePaperDoll.CONFIGS.hideUnderDebug.getValue() && minecraft.getDebugOverlay().showDebugScreen())

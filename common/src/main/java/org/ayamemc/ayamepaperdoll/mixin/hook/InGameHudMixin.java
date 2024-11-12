@@ -87,8 +87,17 @@ public class InGameHudMixin {
      * and need to obey the rules of {@link net.minecraft.client.gui.LayeredDraw} (especially in {@link net.minecraft.client.gui.LayeredDraw#renderInner})
      * to act like a layer of HUD.
      */
+
+    @Unique
+    private ExtraPlayerHud ayame_PaperDoll$extraPlayerHud;
+
+    @Inject(method = "<init>", at = @At("RETURN"))
+    public void onInit(Minecraft client, CallbackInfo ci) {
+	    this.ayame_PaperDoll$extraPlayerHud = new ExtraPlayerHud(this.minecraft);
+    }
+
     @Inject(method = "renderCameraOverlays", at = @At("RETURN"))
     void onRenderMiscOverlayFinish(GuiGraphics guiGraphics, DeltaTracker tickCounter, CallbackInfo ci) {
-	    EventHandler.renderPaperDoll(guiGraphics, tickCounter);
+	    EventHandler.renderPaperDoll(ayame_PaperDoll$extraPlayerHud, guiGraphics, tickCounter);
     }
 }
