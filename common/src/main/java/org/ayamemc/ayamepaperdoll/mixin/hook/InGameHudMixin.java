@@ -87,6 +87,9 @@ public class InGameHudMixin {
      * and need to obey the rules of {@link net.minecraft.client.gui.LayeredDraw} (especially in {@link net.minecraft.client.gui.LayeredDraw#renderInner})
      * to act like a layer of HUD.
      */
+    @Shadow
+    @Final
+    private Minecraft minecraft;
 
     @Unique
     private ExtraPlayerHud ayame_PaperDoll$extraPlayerHud;
