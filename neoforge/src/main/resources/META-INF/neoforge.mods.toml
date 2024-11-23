@@ -37,7 +37,7 @@ modId = "minecraft"
 type = "required"
 versionRange = "[1.21,1.21.1]"
 ordering = "NONE"
-side = "BOTH"
+side = "CLIENT"
 
 #[[dependencies.ayame_paperdoll]]
 #modId = "immediatelyfast"
