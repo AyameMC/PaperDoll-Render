@@ -28,7 +28,7 @@ updateJSONURL = "https://updatechecker.ayamemc.org/neoforge/ayame-paperdoll/upda
 [[dependencies.ayame_paperdoll]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.0.167,)"
+versionRange = "[21.3.35-beta,)"
 ordering = "NONE"
 side = "CLIENT"
 
