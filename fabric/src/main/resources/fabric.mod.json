@@ -16,6 +16,7 @@
     "pertaz"
   ],
   "contact": {
+    "homepage": "https://docs.ayamemc.org/blog/tags/ayame-paperdoll",
     "sources": "https://github.com/AyameMC/Ayame-PaperDoll",
     "issues": "https://github.com/AyameMC/Ayame-PaperDoll/issues"
   },
@@ -40,5 +41,13 @@
   },
   "suggests": {
     "modmenu": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.modrinth": "https://modrinth.com/mod/ayame-paperdoll",
+        "modmenu.curseforge": "https://www.curseforge.com/minecraft/mc-mods/ayame-paperdoll"
+      }
+    }
   }
 }
