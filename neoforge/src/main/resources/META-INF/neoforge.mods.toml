@@ -7,7 +7,7 @@ license = "LGPL-3.0-or-later"
 modId = "ayame_paperdoll"
 version = "${version}"
 displayName = "Ayame PaperDoll"
-displayURL = "https://github.com/AyameMC/Ayame-PaperDoll"
+displayURL = "https://docs.ayamemc.org/blog/tags/ayame-paperdoll"
 authors = '''
 LucunJi(Original author)
 HappyRespawnanchor
@@ -24,6 +24,7 @@ Highly configurable PaperDoll mod.
 Forked from Extra Player Renderer.
 '''
 logoFile = "icon.png"
+logoBlur = false
 updateJSONURL = "https://updatechecker.ayamemc.org/neoforge/ayame-paperdoll/update.json"
 [[dependencies.ayame_paperdoll]]
 modId = "neoforge"
