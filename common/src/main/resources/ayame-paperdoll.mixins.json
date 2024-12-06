@@ -6,7 +6,7 @@
   "client": [
     "patch.ImmediateMixin",
     "retexture.AbstractButtonMixin",
-    "retexture.AbstractSelectionListMixin",
+    "retexture.AbstractAbstractScrollArea",
     "retexture.AbstractSliderButtonMixin",
     "retexture.EditBoxtMixin"
   ],
