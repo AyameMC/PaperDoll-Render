@@ -29,14 +29,14 @@ updateJSONURL = "https://api.modrinth.com/updates/ayame-paperdoll/forge_updates.
 [[dependencies.ayame_paperdoll]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.3.35-beta,)"
+versionRange = "[21.4.8-beta,)"
 ordering = "NONE"
 side = "CLIENT"
 
 [[dependencies.ayame_paperdoll]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.3,)"
+versionRange = "[1.21.4,)"
 ordering = "NONE"
 side = "CLIENT"
 
