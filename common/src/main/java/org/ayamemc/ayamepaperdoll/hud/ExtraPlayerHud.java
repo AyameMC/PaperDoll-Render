@@ -295,16 +295,14 @@ public class ExtraPlayerHud {
         boolean renderHitbox = entityRenderDispatcher.shouldRenderHitBoxes();
         entityRenderDispatcher.setRenderHitBoxes(false);
         entityRenderDispatcher.setRenderShadow(false);
+        MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
 
-        MultiBufferSource.BufferSource immediate = Minecraft.getInstance().renderBuffers().bufferSource();
-        poseStack.mulPose(Axis.YP.rotationDegrees(-0));
-
-            entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, partialTicks, poseStack, immediate, getLight(targetEntity, partialTicks));
+            entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, partialTicks, poseStack, bufferSource, getLight(targetEntity, partialTicks));
 
         // disable cull to fix item rendering glitches when mirror option is on
-        ImmediateMixinInterface immediateMixined = (ImmediateMixinInterface) immediate;
+        ImmediateMixinInterface immediateMixined = (ImmediateMixinInterface) bufferSource;
         immediateMixined.ayame_PaperDoll$setForceDisableCulling(mirror);
-        immediate.endBatch();
+        bufferSource.endBatch();
         immediateMixined.ayame_PaperDoll$setForceDisableCulling(false);
 
         // do not need to restore this value in fact
@@ -314,4 +312,5 @@ public class ExtraPlayerHud {
         modelViewStack.popMatrix();
         Lighting.setupFor3DItems();
     }
+
 }

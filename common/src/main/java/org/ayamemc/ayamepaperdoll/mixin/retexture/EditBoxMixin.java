@@ -37,8 +37,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import java.util.function.Function;
 
 @Mixin(EditBox.class)
-public abstract class EditBoxtMixin extends AbstractWidget {
-    public EditBoxtMixin(int x, int y, int width, int height, Component message) {
+public abstract class EditBoxMixin extends AbstractWidget {
+    public EditBoxMixin(int x, int y, int width, int height, Component message) {
         super(x, y, width, height, message);
     }
 
