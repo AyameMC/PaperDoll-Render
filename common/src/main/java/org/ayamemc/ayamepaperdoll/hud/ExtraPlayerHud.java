@@ -265,17 +265,17 @@ public class ExtraPlayerHud {
                                   Vector3f offset, double lightDegree, float partialTicks) {
         EntityRenderDispatcher entityRenderDispatcher = minecraft.getEntityRenderDispatcher();
 
-        Matrix4fStack matrixStack1 = RenderSystem.getModelViewStack();
-        matrixStack1.pushMatrix();
-        matrixStack1.scale(mirror ? -1 : 1, 1, -1);
+        Matrix4fStack modelViewStack = RenderSystem.getModelViewStack();
+        modelViewStack.pushMatrix();
+        modelViewStack.scale(mirror ? -1 : 1, 1, -1);
         // IDK what shit Mojang made but let's add 180 deg to restore the old behavior
-        matrixStack1.rotateY((float) Math.toRadians(lightDegree + 180));
+        modelViewStack.rotateY((float) Math.toRadians(lightDegree + 180));
 
 
-        PoseStack matrixStack2 = new PoseStack();
-        matrixStack2.mulPose(Axis.YP.rotationDegrees(-(float) lightDegree - 180));
-        matrixStack2.translate((mirror ? -1 : 1) * posX, posY, 0);
-        matrixStack2.scale((float) size, (float) size, (float) size);
+        PoseStack poseStack = new PoseStack();
+        poseStack.mulPose(Axis.YP.rotationDegrees(-(float) lightDegree - 180));
+        poseStack.translate((mirror ? -1 : 1) * posX, posY, 0);
+        poseStack.scale((float) size, (float) size, (float) size);
         Quaternionf quaternion = new Quaternionf().rotateZ((float) Math.PI);
         Quaternionf quaternion2 = new Quaternionf()
                 .rotateXYZ((float) Math.toRadians(CONFIGS.rotationX.getValue()),
@@ -283,10 +283,9 @@ public class ExtraPlayerHud {
                         (float) Math.toRadians(CONFIGS.rotationZ.getValue()));
 
         quaternion.mul(quaternion2);
-        matrixStack2.mulPose(quaternion);
-
+        poseStack.mulPose(quaternion);
         if (targetEntity instanceof Boat) {
-            matrixStack2.mulPose(new Quaternionf().rotateY((float) Math.toRadians(180)));
+            poseStack.mulPose(new Quaternionf().rotateY((float) Math.toRadians(180)));
         }
 
         Lighting.setupForEntityInInventory();
@@ -298,7 +297,10 @@ public class ExtraPlayerHud {
         entityRenderDispatcher.setRenderShadow(false);
 
         MultiBufferSource.BufferSource immediate = Minecraft.getInstance().renderBuffers().bufferSource();
-        entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, partialTicks, matrixStack2, immediate, getLight(targetEntity, partialTicks));
+        poseStack.mulPose(Axis.YP.rotationDegrees(-0));
+
+            entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, partialTicks, poseStack, immediate, getLight(targetEntity, partialTicks));
+
         // disable cull to fix item rendering glitches when mirror option is on
         ImmediateMixinInterface immediateMixined = (ImmediateMixinInterface) immediate;
         immediateMixined.ayame_PaperDoll$setForceDisableCulling(mirror);
@@ -309,7 +311,7 @@ public class ExtraPlayerHud {
         entityRenderDispatcher.setRenderShadow(true);
         entityRenderDispatcher.setRenderHitBoxes(renderHitbox);
 
-        matrixStack1.popMatrix();
+        modelViewStack.popMatrix();
         Lighting.setupFor3DItems();
     }
 }
