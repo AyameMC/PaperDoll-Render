@@ -38,6 +38,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.entity.vehicle.Minecart;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import org.ayamemc.ayamepaperdoll.config.Configs;
@@ -53,31 +54,17 @@ import java.util.List;
 import static org.ayamemc.ayamepaperdoll.AyamePaperDoll.CONFIGS;
 
 public class ExtraPlayerHud {
-    private static final List<DataBackupEntry<LivingEntity, ?>> LIVINGENTITY_BACKUP_ENTRIES = ImmutableList.of(
-            new DataBackupEntry<>(LivingEntity::getPose, LivingEntity::setPose),
+    private static final List<DataBackupEntry<LivingEntity, ?>> LIVINGENTITY_BACKUP_ENTRIES = ImmutableList.of(new DataBackupEntry<>(LivingEntity::getPose, LivingEntity::setPose),
             // required for player on client side
             new DataBackupEntry<>(Entity::isCrouching, (e, flag) -> {
                 if (e instanceof LocalPlayer player) player.crouching = flag;
-            }),
-            new DataBackupEntry<>(e -> e.swimAmount, (e, pitch) -> e.swimAmount = pitch),
-            new DataBackupEntry<>(e -> e.swimAmountO, (e, pitch) -> e.swimAmountO = pitch),
-            new DataBackupEntry<>(LivingEntity::isFallFlying, (e, flag) -> e.setSharedFlag(7, flag)),
-            new DataBackupEntry<>(LivingEntity::getFallFlyingTicks, (e, ticks) -> e.fallFlyTicks = ticks),
+            }), new DataBackupEntry<>(e -> e.swimAmount, (e, pitch) -> e.swimAmount = pitch), new DataBackupEntry<>(e -> e.swimAmountO, (e, pitch) -> e.swimAmountO = pitch), new DataBackupEntry<>(LivingEntity::isFallFlying, (e, flag) -> e.setSharedFlag(7, flag)), new DataBackupEntry<>(LivingEntity::getFallFlyingTicks, (e, ticks) -> e.fallFlyTicks = ticks),
 
             new DataBackupEntry<>(LivingEntity::getVehicle, (e, vehicle) -> e.vehicle = vehicle),
 
-            new DataBackupEntry<>(e -> e.yBodyRotO, (e, yaw) -> e.yBodyRotO = yaw),
-            new DataBackupEntry<>(e -> e.yBodyRot, (e, yaw) -> e.yBodyRot = yaw),
-            new DataBackupEntry<>(e -> e.yHeadRotO, (e, yaw) -> e.yHeadRotO = yaw),
-            new DataBackupEntry<>(e -> e.yHeadRot, (e, yaw) -> e.yHeadRot = yaw),
-            new DataBackupEntry<>(e -> e.xRotO, (e, pitch) -> e.xRotO = pitch),
-            new DataBackupEntry<>(LivingEntity::getXRot, LivingEntity::setXRot),
+            new DataBackupEntry<>(e -> e.yBodyRotO, (e, yaw) -> e.yBodyRotO = yaw), new DataBackupEntry<>(e -> e.yBodyRot, (e, yaw) -> e.yBodyRot = yaw), new DataBackupEntry<>(e -> e.yHeadRotO, (e, yaw) -> e.yHeadRotO = yaw), new DataBackupEntry<>(e -> e.yHeadRot, (e, yaw) -> e.yHeadRot = yaw), new DataBackupEntry<>(e -> e.xRotO, (e, pitch) -> e.xRotO = pitch), new DataBackupEntry<>(LivingEntity::getXRot, LivingEntity::setXRot),
 
-            new DataBackupEntry<>(e -> e.attackAnim, (e, prog) -> e.attackAnim = prog),
-            new DataBackupEntry<>(e -> e.oAttackAnim, (e, prog) -> e.oAttackAnim = prog),
-            new DataBackupEntry<>(e -> e.hurtTime, (e, time) -> e.hurtTime = time),
-            new DataBackupEntry<>(LivingEntity::getRemainingFireTicks, LivingEntity::setRemainingFireTicks),
-            new DataBackupEntry<>(e -> e.getSharedFlag(0), (e, flag) -> e.setSharedFlag(0, flag)) // on fire
+            new DataBackupEntry<>(e -> e.attackAnim, (e, prog) -> e.attackAnim = prog), new DataBackupEntry<>(e -> e.oAttackAnim, (e, prog) -> e.oAttackAnim = prog), new DataBackupEntry<>(e -> e.hurtTime, (e, time) -> e.hurtTime = time), new DataBackupEntry<>(LivingEntity::getRemainingFireTicks, LivingEntity::setRemainingFireTicks), new DataBackupEntry<>(e -> e.getSharedFlag(0), (e, flag) -> e.setSharedFlag(0, flag)) // on fire
     );
 
     private final Minecraft minecraft;
@@ -144,26 +131,12 @@ public class ExtraPlayerHud {
                 transformEntity(livingVehicle, partialTicks, false);
             }
 
-            performRendering(vehicle,
-                    CONFIGS.offsetX.getValue() * scaledWidth,
-                    CONFIGS.offsetY.getValue() * scaledHeight,
-                    CONFIGS.size.getValue() * scaledHeight,
-                    CONFIGS.mirrored.getValue(),
-                    vehicle.getPosition(partialTicks).subtract(targetEntity.getPosition(partialTicks))
-                            .yRot((float) Math.toRadians(yawLerped)).toVector3f(), // undo the rotation
-                    CONFIGS.lightDegree.getValue(),
-                    partialTicks);
+            performRendering(vehicle, CONFIGS.offsetX.getValue() * scaledWidth, CONFIGS.offsetY.getValue() * scaledHeight, CONFIGS.size.getValue() * scaledHeight, CONFIGS.mirrored.getValue(), vehicle.getPosition(partialTicks).subtract(targetEntity.getPosition(partialTicks)).yRot((float) Math.toRadians(yawLerped)).toVector3f(), // undo the rotation
+                    CONFIGS.lightDegree.getValue(), partialTicks);
         }
 
 
-        performRendering(targetEntity,
-                CONFIGS.offsetX.getValue() * scaledWidth,
-                CONFIGS.offsetY.getValue() * scaledHeight,
-                CONFIGS.size.getValue() * scaledHeight,
-                CONFIGS.mirrored.getValue(),
-                new Vector3f(0, (float) getPoseOffsetY(targetEntity, partialTicks, poseOffsetMethod), 0),
-                CONFIGS.lightDegree.getValue(),
-                partialTicks);
+        performRendering(targetEntity, CONFIGS.offsetX.getValue() * scaledWidth, CONFIGS.offsetY.getValue() * scaledHeight, CONFIGS.size.getValue() * scaledHeight, CONFIGS.mirrored.getValue(), new Vector3f(0, (float) getPoseOffsetY(targetEntity, partialTicks, poseOffsetMethod), 0), CONFIGS.lightDegree.getValue(), partialTicks);
 
         if (vehicleBackup != null) vehicleBackup.restore();
 
@@ -222,30 +195,29 @@ public class ExtraPlayerHud {
         // FIXME: NEVERFIX - glitch when the mouse moves too fast, caused by lerping a warped value, it is possibly wrapped in LivingEntity#tick or LivingEntity#turnHead
         float headLerp = Mth.lerp(partialTicks, targetEntity.yHeadRotO, targetEntity.yHeadRot);
         double headYaw = CONFIGS.headYaw.getValue(), headYawRange = CONFIGS.headYawRange.getValue();
+        double bodyYaw = CONFIGS.bodyYaw.getValue(), bodyYawRange = CONFIGS.bodyYawRange.getValue();
         float headClamp = (float) Mth.clamp(headLerp, headYaw - headYawRange, headYaw + headYawRange);
         float bodyLerp = Mth.lerp(partialTicks, targetEntity.yBodyRotO, targetEntity.yBodyRot);
         float diff = headLerp - bodyLerp;
 
         final RotationUnlock rotationUnlock = CONFIGS.rotationUnlock.getValue();
 
-        targetEntity.yHeadRotO = targetEntity.yHeadRot =
-                ((rotationUnlock == RotationUnlock.ALL || rotationUnlock == RotationUnlock.HEAD))
-                        ? targetEntity.yHeadRot
-                        : 180 - headClamp;
+        // 处理头部旋转
+        // 如果是身子或关闭就锁定
+        if (rotationUnlock == RotationUnlock.BODY || rotationUnlock == RotationUnlock.DISABLED) {
+            targetEntity.yHeadRotO = targetEntity.yHeadRot = 180 - headClamp;
+        }
 
-        double bodyYaw = CONFIGS.bodyYaw.getValue(), bodyYawRange = CONFIGS.bodyYawRange.getValue();
 
-        targetEntity.yBodyRotO = targetEntity.yBodyRot =
-                ((rotationUnlock == RotationUnlock.ALL || rotationUnlock == RotationUnlock.BODY))
-                        ? targetEntity.yBodyRot
-                        : 180 - (float) Mth.clamp(Mth.wrapDegrees(headClamp - diff), bodyYaw - bodyYawRange, bodyYaw + bodyYawRange);
+        // 处理身体旋转
+        // 如果是头或关闭就不锁定
+        if (rotationUnlock == RotationUnlock.HEAD || rotationUnlock == RotationUnlock.DISABLED) {
+            targetEntity.yBodyRotO = targetEntity.yBodyRot = 180 - (float) Mth.clamp(Mth.wrapDegrees(headClamp - diff), bodyYaw - bodyYawRange, bodyYaw + bodyYawRange);
+        }
 
         double pitch = CONFIGS.pitch.getValue(), pitchRange = CONFIGS.pitchRange.getValue();
-        targetEntity.setXRot(targetEntity.xRotO = (float) (Mth.clamp(
-                Mth.lerp(partialTicks, targetEntity.xRotO, targetEntity.getXRot()),
-                -pitchRange, pitchRange)
-                + pitch)
-        );
+
+        targetEntity.setXRot(targetEntity.xRotO = (float) (Mth.clamp(Mth.lerp(partialTicks, targetEntity.xRotO, targetEntity.getXRot()), -pitchRange, pitchRange) + pitch));
 
         if (!CONFIGS.swingHands.getValue()) {
             targetEntity.attackAnim = 0;
@@ -262,8 +234,7 @@ public class ExtraPlayerHud {
     }
 
     @SuppressWarnings("deprecation")
-    private void performRendering(Entity targetEntity, double posX, double posY, double size, boolean mirror,
-                                  Vector3f offset, double lightDegree, float partialTicks) {
+    private void performRendering(Entity targetEntity, double posX, double posY, double size, boolean mirror, Vector3f offset, double lightDegree, float partialTicks) {
         EntityRenderDispatcher entityRenderDispatcher = minecraft.getEntityRenderDispatcher();
 
         Matrix4fStack matrixStack1 = RenderSystem.getModelViewStack();
@@ -278,15 +249,12 @@ public class ExtraPlayerHud {
         matrixStack2.translate((mirror ? -1 : 1) * posX, posY, 0);
         matrixStack2.scale((float) size, (float) size, (float) size);
         Quaternionf quaternion = new Quaternionf().rotateZ((float) Math.PI);
-        Quaternionf quaternion2 = new Quaternionf()
-                .rotateXYZ((float) Math.toRadians(CONFIGS.rotationX.getValue()),
-                        (float) Math.toRadians(CONFIGS.rotationY.getValue()),
-                        (float) Math.toRadians(CONFIGS.rotationZ.getValue()));
+        Quaternionf quaternion2 = new Quaternionf().rotateXYZ((float) Math.toRadians(CONFIGS.rotationX.getValue()), (float) Math.toRadians(CONFIGS.rotationY.getValue()), (float) Math.toRadians(CONFIGS.rotationZ.getValue()));
 
         quaternion.mul(quaternion2);
         matrixStack2.mulPose(quaternion);
 
-        if (targetEntity instanceof Boat) {
+        if (targetEntity instanceof Boat || targetEntity instanceof Minecart) {
             matrixStack2.mulPose(new Quaternionf().rotateY((float) Math.toRadians(180)));
         }
 
@@ -299,9 +267,7 @@ public class ExtraPlayerHud {
         entityRenderDispatcher.setRenderShadow(false);
 
         MultiBufferSource.BufferSource immediate = Minecraft.getInstance().renderBuffers().bufferSource();
-        RenderSystem.runAsFancy(() ->
-                entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, 0, partialTicks, matrixStack2, immediate, getLight(targetEntity, partialTicks))
-        );        // disable cull to fix item rendering glitches when mirror option is on
+        RenderSystem.runAsFancy(() -> entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, targetEntity.getYRot(), partialTicks, matrixStack2, immediate, getLight(targetEntity, partialTicks)));        // disable cull to fix item rendering glitches when mirror option is on
         ImmediateMixinInterface immediateMixined = (ImmediateMixinInterface) immediate;
         immediateMixined.ayame_PaperDoll$setForceDisableCulling(mirror);
         immediate.endBatch();
