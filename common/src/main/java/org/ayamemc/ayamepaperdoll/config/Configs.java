@@ -137,7 +137,7 @@ public class Configs {
     }
 
     public enum RotationUnlock {
-        ALL, HEAD, BODY, DISABLED
+        ALL, SMART, HEAD, BODY, DISABLED
     }
 
     @FunctionalInterface
