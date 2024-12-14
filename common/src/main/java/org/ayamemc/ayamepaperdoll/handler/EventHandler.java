@@ -41,7 +41,7 @@ public class EventHandler {
                 !(AyamePaperDoll.CONFIGS.hideUnderDebug.getValue() && minecraft.getDebugOverlay().showDebugScreen())
                 && (minecraft.screen == null || !CONFIGS.hideOnScreenOpen.getValue())
         ) {
-            extraPlayerHud.render(partialTick.getGameTimeDeltaPartialTick(true));
+            extraPlayerHud.render(partialTick.getGameTimeDeltaPartialTick(true), guiGraphics);
         }
         // follow convention in LayeredDrawer#renderInternal
         guiGraphics.pose().translate(0, 0, 200);

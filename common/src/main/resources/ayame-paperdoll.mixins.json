@@ -4,9 +4,9 @@
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "client": [
-    "patch.BoatRendererMixin",
-    "patch.ImmediateMixin",
-    "retexture.AbstractAbstractScrollArea",
+    "patch.AbstractBoatRendererMixin",
+    "patch.BufferSourceMixin",
+    "retexture.AbstractAbstractScrollAreaMixin",
     "retexture.AbstractButtonMixin",
     "retexture.AbstractSliderButtonMixin",
     "retexture.EditBoxMixin"

@@ -52,7 +52,7 @@ public class ConfigScreen extends Screen {
     private static final int ENTRY_HEIGHT = 30;
     private static final int LIST_WIDTH_OFFSET = -50;
 
-    private final Screen parent;
+    private final Screen lastScreen;
 
     private final ExtraPlayerHud previewHud;
     private final TabManager tabManager;
@@ -63,7 +63,7 @@ public class ConfigScreen extends Screen {
 
     public ConfigScreen(Screen lastScreen, List<? extends ConfigOption<?>> options) {
         super(Component.nullToEmpty("Config Screen"));
-        this.parent = lastScreen;
+        this.lastScreen = lastScreen;
         this.previewHud = new ExtraPlayerHud(Minecraft.getInstance());
         this.tabManager = new TabManager(this::addRenderableWidget, this::removeWidget);
         this.options = options;
@@ -135,29 +135,32 @@ public class ConfigScreen extends Screen {
         // -1 will become 0 after validation
         AyamePaperDoll.CONFIGS.lastConfigTabIdx.setValue(ArrayUtils.indexOf(tabs, tabManager.getCurrentTab()));
         //noinspection DataFlowIssue
-        this.minecraft.setScreen(this.parent);
+        this.minecraft.setScreen(this.lastScreen);
         AyamePaperDoll.CONFIG_PERSISTENCE.save(AyamePaperDoll.CONFIGS.getOptions());
     }
 
     @Override
     protected void renderBlurredBackground() {
+        if(!AyamePaperDoll.CONFIGS.disableConfigScreenBlur.getValue()){
+            super.renderBlurredBackground();
+        }
     }
 
     @Override
-    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         // only render when the screen is opened in game
         //noinspection DataFlowIssue
         if (this.minecraft.level != null) {
-            this.previewHud.render(this.minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(true));
+            this.previewHud.render(this.minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(true), guiGraphics);
             // put behind GUI
-            context.pose().translate(0, 0, 200);
+            guiGraphics.pose().translate(0, 0, 200);
         }
-        super.render(context, mouseX, mouseY, delta);
+        super.render(guiGraphics, mouseX, mouseY, delta);
     }
 
     @Override
     public boolean isPauseScreen() {
-        return false;
+        return AyamePaperDoll.CONFIGS.pauseGameOnConfigScreen.getValue();
     }
 
     @Override

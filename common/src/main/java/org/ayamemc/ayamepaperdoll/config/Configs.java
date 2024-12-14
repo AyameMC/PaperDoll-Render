@@ -32,7 +32,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-@SuppressWarnings("unused")
 public class Configs {
     public static final ResourceLocation GENERAL_CATEGORY = AyamePaperDoll.path("general");
     public static final ResourceLocation ROTATIONS_CATEGORY = AyamePaperDoll.path("rotations");
@@ -40,6 +39,7 @@ public class Configs {
     public static final ResourceLocation DETAILS_CATEGORY = AyamePaperDoll.path("details");
     public static final ResourceLocation HIDDEN_CATEGORY = AyamePaperDoll.path("hidden");
     public final SimpleOption<Boolean> enabled = new SimpleOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("enabled"), true);
+    public final SimpleOption<RotationUnlock> rotationUnlock = new SimpleOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("rotation_unlock"), RotationUnlock.DISABLED);
     public final SimpleNumericOption<Double> offsetX = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("offset_x"), 0.08, -0.5, 1.5);
     public final SimpleNumericOption<Double> offsetY = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("offset_y"), 0.23, -0.5, 2.5);
     public final SimpleNumericOption<Double> rotationX = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("rotation_x"), -4.96, -180D, 180D);
@@ -47,7 +47,6 @@ public class Configs {
     public final SimpleNumericOption<Double> rotationZ = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("rotation_z"), 0D, -180D, 180D);
     public final SimpleNumericOption<Double> size = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("size"), 0.1, 0D, 2D);
     public final SimpleOption<Boolean> mirrored = new SimpleOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("mirrored"), true);
-    public final SimpleOption<RotationUnlock> rotationUnlock = new SimpleOption<>(POSTURES_CATEGORY, AyamePaperDoll.path("rotation_unlock"), RotationUnlock.DISABLED);
     public final SimpleNumericOption<Double> pitch = new SimpleNumericOption<>(ROTATIONS_CATEGORY, AyamePaperDoll.path("pitch"), 0D, -90D, 90D);
     public final SimpleNumericOption<Double> pitchRange = new SimpleNumericOption<>(ROTATIONS_CATEGORY, AyamePaperDoll.path("pitch_range"), 20D, 0D, 90D);
     public final SimpleNumericOption<Double> headYaw = new SimpleNumericOption<>(ROTATIONS_CATEGORY, AyamePaperDoll.path("head_yaw"), -7.5D, -180D, 180D);
@@ -64,6 +63,8 @@ public class Configs {
     public final SimpleOption<Boolean> useWorldLight = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("use_world_light"), true);
     public final SimpleNumericOption<Integer> worldLightMin = new SimpleNumericOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("world_light_min"), 2, 0, 15);
     public final SimpleOption<Boolean> renderVehicle = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("render_vehicle"), true);
+    public final SimpleOption<Boolean> pauseGameOnConfigScreen = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("pause_game_on_config_screen"), true);
+    public final SimpleOption<Boolean> disableConfigScreenBlur = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("disable_config_screen_blur"), true);
     public final SimpleOption<Boolean> hideUnderDebug = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("hide_under_debug"), true);
     public final SimpleOption<Boolean> hideOnScreenOpen = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("hide_on_screen_open"), false);
     public final SimpleOption<Boolean> spectatorAutoSwitch = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("spectator_auto_switch"), true);
