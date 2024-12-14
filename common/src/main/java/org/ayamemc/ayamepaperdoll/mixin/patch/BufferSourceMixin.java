@@ -26,13 +26,13 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import org.ayamemc.ayamepaperdoll.mixininterface.ImmediateMixinInterface;
+import org.ayamemc.ayamepaperdoll.mixininterface.BufferSourceMixinInterface;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(MultiBufferSource.BufferSource.class)
-public abstract class ImmediateMixin implements ImmediateMixinInterface {
+public abstract class BufferSourceMixin implements BufferSourceMixinInterface {
 
     @Unique
     private boolean ayame_PaperDoll$forceDisableCulling = false;

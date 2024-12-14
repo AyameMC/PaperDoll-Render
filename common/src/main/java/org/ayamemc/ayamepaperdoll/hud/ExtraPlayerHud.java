@@ -26,6 +26,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.LightTexture;
@@ -43,7 +44,7 @@ import net.minecraft.world.level.LightLayer;
 import org.ayamemc.ayamepaperdoll.config.Configs;
 import org.ayamemc.ayamepaperdoll.config.Configs.RotationUnlock;
 import org.ayamemc.ayamepaperdoll.hud.DataBackup.DataBackupEntry;
-import org.ayamemc.ayamepaperdoll.mixininterface.ImmediateMixinInterface;
+import org.ayamemc.ayamepaperdoll.mixininterface.BufferSourceMixinInterface;
 import org.joml.Matrix4fStack;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
@@ -81,7 +82,6 @@ public class ExtraPlayerHud {
     );
 
     private final Minecraft minecraft;
-
     public ExtraPlayerHud(Minecraft minecraft) {
         this.minecraft = minecraft;
     }
@@ -108,11 +108,11 @@ public class ExtraPlayerHud {
     /**
      * Mimics the code in {@link InventoryScreen#renderEntityInInventory}
      */
-    public void render(float partialTicks) {
+    public void render(float partialTicks, GuiGraphics guiGraphics) {
         if (minecraft.level == null || minecraft.player == null || !CONFIGS.enabled.getValue()) return;
         LivingEntity targetEntity = minecraft.level.players().stream().filter(p -> p.getName().getString().equals(CONFIGS.playerName.getValue())).findFirst().orElse(minecraft.player);
         if (CONFIGS.spectatorAutoSwitch.getValue() && minecraft.player.isSpectator()) {
-            Entity cameraEntity = Minecraft.getInstance().getCameraEntity();
+            Entity cameraEntity = minecraft.getCameraEntity();
             if (cameraEntity instanceof LivingEntity livingEntity) {
                 targetEntity = livingEntity;
             } else if (cameraEntity != null) {
@@ -152,7 +152,7 @@ public class ExtraPlayerHud {
                     vehicle.getPosition(partialTicks).subtract(targetEntity.getPosition(partialTicks))
                             .yRot((float) Math.toRadians(yawLerped)).toVector3f(), // undo the rotation
                     CONFIGS.lightDegree.getValue(),
-                    partialTicks);
+                    partialTicks, guiGraphics);
         }
 
 
@@ -163,7 +163,7 @@ public class ExtraPlayerHud {
                 CONFIGS.mirrored.getValue(),
                 new Vector3f(0, (float) getPoseOffsetY(targetEntity, partialTicks, poseOffsetMethod), 0),
                 CONFIGS.lightDegree.getValue(),
-                partialTicks);
+                partialTicks, guiGraphics);
 
         if (vehicleBackup != null) vehicleBackup.restore();
 
@@ -220,27 +220,27 @@ public class ExtraPlayerHud {
         }
 
         // FIXME: NEVERFIX - glitch when the mouse moves too fast, caused by lerping a warped value, it is possibly wrapped in LivingEntity#tick or LivingEntity#turnHead
-        float headLerp = Mth.lerp(partialTicks, targetEntity.yHeadRotO, targetEntity.yHeadRot);
-        double headYaw = CONFIGS.headYaw.getValue(), headYawRange = CONFIGS.headYawRange.getValue();
-        float headClamp = (float) Mth.clamp(headLerp, headYaw - headYawRange, headYaw + headYawRange);
-        float bodyLerp = Mth.lerp(partialTicks, targetEntity.yBodyRotO, targetEntity.yBodyRot);
-        float diff = headLerp - bodyLerp;
+        final float headLerp = Mth.lerp(partialTicks, targetEntity.yHeadRotO, targetEntity.yHeadRot);
+        final double headYaw = CONFIGS.headYaw.getValue(), headYawRange = CONFIGS.headYawRange.getValue();
+        final double bodyYaw = CONFIGS.bodyYaw.getValue(), bodyYawRange = CONFIGS.bodyYawRange.getValue();
+        final double pitch = CONFIGS.pitch.getValue(), pitchRange = CONFIGS.pitchRange.getValue();
+        final float headClamp = (float) Mth.clamp(headLerp, headYaw - headYawRange, headYaw + headYawRange);
+        final float bodyLerp = Mth.lerp(partialTicks, targetEntity.yBodyRotO, targetEntity.yBodyRot);
+        final float diff = headLerp - bodyLerp;
 
         final RotationUnlock rotationUnlock = CONFIGS.rotationUnlock.getValue();
 
-        targetEntity.yHeadRotO = targetEntity.yHeadRot =
-                ((rotationUnlock == RotationUnlock.ALL || rotationUnlock == RotationUnlock.HEAD))
-                        ? targetEntity.yHeadRot
-                        : 180 - headClamp;
+        // 头部锁定
+        if ((rotationUnlock == RotationUnlock.BODY) || (rotationUnlock == RotationUnlock.DISABLED)) {
+            targetEntity.yHeadRot = targetEntity.yHeadRotO = 180 - headClamp;
+        }
+        // 身体锁定
+        if ((rotationUnlock == RotationUnlock.HEAD) || (rotationUnlock == RotationUnlock.DISABLED)) {
+            targetEntity.yBodyRot = targetEntity.yBodyRotO =
+                    180 - (float) Mth.clamp(Mth.wrapDegrees(headClamp - diff), bodyYaw - bodyYawRange, bodyYaw + bodyYawRange);
+        }
 
-        double bodyYaw = CONFIGS.bodyYaw.getValue(), bodyYawRange = CONFIGS.bodyYawRange.getValue();
-
-        targetEntity.yBodyRotO = targetEntity.yBodyRot =
-                ((rotationUnlock == RotationUnlock.ALL || rotationUnlock == RotationUnlock.BODY))
-                        ? targetEntity.yBodyRot
-                        : 180 - (float) Mth.clamp(Mth.wrapDegrees(headClamp - diff), bodyYaw - bodyYawRange, bodyYaw + bodyYawRange);
-
-        double pitch = CONFIGS.pitch.getValue(), pitchRange = CONFIGS.pitchRange.getValue();
+        // 头部俯视角度
         targetEntity.setXRot(targetEntity.xRotO = (float) (Mth.clamp(
                 Mth.lerp(partialTicks, targetEntity.xRotO, targetEntity.getXRot()),
                 -pitchRange, pitchRange)
@@ -262,54 +262,64 @@ public class ExtraPlayerHud {
     }
 
     private void performRendering(Entity targetEntity, double posX, double posY, double size, boolean mirror,
-                                  Vector3f offset, double lightDegree, float partialTicks) {
+                                  Vector3f offset, double lightDegree, float partialTicks, GuiGraphics guiGraphics) {
         EntityRenderDispatcher entityRenderDispatcher = minecraft.getEntityRenderDispatcher();
 
-        Matrix4fStack matrixStack1 = RenderSystem.getModelViewStack();
-        matrixStack1.pushMatrix();
-        matrixStack1.scale(mirror ? -1 : 1, 1, -1);
+        Matrix4fStack modelViewStack = RenderSystem.getModelViewStack();
+        modelViewStack.pushMatrix();
+        modelViewStack.scale(mirror ? -1 : 1, 1, -1);
         // IDK what shit Mojang made but let's add 180 deg to restore the old behavior
-        matrixStack1.rotateY((float) Math.toRadians(lightDegree + 180));
+        modelViewStack.rotateY((float) Math.toRadians(lightDegree + 180));
 
-
-        PoseStack matrixStack2 = new PoseStack();
-        matrixStack2.mulPose(Axis.YP.rotationDegrees(-(float) lightDegree - 180));
-        matrixStack2.translate((mirror ? -1 : 1) * posX, posY, 0);
-        matrixStack2.scale((float) size, (float) size, (float) size);
-        Quaternionf quaternion = new Quaternionf().rotateZ((float) Math.PI);
-        Quaternionf quaternion2 = new Quaternionf()
+        PoseStack poseStack = new PaperDollPoseStack();
+        poseStack.mulPose(Axis.YP.rotationDegrees(-(float) lightDegree - 180));
+        poseStack.translate((mirror ? -1 : 1) * posX, posY, 0);
+        poseStack.scale((float) size, (float) size, (float) size);
+        Quaternionf zRot = new Quaternionf().rotateZ((float) Math.PI);
+        Quaternionf xyzRot = new Quaternionf()
                 .rotateXYZ((float) Math.toRadians(CONFIGS.rotationX.getValue()),
                         (float) Math.toRadians(CONFIGS.rotationY.getValue()),
                         (float) Math.toRadians(CONFIGS.rotationZ.getValue()));
 
-        quaternion.mul(quaternion2);
-        matrixStack2.mulPose(quaternion);
+        zRot.mul(xyzRot);
+        poseStack.mulPose(zRot);
 
         if (targetEntity instanceof Boat) {
-            matrixStack2.mulPose(new Quaternionf().rotateY((float) Math.toRadians(180)));
+            poseStack.mulPose(new Quaternionf().rotateY((float) Math.toRadians(180)));
         }
 
-        Lighting.setupForEntityInInventory();
-        quaternion2.conjugate();
 
-        entityRenderDispatcher.overrideCameraOrientation(quaternion2);
+        Lighting.setupForEntityInInventory();
+        xyzRot.conjugate();
+
+        entityRenderDispatcher.overrideCameraOrientation(xyzRot);
         boolean renderHitbox = entityRenderDispatcher.shouldRenderHitBoxes();
         entityRenderDispatcher.setRenderHitBoxes(false);
         entityRenderDispatcher.setRenderShadow(false);
+        MultiBufferSource.BufferSource bufferSource = minecraft.renderBuffers().bufferSource();
 
-        MultiBufferSource.BufferSource immediate = Minecraft.getInstance().renderBuffers().bufferSource();
-        entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, partialTicks, matrixStack2, immediate, getLight(targetEntity, partialTicks));
+        // TODO: 修复矿车锁定旋转时不被锁定的问题
+        guiGraphics.drawSpecial(multiBufferSource ->
+                entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, partialTicks, poseStack, bufferSource, getLight(targetEntity, partialTicks)));
+
         // disable cull to fix item rendering glitches when mirror option is on
-        ImmediateMixinInterface immediateMixined = (ImmediateMixinInterface) immediate;
-        immediateMixined.ayame_PaperDoll$setForceDisableCulling(mirror);
-        immediate.endBatch();
-        immediateMixined.ayame_PaperDoll$setForceDisableCulling(false);
+        BufferSourceMixinInterface mixinedBufferSource = (BufferSourceMixinInterface) bufferSource;
+        mixinedBufferSource.ayame_PaperDoll$setForceDisableCulling(mirror);
+        bufferSource.endBatch();
+        mixinedBufferSource.ayame_PaperDoll$setForceDisableCulling(false);
 
         // do not need to restore this value in fact
         entityRenderDispatcher.setRenderShadow(true);
         entityRenderDispatcher.setRenderHitBoxes(renderHitbox);
 
-        matrixStack1.popMatrix();
+        modelViewStack.popMatrix();
         Lighting.setupFor3DItems();
     }
+    public static boolean shouldLockRotationYaw() {
+        final RotationUnlock rotationUnlock = CONFIGS.rotationUnlock.getValue();
+        return (rotationUnlock == RotationUnlock.HEAD || rotationUnlock == RotationUnlock.DISABLED);
+
+    }
+
+    public static class PaperDollPoseStack extends PoseStack {}
 }

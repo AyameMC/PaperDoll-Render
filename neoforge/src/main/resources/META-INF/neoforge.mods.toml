@@ -29,7 +29,7 @@ updateJSONURL = "https://api.modrinth.com/updates/ayame-paperdoll/forge_updates.
 [[dependencies.ayame_paperdoll]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.3.57,)"
+versionRange = "[21.3.58,)"
 ordering = "NONE"
 side = "CLIENT"
 

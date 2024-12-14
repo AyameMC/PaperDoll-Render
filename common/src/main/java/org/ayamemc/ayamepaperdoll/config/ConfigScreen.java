@@ -141,23 +141,26 @@ public class ConfigScreen extends Screen {
 
     @Override
     protected void renderBlurredBackground() {
+        if(!AyamePaperDoll.CONFIGS.disableConfigScreenBlur.getValue()){
+            super.renderBlurredBackground();
+        }
     }
 
     @Override
-    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         // only render when the screen is opened in game
         //noinspection DataFlowIssue
         if (this.minecraft.level != null) {
-            this.previewHud.render(this.minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(true));
+            this.previewHud.render(this.minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(true), guiGraphics);
             // put behind GUI
-            context.pose().translate(0, 0, 200);
+            guiGraphics.pose().translate(0, 0, 200);
         }
-        super.render(context, mouseX, mouseY, delta);
+        super.render(guiGraphics, mouseX, mouseY, delta);
     }
 
     @Override
     public boolean isPauseScreen() {
-        return false;
+        return AyamePaperDoll.CONFIGS.pauseGameOnConfigScreen.getValue();
     }
 
     @Override
