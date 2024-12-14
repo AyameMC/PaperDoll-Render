@@ -52,7 +52,7 @@ public class ConfigScreen extends Screen {
     private static final int ENTRY_HEIGHT = 30;
     private static final int LIST_WIDTH_OFFSET = -50;
 
-    private final Screen parent;
+    private final Screen lastScreen;
 
     private final ExtraPlayerHud previewHud;
     private final TabManager tabManager;
@@ -63,7 +63,7 @@ public class ConfigScreen extends Screen {
 
     public ConfigScreen(Screen lastScreen, List<? extends ConfigOption<?>> options) {
         super(Component.nullToEmpty("Config Screen"));
-        this.parent = lastScreen;
+        this.lastScreen = lastScreen;
         this.previewHud = new ExtraPlayerHud(Minecraft.getInstance());
         this.tabManager = new TabManager(this::addRenderableWidget, this::removeWidget);
         this.options = options;
@@ -135,7 +135,7 @@ public class ConfigScreen extends Screen {
         // -1 will become 0 after validation
         AyamePaperDoll.CONFIGS.lastConfigTabIdx.setValue(ArrayUtils.indexOf(tabs, tabManager.getCurrentTab()));
         //noinspection DataFlowIssue
-        this.minecraft.setScreen(this.parent);
+        this.minecraft.setScreen(this.lastScreen);
         AyamePaperDoll.CONFIG_PERSISTENCE.save(AyamePaperDoll.CONFIGS.getOptions());
     }
 
