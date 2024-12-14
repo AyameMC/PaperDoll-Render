@@ -38,8 +38,8 @@ public class EventHandler {
     public static void renderPaperDoll(GuiGraphics guiGraphics, DeltaTracker partialTick) {
         if (
                 !minecraft.options.hideGui &&
-                        !(AyamePaperDoll.CONFIGS.hideUnderDebug.getValue() && minecraft.getDebugOverlay().showDebugScreen())
-                        && (minecraft.screen == null || !CONFIGS.hideOnScreenOpen.getValue())
+                !(AyamePaperDoll.CONFIGS.hideUnderDebug.getValue() && minecraft.getDebugOverlay().showDebugScreen())
+                && (minecraft.screen == null || !CONFIGS.hideOnScreenOpen.getValue())
         ) {
             extraPlayerHud.render(partialTick.getGameTimeDeltaPartialTick(true));
         }

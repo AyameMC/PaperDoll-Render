@@ -38,13 +38,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
-import net.minecraft.world.entity.vehicle.Minecart;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import org.ayamemc.ayamepaperdoll.config.Configs;
 import org.ayamemc.ayamepaperdoll.config.Configs.RotationUnlock;
 import org.ayamemc.ayamepaperdoll.hud.DataBackup.DataBackupEntry;
-import org.ayamemc.ayamepaperdoll.mixininterface.ImmediateMixinInterface;
+import org.ayamemc.ayamepaperdoll.mixininterface.BufferSourceMixinInterface;
 import org.joml.Matrix4fStack;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
@@ -287,7 +286,7 @@ public class ExtraPlayerHud {
         zRot.mul(xyzRot);
         poseStack.mulPose(zRot);
 
-        if (targetEntity instanceof Boat || targetEntity instanceof Minecart) {
+        if (targetEntity instanceof Boat) {
             poseStack.mulPose(new Quaternionf().rotateY((float) Math.toRadians(180)));
         }
 
@@ -298,7 +297,6 @@ public class ExtraPlayerHud {
         boolean renderHitbox = entityRenderDispatcher.shouldRenderHitBoxes();
         entityRenderDispatcher.setRenderHitBoxes(false);
         entityRenderDispatcher.setRenderShadow(false);
-
         MultiBufferSource.BufferSource bufferSource = minecraft.renderBuffers().bufferSource();
 
         final RotationUnlock rotationUnlock = CONFIGS.rotationUnlock.getValue();
@@ -309,7 +307,7 @@ public class ExtraPlayerHud {
                 entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, rotationYaw, partialTicks, poseStack, bufferSource, getLight(targetEntity, partialTicks))
         );
         // disable cull to fix item rendering glitches when mirror option is on
-        ImmediateMixinInterface mixinedBufferSource = (ImmediateMixinInterface) bufferSource;
+        BufferSourceMixinInterface mixinedBufferSource = (BufferSourceMixinInterface) bufferSource;
         mixinedBufferSource.ayame_PaperDoll$setForceDisableCulling(mirror);
         bufferSource.endBatch();
         mixinedBufferSource.ayame_PaperDoll$setForceDisableCulling(false);
