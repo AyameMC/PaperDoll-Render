@@ -20,7 +20,6 @@
 
 package org.ayamemc.ayamepaperdoll.config;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
@@ -39,7 +38,7 @@ import org.ayamemc.ayamepaperdoll.CommonInterfaceInstances;
 import org.ayamemc.ayamepaperdoll.config.model.ConfigOption;
 import org.ayamemc.ayamepaperdoll.config.view.ListWidget;
 import org.ayamemc.ayamepaperdoll.config.view.Tab;
-import org.ayamemc.ayamepaperdoll.hud.ExtraPlayerHud;
+import org.ayamemc.ayamepaperdoll.hud.PaperDollRenderer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -54,7 +53,7 @@ public class ConfigScreen extends Screen {
 
     private final Screen lastScreen;
 
-    private final ExtraPlayerHud previewHud;
+    private final PaperDollRenderer previewHud;
     private final TabManager tabManager;
     private final List<ListWidget> listWidgets;
     private final List<? extends ConfigOption<?>> options;
@@ -64,7 +63,7 @@ public class ConfigScreen extends Screen {
     public ConfigScreen(Screen lastScreen, List<? extends ConfigOption<?>> options) {
         super(Component.nullToEmpty("Config Screen"));
         this.lastScreen = lastScreen;
-        this.previewHud = new ExtraPlayerHud(Minecraft.getInstance());
+        this.previewHud = PaperDollRenderer.getInstance();
         this.tabManager = new TabManager(this::addRenderableWidget, this::removeWidget);
         this.options = options;
         this.listWidgets = new ArrayList<>();

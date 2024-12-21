@@ -26,13 +26,13 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import org.ayamemc.ayamepaperdoll.AyamePaperDoll;
 import org.ayamemc.ayamepaperdoll.config.ConfigScreen;
-import org.ayamemc.ayamepaperdoll.hud.ExtraPlayerHud;
+import org.ayamemc.ayamepaperdoll.hud.PaperDollRenderer;
 
 import static org.ayamemc.ayamepaperdoll.AyamePaperDoll.CONFIGS;
 
 public class EventHandler {
     private static final Minecraft minecraft = Minecraft.getInstance();
-    private static final ExtraPlayerHud extraPlayerHud = new ExtraPlayerHud(minecraft);
+    private static final PaperDollRenderer paperDollRenderer = PaperDollRenderer.getInstance();
     public static Screen lastScreen;
 
     public static void renderPaperDoll(GuiGraphics guiGraphics, DeltaTracker partialTick) {
@@ -43,7 +43,7 @@ public class EventHandler {
                         !(minecraft.screen instanceof ConfigScreen)
 
         ) {
-            extraPlayerHud.render(partialTick.getGameTimeDeltaPartialTick(true));
+            paperDollRenderer.render(partialTick.getGameTimeDeltaPartialTick(true));
         }
         // follow convention in LayeredDrawer#renderInternal
         guiGraphics.pose().translate(0, 0, 200);
