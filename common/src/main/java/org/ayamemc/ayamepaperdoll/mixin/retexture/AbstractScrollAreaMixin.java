@@ -33,7 +33,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import java.util.function.Function;
 
 @Mixin(AbstractScrollArea.class)
-public abstract class AbstractAbstractScrollAreaMixin {
+public abstract class AbstractScrollAreaMixin {
     /**
      * This is an incomplete implementation. The background and separator/header/footer are untouched.
      */
