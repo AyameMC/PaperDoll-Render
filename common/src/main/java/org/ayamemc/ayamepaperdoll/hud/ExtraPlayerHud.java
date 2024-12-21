@@ -227,7 +227,8 @@ public class ExtraPlayerHud {
         final float headClamp = (float) Mth.clamp(headLerp, headYaw - headYawRange, headYaw + headYawRange);
         final float bodyLerp = Mth.lerp(partialTicks, targetEntity.yBodyRotO, targetEntity.yBodyRot);
         final float diff = headLerp - bodyLerp;
-
+        final float bodyClamp = (float) Mth.clamp(Mth.wrapDegrees(headClamp - diff), bodyYaw - bodyYawRange, bodyYaw + bodyYawRange);
+        final float pitchClamp = (float) (Mth.clamp(Mth.lerp(partialTicks, targetEntity.xRotO, targetEntity.getXRot()), -pitchRange, pitchRange) + pitch);
         final RotationUnlock rotationUnlock = CONFIGS.rotationUnlock.getValue();
 
         // 头部锁定
@@ -236,16 +237,12 @@ public class ExtraPlayerHud {
         }
         // 身体锁定
         if ((rotationUnlock == RotationUnlock.HEAD) || (rotationUnlock == RotationUnlock.DISABLED)) {
-            targetEntity.yBodyRot = targetEntity.yBodyRotO =
-                    180 - (float) Mth.clamp(Mth.wrapDegrees(headClamp - diff), bodyYaw - bodyYawRange, bodyYaw + bodyYawRange);
+            targetEntity.yBodyRot = targetEntity.yBodyRotO = 180 - bodyClamp;
         }
 
         // 头部俯视角度
-        targetEntity.setXRot(targetEntity.xRotO = (float) (Mth.clamp(
-                Mth.lerp(partialTicks, targetEntity.xRotO, targetEntity.getXRot()),
-                -pitchRange, pitchRange)
-                + pitch)
-        );
+        targetEntity.setXRot(targetEntity.xRotO = pitchClamp);
+
 
         if (!CONFIGS.swingHands.getValue()) {
             targetEntity.attackAnim = 0;
