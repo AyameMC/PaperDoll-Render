@@ -24,7 +24,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.AbstractBoatRenderer;
 import net.minecraft.client.renderer.entity.state.BoatRenderState;
-import org.ayamemc.ayamepaperdoll.hud.ExtraPlayerHud;
+import org.ayamemc.ayamepaperdoll.hud.PaperDollRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -34,7 +34,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class AbstractBoatRendererMixin {
     @Inject(method = "render(Lnet/minecraft/client/renderer/entity/state/BoatRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At("HEAD"))
     private void modifyRotationYaw(BoatRenderState renderState, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, CallbackInfo ci) {
-        if(ExtraPlayerHud.shouldLockRotationYaw() && poseStack instanceof ExtraPlayerHud.PaperDollPoseStack) {
+        if(PaperDollRenderer.shouldLockRotationYaw() && poseStack instanceof PaperDollRenderer.PaperDollPoseStack) {
             renderState.yRot = 0.0F;
         }
     }

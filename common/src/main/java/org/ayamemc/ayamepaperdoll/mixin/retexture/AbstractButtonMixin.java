@@ -33,7 +33,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import java.util.function.Function;
 
 @Mixin(AbstractButton.class)
-public class AbstractButtonMixin {
+public abstract class AbstractButtonMixin {
     @WrapOperation(method = "renderWidget", at = {
             @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIIII)V")
     })

@@ -33,7 +33,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import java.util.function.Function;
 
 @Mixin(AbstractSelectionList.class)
-public class AbstractSelectionListMixin {
+public abstract class AbstractSelectionListMixin {
     /**
      * This is an incomplete implementation. The background and separator/header/footer are untouched.
      */

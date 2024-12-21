@@ -42,7 +42,7 @@ import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import org.ayamemc.ayamepaperdoll.config.Configs;
-import org.ayamemc.ayamepaperdoll.config.Configs.RotationUnlock;
+import org.ayamemc.ayamepaperdoll.config.Configs.RotationMode;
 import org.ayamemc.ayamepaperdoll.hud.DataBackup.DataBackupEntry;
 import org.ayamemc.ayamepaperdoll.mixininterface.BufferSourceMixinInterface;
 import org.joml.Matrix4fStack;
@@ -53,7 +53,7 @@ import java.util.List;
 
 import static org.ayamemc.ayamepaperdoll.AyamePaperDoll.CONFIGS;
 
-public class ExtraPlayerHud {
+public class PaperDollRenderer {
     private static final List<DataBackupEntry<LivingEntity, ?>> LIVINGENTITY_BACKUP_ENTRIES = ImmutableList.of(
             new DataBackupEntry<>(LivingEntity::getPose, LivingEntity::setPose),
             // required for player on client side
@@ -81,10 +81,15 @@ public class ExtraPlayerHud {
             new DataBackupEntry<>(e -> e.getSharedFlag(0), (e, flag) -> e.setSharedFlag(0, flag)) // on fire
     );
 
-    private final Minecraft minecraft;
-    public ExtraPlayerHud(Minecraft minecraft) {
-        this.minecraft = minecraft;
+    private final Minecraft minecraft = Minecraft.getInstance();
+
+    private PaperDollRenderer() {
     }
+
+    public static PaperDollRenderer getInstance() {
+        return new PaperDollRenderer();
+    }
+
 
     @SuppressWarnings("resource")
     private static int getLight(Entity entity, float tickDelta) {
@@ -229,14 +234,14 @@ public class ExtraPlayerHud {
         final float diff = headLerp - bodyLerp;
         final float bodyClamp = (float) Mth.clamp(Mth.wrapDegrees(headClamp - diff), bodyYaw - bodyYawRange, bodyYaw + bodyYawRange);
         final float pitchClamp = (float) (Mth.clamp(Mth.lerp(partialTicks, targetEntity.xRotO, targetEntity.getXRot()), -pitchRange, pitchRange) + pitch);
-        final RotationUnlock rotationUnlock = CONFIGS.rotationUnlock.getValue();
+        final RotationMode rotationMode = CONFIGS.rotationMode.getValue();
 
         // 头部锁定
-        if ((rotationUnlock == RotationUnlock.BODY) || (rotationUnlock == RotationUnlock.DISABLED)) {
+        if (rotationMode == RotationMode.LOCK) {
             targetEntity.yHeadRot = targetEntity.yHeadRotO = 180 - headClamp;
         }
         // 身体锁定
-        if ((rotationUnlock == RotationUnlock.HEAD) || (rotationUnlock == RotationUnlock.DISABLED)) {
+        if (rotationMode == RotationMode.LOCK) {
             targetEntity.yBodyRot = targetEntity.yBodyRotO = 180 - bodyClamp;
         }
 
@@ -313,8 +318,8 @@ public class ExtraPlayerHud {
         Lighting.setupFor3DItems();
     }
     public static boolean shouldLockRotationYaw() {
-        final RotationUnlock rotationUnlock = CONFIGS.rotationUnlock.getValue();
-        return (rotationUnlock == RotationUnlock.HEAD || rotationUnlock == RotationUnlock.DISABLED);
+        final RotationMode rotationUnlock = CONFIGS.rotationMode.getValue();
+        return rotationUnlock == RotationMode.LOCK;
 
     }
 
