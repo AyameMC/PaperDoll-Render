@@ -27,7 +27,7 @@ import org.ayamemc.ayamepaperdoll.hud.PaperDollRenderer;
 
 public class VisualConfigEditorScreen extends Screen {
     private final Screen lastScreen;
-    private final PaperDollRenderer renderer = PaperDollRenderer.getInstance();
+    private final PaperDollRenderer paperDollRenderer = PaperDollRenderer.getInstance();
     protected VisualConfigEditorScreen(Screen lastScreen) {
         super(Component.empty());
         this.lastScreen = lastScreen;
@@ -35,8 +35,8 @@ public class VisualConfigEditorScreen extends Screen {
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        paperDollRenderer.render(partialTick, guiGraphics);
         super.render(guiGraphics, mouseX, mouseY, partialTick);
-        renderer.render(partialTick, guiGraphics);
     }
 
 

@@ -26,6 +26,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import org.ayamemc.ayamepaperdoll.AyamePaperDoll;
 import org.ayamemc.ayamepaperdoll.config.ConfigScreen;
+import org.ayamemc.ayamepaperdoll.config.VisualConfigEditorScreen;
 import org.ayamemc.ayamepaperdoll.hud.PaperDollRenderer;
 
 import static org.ayamemc.ayamepaperdoll.AyamePaperDoll.CONFIGS;
@@ -40,7 +41,8 @@ public class EventHandler {
                 !minecraft.options.hideGui &&
                         !(AyamePaperDoll.CONFIGS.hideUnderDebug.getValue() && minecraft.getDebugOverlay().showDebugScreen()) &&
                         (minecraft.screen == null || !CONFIGS.hideOnScreenOpen.getValue()) &&
-                        !(minecraft.screen instanceof ConfigScreen)
+                        !(minecraft.screen instanceof ConfigScreen) &&
+                        !(minecraft.screen instanceof VisualConfigEditorScreen)
 
         ) {
             paperDollRenderer.render(partialTick.getGameTimeDeltaPartialTick(true), guiGraphics);
