@@ -108,8 +108,11 @@ public class ConfigScreen extends Screen {
             }
             categoryLists.get(category).addEntry(configEntryOptioal.get());
 
-            if (option.getId().equals(AyamePaperDoll.path("enabled"))) {
+            if (option.getId().equals(AyamePaperDoll.path("display_paperdoll"))) {
                 categoryLists.get(category).addEntry(this.getPresetsConfigEntry());
+            }
+            if(option.getId().equals(AyamePaperDoll.path("display_paperdoll"))) {
+                categoryLists.get(category).addEntry(this.getVisualConfigEditorLabelEntry());
             }
         }
 
@@ -140,7 +143,7 @@ public class ConfigScreen extends Screen {
 
     @Override
     protected void renderBlurredBackground() {
-        if(!AyamePaperDoll.CONFIGS.disableConfigScreenBlur.getValue()){
+        if (!AyamePaperDoll.CONFIGS.disableConfigScreenBlur.getValue()) {
             super.renderBlurredBackground();
         }
     }
@@ -205,9 +208,47 @@ public class ConfigScreen extends Screen {
         };
     }
 
-    private Component getPresetText(String id) {
-        return Component.translatable("config.%s.presets.%s".formatted(AyamePaperDoll.MOD_ID, id));
+    @SuppressWarnings("DataFlowIssue")
+    private ListWidget.ListEntry getVisualConfigEditorLabelEntry() {
+        final int buttonWidth = 140, gap = 10, buttonHeight = 20;
+
+        var visualConfigEditorButton = new ConfigWidgetRegistry.ConfigButton(buttonWidth, buttonHeight, getButtonText("visual_config_editor"),
+                (button) -> minecraft.setScreen(new VisualConfigEditorScreen(lastScreen)));
+        if(minecraft.level == null) {
+            visualConfigEditorButton.active = false;
+            visualConfigEditorButton.setTooltip(Tooltip.create(Component.translatable("config.%s.option.visual_config_editor.desc".formatted(AyamePaperDoll.MOD_ID))));
+        }
+
+        var children = List.of(visualConfigEditorButton);
+        return new ListWidget.ListEntry() {
+            @Override
+            public @NotNull List<? extends NarratableEntry> narratables() {
+                return children;
+            }
+
+            @Override
+            public @NotNull List<? extends GuiEventListener> children() {
+                return children;
+            }
+
+            @Override
+            public void render(GuiGraphics context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+                visualConfigEditorButton.setPosition((x + entryWidth - buttonWidth) / 2, y);
+
+                for (AbstractWidget child : children) child.render(context, mouseX, mouseY, tickDelta);
+            }
+        };
     }
+
+    private Component getPresetText(String text) {
+        return Component.translatable("config.%s.presets.%s".formatted(AyamePaperDoll.MOD_ID, text));
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    private Component getButtonText(String text) {
+        return Component.translatable("config.%s.button.%s".formatted(AyamePaperDoll.MOD_ID, text));
+    }
+
 
     private Button.OnPress getPresetPressAction(Configs.Presets presets) {
         return ignored -> {

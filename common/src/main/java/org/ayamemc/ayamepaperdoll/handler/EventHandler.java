@@ -51,7 +51,7 @@ public class EventHandler {
 
     public static void keyPressed() {
         while (AyamePaperDoll.SHOW_PAPERDOLL_KEY.consumeClick()) {
-            CONFIGS.enabled.setValue(!CONFIGS.enabled.getValue());
+            CONFIGS.displayPaperDoll.setValue(!CONFIGS.displayPaperDoll.getValue());
         }
         while (AyamePaperDoll.OPEN_CONFIG_GUI.consumeClick()) {
             minecraft.setScreen(new ConfigScreen(lastScreen, AyamePaperDoll.CONFIGS.getOptions()));

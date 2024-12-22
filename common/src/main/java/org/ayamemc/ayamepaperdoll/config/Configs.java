@@ -38,7 +38,7 @@ public class Configs {
     public static final ResourceLocation POSTURES_CATEGORY = AyamePaperDoll.path("postures");
     public static final ResourceLocation DETAILS_CATEGORY = AyamePaperDoll.path("details");
     public static final ResourceLocation HIDDEN_CATEGORY = AyamePaperDoll.path("hidden");
-    public final SimpleOption<Boolean> enabled = new SimpleOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("enabled"), true);
+    public final SimpleOption<Boolean> displayPaperDoll = new SimpleOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("display_paperdoll"), true);
     public final SimpleOption<RotationMode> rotationMode = new SimpleOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("rotation_mode"), RotationMode.LOCK);
     public final SimpleNumericOption<Double> offsetX = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("offset_x"), 0.08, -0.5, 1.5);
     public final SimpleNumericOption<Double> offsetY = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("offset_y"), 0.23, -0.5, 2.5);

@@ -114,7 +114,7 @@ public class PaperDollRenderer {
      * Mimics the code in {@link InventoryScreen#renderEntityInInventory}
      */
     public void render(float partialTicks, GuiGraphics guiGraphics) {
-        if (minecraft.level == null || minecraft.player == null || !CONFIGS.enabled.getValue()) return;
+        if (minecraft.level == null || minecraft.player == null || !CONFIGS.displayPaperDoll.getValue()) return;
         LivingEntity targetEntity = minecraft.level.players().stream().filter(p -> p.getName().getString().equals(CONFIGS.playerName.getValue())).findFirst().orElse(minecraft.player);
         if (CONFIGS.spectatorAutoSwitch.getValue() && minecraft.player.isSpectator()) {
             Entity cameraEntity = minecraft.getCameraEntity();
