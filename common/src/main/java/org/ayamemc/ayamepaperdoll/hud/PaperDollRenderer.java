@@ -82,12 +82,13 @@ public class PaperDollRenderer {
     );
 
     private final Minecraft minecraft = Minecraft.getInstance();
+    private static final PaperDollRenderer instance = new PaperDollRenderer();
 
     private PaperDollRenderer() {
     }
 
     public static PaperDollRenderer getInstance() {
-        return new PaperDollRenderer();
+        return instance;
     }
 
 

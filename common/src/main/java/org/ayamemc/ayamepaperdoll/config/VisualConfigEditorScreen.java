@@ -24,29 +24,58 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import org.ayamemc.ayamepaperdoll.hud.PaperDollRenderer;
+import org.lwjgl.glfw.GLFW;
+
+import static org.ayamemc.ayamepaperdoll.AyamePaperDoll.CONFIGS;
 
 public class VisualConfigEditorScreen extends Screen {
     private final Screen lastScreen;
     private final PaperDollRenderer paperDollRenderer = PaperDollRenderer.getInstance();
+
     protected VisualConfigEditorScreen(Screen lastScreen) {
         super(Component.empty());
         this.lastScreen = lastScreen;
     }
 
+
+    @SuppressWarnings("DataFlowIssue")
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        if (minecraft.level != null) {
+            this.renderBlurredBackground();
+        }
         paperDollRenderer.render(partialTick, guiGraphics);
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
     }
 
 
+    @SuppressWarnings("DataFlowIssue")
     @Override
     public void onClose() {
-        //noinspection DataFlowIssue
         this.minecraft.setScreen(lastScreen);
     }
 
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+        boolean onDrag = false;
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+            CONFIGS.offsetX.setValue(CONFIGS.offsetX.getValue() + (deltaX * 0.001));
+            CONFIGS.offsetY.setValue(CONFIGS.offsetY.getValue() + (deltaY * 0.001));
+            onDrag = true;
+        }
+        if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
+            CONFIGS.rotationY.setValue(CONFIGS.rotationY.getValue() + deltaX);
+            onDrag = true;
+        }
+        return onDrag;
+    }
 
-
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        if (scrollY != 0) {
+            CONFIGS.size.setValue(CONFIGS.size.getValue() + (scrollY / 80));
+            return true;
+        }
+        return false;
+    }
 
 }

@@ -141,9 +141,10 @@ public class ConfigScreen extends Screen {
         AyamePaperDoll.CONFIG_PERSISTENCE.save(AyamePaperDoll.CONFIGS.getOptions());
     }
 
+    @SuppressWarnings("DataFlowIssue")
     @Override
     protected void renderBlurredBackground() {
-        if (!AyamePaperDoll.CONFIGS.disableConfigScreenBlur.getValue()) {
+        if (minecraft.level == null || !AyamePaperDoll.CONFIGS.disableConfigScreenBlur.getValue()) {
             super.renderBlurredBackground();
         }
     }
