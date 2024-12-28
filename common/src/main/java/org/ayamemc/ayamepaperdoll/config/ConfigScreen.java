@@ -214,7 +214,7 @@ public class ConfigScreen extends Screen {
         final int buttonWidth = 140, gap = 10, buttonHeight = 20;
 
         var visualConfigEditorButton = new ConfigWidgetRegistry.ConfigButton(buttonWidth, buttonHeight, getButtonText("visual_config_editor"),
-                (button) -> minecraft.setScreen(new VisualConfigEditorScreen(lastScreen)));
+                (button) -> minecraft.setScreen(new VisualConfigEditorScreen(this)));
         if(minecraft.level == null) {
             visualConfigEditorButton.active = false;
             visualConfigEditorButton.setTooltip(Tooltip.create(Component.translatable("config.%s.option.visual_config_editor.desc".formatted(AyamePaperDoll.MOD_ID))));

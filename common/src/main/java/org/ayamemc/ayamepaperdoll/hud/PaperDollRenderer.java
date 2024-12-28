@@ -49,6 +49,7 @@ import org.joml.Matrix4fStack;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 import static org.ayamemc.ayamepaperdoll.AyamePaperDoll.CONFIGS;
@@ -264,8 +265,21 @@ public class PaperDollRenderer {
         targetEntity.setSharedFlag(0, false);
     }
 
+    private Rectangle2D.Double currentRenderBounds;
+
     private void performRendering(Entity targetEntity, double posX, double posY, double size, boolean mirror,
                                   Vector3f offset, double lightDegree, float partialTicks, GuiGraphics guiGraphics) {
+        // 保存当前渲染区域
+        double startX = posX - size / 2.0; // 中心点减去一半的尺寸
+        double startY = posY - size;
+        double width = size;
+        double height = size;
+
+        // 修正偏移
+        startX += offset.x;
+        startY += offset.y;
+        this.currentRenderBounds = new Rectangle2D.Double(startX, startY, width, height);
+
         EntityRenderDispatcher entityRenderDispatcher = minecraft.getEntityRenderDispatcher();
 
         Matrix4fStack modelViewStack = RenderSystem.getModelViewStack();
@@ -318,11 +332,17 @@ public class PaperDollRenderer {
         modelViewStack.popMatrix();
         Lighting.setupFor3DItems();
     }
+
+    public Rectangle2D.Double getRenderBounds() {
+        return this.currentRenderBounds;
+    }
+
     public static boolean shouldLockRotationYaw() {
         final RotationMode rotationUnlock = CONFIGS.rotationMode.getValue();
         return rotationUnlock == RotationMode.LOCK;
 
     }
 
-    public static class PaperDollPoseStack extends PoseStack {}
+    public static class PaperDollPoseStack extends PoseStack {
+    }
 }
