@@ -1,6 +1,6 @@
 /*
  *     Highly configurable PaperDoll mod. Forked from Extra Player Renderer.
- *     Copyright (C) 2024  LucunJi(Original author), HappyRespawnanchor
+ *     Copyright (C) 2024-2025  LucunJi(Original author), HappyRespawnanchor
  *
  *     This file is part of Ayame PaperDoll.
  *
@@ -32,11 +32,10 @@ import java.awt.geom.Rectangle2D;
 import static org.ayamemc.ayamepaperdoll.AyamePaperDoll.CONFIGS;
 
 public class VisualConfigEditorScreen extends Screen {
-    private final Screen lastScreen;
-    private final PaperDollRenderer paperDollRenderer = PaperDollRenderer.getInstance();
-
     private static final int LINE_COLOR = 0xA6_FFFFFF;
     private static final int BORDER_MARGIN = 10;
+    private final Screen lastScreen;
+    private final PaperDollRenderer paperDollRenderer = PaperDollRenderer.getInstance();
 
     protected VisualConfigEditorScreen(Screen lastScreen) {
         super(Component.empty());

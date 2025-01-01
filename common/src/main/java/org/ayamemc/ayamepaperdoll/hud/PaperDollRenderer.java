@@ -1,6 +1,6 @@
 /*
  *     Highly configurable PaperDoll mod. Forked from Extra Player Renderer.
- *     Copyright (C) 2024  LucunJi(Original author), HappyRespawnanchor
+ *     Copyright (C) 2024-2025  LucunJi(Original author), HappyRespawnanchor
  *
  *     This file is part of Ayame PaperDoll.
  *
@@ -81,9 +81,9 @@ public class PaperDollRenderer {
             new DataBackupEntry<>(LivingEntity::getRemainingFireTicks, LivingEntity::setRemainingFireTicks),
             new DataBackupEntry<>(e -> e.getSharedFlag(0), (e, flag) -> e.setSharedFlag(0, flag)) // on fire
     );
-
-    private final Minecraft minecraft = Minecraft.getInstance();
     private static final PaperDollRenderer instance = new PaperDollRenderer();
+    private final Minecraft minecraft = Minecraft.getInstance();
+    private Rectangle2D.Double currentRenderBounds;
 
     private PaperDollRenderer() {
     }
@@ -91,7 +91,6 @@ public class PaperDollRenderer {
     public static PaperDollRenderer getInstance() {
         return instance;
     }
-
 
     @SuppressWarnings("resource")
     private static int getLight(Entity entity, float tickDelta) {
@@ -110,6 +109,12 @@ public class PaperDollRenderer {
     private static float getFallFlyingLeaning(LivingEntity entity, float partialTicks) {
         float ticks = partialTicks + entity.getFallFlyingTicks();
         return Mth.clamp(ticks * ticks / 100f, 0f, 1f);
+    }
+
+    public static boolean shouldLockRotationYaw() {
+        final RotationMode rotationUnlock = CONFIGS.rotationMode.getValue();
+        return rotationUnlock == RotationMode.LOCK;
+
     }
 
     /**
@@ -265,8 +270,6 @@ public class PaperDollRenderer {
         targetEntity.setSharedFlag(0, false);
     }
 
-    private Rectangle2D.Double currentRenderBounds;
-
     private void performRendering(Entity targetEntity, double posX, double posY, double size, boolean mirror,
                                   Vector3f offset, double lightDegree, float partialTicks, GuiGraphics guiGraphics) {
         // 保存当前渲染区域
@@ -335,12 +338,6 @@ public class PaperDollRenderer {
 
     public Rectangle2D.Double getRenderBounds() {
         return this.currentRenderBounds;
-    }
-
-    public static boolean shouldLockRotationYaw() {
-        final RotationMode rotationUnlock = CONFIGS.rotationMode.getValue();
-        return rotationUnlock == RotationMode.LOCK;
-
     }
 
     public static class PaperDollPoseStack extends PoseStack {

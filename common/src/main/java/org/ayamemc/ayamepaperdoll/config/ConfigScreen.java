@@ -1,6 +1,6 @@
 /*
  *     Highly configurable PaperDoll mod. Forked from Extra Player Renderer.
- *     Copyright (C) 2024  LucunJi(Original author), HappyRespawnanchor
+ *     Copyright (C) 2024-2025  LucunJi(Original author), HappyRespawnanchor
  *
  *     This file is part of Ayame PaperDoll.
  *
@@ -111,7 +111,7 @@ public class ConfigScreen extends Screen {
             if (option.getId().equals(AyamePaperDoll.path("display_paperdoll"))) {
                 categoryLists.get(category).addEntry(this.getPresetsConfigEntry());
             }
-            if(option.getId().equals(AyamePaperDoll.path("display_paperdoll"))) {
+            if (option.getId().equals(AyamePaperDoll.path("display_paperdoll"))) {
                 categoryLists.get(category).addEntry(this.getVisualConfigEditorLabelEntry());
             }
         }
@@ -215,7 +215,7 @@ public class ConfigScreen extends Screen {
 
         var visualConfigEditorButton = new ConfigWidgetRegistry.ConfigButton(buttonWidth, buttonHeight, getButtonText("visual_config_editor"),
                 (button) -> minecraft.setScreen(new VisualConfigEditorScreen(this)));
-        if(minecraft.level == null) {
+        if (minecraft.level == null) {
             visualConfigEditorButton.active = false;
             visualConfigEditorButton.setTooltip(Tooltip.create(Component.translatable("config.%s.option.visual_config_editor.desc".formatted(AyamePaperDoll.MOD_ID))));
         }

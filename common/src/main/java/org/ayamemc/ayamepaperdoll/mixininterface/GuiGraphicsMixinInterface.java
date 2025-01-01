@@ -1,6 +1,6 @@
 /*
  *     Highly configurable PaperDoll mod. Forked from Extra Player Renderer.
- *     Copyright (C) 2024  LucunJi(Original author), HappyRespawnanchor
+ *     Copyright (C) 2024-2025  LucunJi(Original author), HappyRespawnanchor
  *
  *     This file is part of Ayame PaperDoll.
  *
@@ -33,6 +33,7 @@ public interface GuiGraphicsMixinInterface {
      * @param color the color to fill the rectangle with.
      */
     void ayame_PaperDoll$fill(float minX, float minY, float maxX, float maxY, int color);
+
     /**
      * Fills a rectangle with the specified color and z-level using the given coordinates as the boundaries.
      *
@@ -44,6 +45,7 @@ public interface GuiGraphicsMixinInterface {
      * @param color the color to fill the rectangle with.
      */
     void ayame_PaperDoll$fill(float minX, float minY, float maxX, float maxY, float z, int color);
+
     /**
      * Fills a rectangle with the specified color and z-level using the given render type and coordinates as the boundaries.
      *
