@@ -1,6 +1,6 @@
 /*
  *     Highly configurable PaperDoll mod. Forked from Extra Player Renderer.
- *     Copyright (C) 2024  LucunJi(Original author), HappyRespawnanchor
+ *     Copyright (C) 2024-2025  LucunJi(Original author), HappyRespawnanchor
  *
  *     This file is part of Ayame PaperDoll.
  *
@@ -140,7 +140,7 @@ public class ConfigScreen extends Screen {
 
     @Override
     protected void renderBlurredBackground(float partialTick) {
-        if(!AyamePaperDoll.CONFIGS.disableConfigScreenBlur.getValue()){
+        if (!AyamePaperDoll.CONFIGS.disableConfigScreenBlur.getValue()) {
             super.renderBlurredBackground(partialTick);
         }
     }
