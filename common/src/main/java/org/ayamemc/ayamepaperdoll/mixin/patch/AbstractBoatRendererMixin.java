@@ -1,6 +1,6 @@
 /*
  *     Highly configurable PaperDoll mod. Forked from Extra Player Renderer.
- *     Copyright (C) 2024  LucunJi(Original author), HappyRespawnanchor
+ *     Copyright (C) 2024-2025  LucunJi(Original author), HappyRespawnanchor
  *
  *     This file is part of Ayame PaperDoll.
  *
@@ -34,7 +34,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class AbstractBoatRendererMixin {
     @Inject(method = "render(Lnet/minecraft/client/renderer/entity/state/BoatRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At("HEAD"))
     private void modifyRotationYaw(BoatRenderState renderState, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, CallbackInfo ci) {
-        if(PaperDollRenderer.shouldLockRotationYaw() && poseStack instanceof PaperDollRenderer.PaperDollPoseStack) {
+        if (PaperDollRenderer.shouldLockRotationYaw() && poseStack instanceof PaperDollRenderer.PaperDollPoseStack) {
             renderState.yRot = 0.0F;
         }
     }

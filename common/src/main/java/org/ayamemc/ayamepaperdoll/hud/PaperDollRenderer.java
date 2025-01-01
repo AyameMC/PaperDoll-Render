@@ -1,6 +1,6 @@
 /*
  *     Highly configurable PaperDoll mod. Forked from Extra Player Renderer.
- *     Copyright (C) 2024  LucunJi(Original author), HappyRespawnanchor
+ *     Copyright (C) 2024-2025  LucunJi(Original author), HappyRespawnanchor
  *
  *     This file is part of Ayame PaperDoll.
  *
@@ -108,6 +108,12 @@ public class PaperDollRenderer {
     private static float getFallFlyingLeaning(LivingEntity entity, float partialTicks) {
         float ticks = partialTicks + entity.getFallFlyingTicks();
         return Mth.clamp(ticks * ticks / 100f, 0f, 1f);
+    }
+
+    public static boolean shouldLockRotationYaw() {
+        final RotationMode rotationUnlock = CONFIGS.rotationMode.getValue();
+        return rotationUnlock == RotationMode.LOCK;
+
     }
 
     /**
@@ -317,11 +323,7 @@ public class PaperDollRenderer {
         modelViewStack.popMatrix();
         Lighting.setupFor3DItems();
     }
-    public static boolean shouldLockRotationYaw() {
-        final RotationMode rotationUnlock = CONFIGS.rotationMode.getValue();
-        return rotationUnlock == RotationMode.LOCK;
 
+    public static class PaperDollPoseStack extends PoseStack {
     }
-
-    public static class PaperDollPoseStack extends PoseStack {}
 }
