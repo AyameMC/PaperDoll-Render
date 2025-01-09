@@ -24,10 +24,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import org.ayamemc.ayamepaperdoll.hud.PaperDollRenderer;
-import org.ayamemc.ayamepaperdoll.mixininterface.GuiGraphicsMixinInterface;
 import org.lwjgl.glfw.GLFW;
-
-import java.awt.geom.Rectangle2D;
 
 import static org.ayamemc.ayamepaperdoll.AyamePaperDoll.CONFIGS;
 
@@ -60,12 +57,6 @@ public class VisualConfigEditorScreen extends Screen {
         paperDollRenderer.render(partialTick, guiGraphics);
         // follow convention in LayeredDrawer#renderInternal
         guiGraphics.pose().translate(0, 0, 200);
-        GuiGraphicsMixinInterface mixinedGuiGraphics = (GuiGraphicsMixinInterface) guiGraphics;
-        Rectangle2D.Double bounds = paperDollRenderer.getRenderBounds();
-        if (bounds != null) {
-            int color = 0x80FF0000;
-            mixinedGuiGraphics.ayame_PaperDoll$fill((float) bounds.x, (float) bounds.y, (float) (bounds.x + bounds.width), (float) (bounds.y + bounds.height), color);
-        }
     }
 
 

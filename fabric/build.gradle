@@ -61,10 +61,29 @@ dependencies {
 }
 
 processResources {
-    inputs.property 'version', project.version
+    // 集中管理所有需要替换的占位符
+    Map<String, Object> placeholders = [
+            mod_license                   : project.findProperty('mod_license'),
+            mod_version                   : project.version,
+            mod_id                        : project.findProperty('mod_id'),
+            mod_name                      : project.findProperty('mod_name'),
+            mod_homepage_url              : project.findProperty('mod_homepage_url'),
+            mod_description               : project.findProperty('mod_description'),
+            mod_mixin_config              : project.findProperty('mod_mixin_config'),
+            mod_issues_url                : project.findProperty('mod_issues_url'),
+            mod_fabric_sources_url        : project.findProperty('mod_fabric_sources_url'),
+            fabric_loader_version         : project.findProperty('fabric_loader_version'),
+            fabric_minecraft_version_range: project.findProperty('fabric_minecraft_version_range'),
+    ]
 
+    // 注册所有占位符为输入属性
+    placeholders.each { key, value ->
+        inputs.property key, value
+    }
+
+    // 应用替换规则
     filesMatching('fabric.mod.json') {
-        expand version: project.version
+        expand placeholders
     }
 }
 

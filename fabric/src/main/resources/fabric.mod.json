@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "ayame_paperdoll",
-  "version": "${version}",
-  "name": "Ayame PaperDoll",
-  "description": "Highly configurable PaperDoll mod.\nForked from Extra Player Renderer.",
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
   "authors": [
     "Lucun_Ji(Original author)",
     "HappyRespawnanchor"
@@ -16,11 +16,11 @@
     "pertaz"
   ],
   "contact": {
-    "homepage": "https://ayamemc.org/blog/tags/ayame-paperdoll",
-    "sources": "https://github.com/AyameMC/Ayame-PaperDoll",
-    "issues": "https://github.com/AyameMC/Ayame-PaperDoll/issues"
+    "homepage": "${mod_homepage_url}",
+    "sources": "${mod_fabric_sources_url}",
+    "issues": "${mod_issue_url}"
   },
-  "license": "LGPL-3.0-or-later",
+  "license": "${mod_license}",
   "icon": "assets/ayame_paperdoll/icon.png",
   "environment": "client",
   "entrypoints": {
@@ -32,11 +32,11 @@
     ]
   },
   "mixins": [
-    "ayame-paperdoll.mixins.json"
+    "${mod_mixin_config}"
   ],
   "depends": {
-    "fabricloader": ">=0.16.9",
-    "minecraft": "~1.21.4",
+    "fabricloader": ">=${fabric_loader_version}",
+    "minecraft": "{fabric_minecraft_version_range}",
     "fabric-api": "*"
   },
   "suggests": {

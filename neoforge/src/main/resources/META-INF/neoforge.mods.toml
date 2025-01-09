@@ -1,13 +1,13 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
-issueTrackerURL = "https://github.com/AyameMC/Ayame-PaperDoll/issues"
-license = "LGPL-3.0-or-later"
+issueTrackerURL = "${mod_issues_url}"
+license = "${mod_license}"
 
 [[mods]]
-modId = "ayame_paperdoll"
-version = "${version}"
-displayName = "Ayame PaperDoll"
-displayURL = "https://ayamemc.org/blog/tags/ayame-paperdoll"
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
+displayURL = "${mod_homepage_url}"
 authors = '''
 LucunJi(Original author)
 HappyRespawnanchor
@@ -19,26 +19,23 @@ altrisi
 plusls
 pertaz
 '''
-description = '''
-Highly configurable PaperDoll mod.
-Forked from Extra Player Renderer.
-'''
+description = "${mod_description}"
 logoFile = "icon.png"
 logoBlur = false
 updateJSONURL = "https://api.modrinth.com/updates/ayame-paperdoll/forge_updates.json?neoforge=only"
-[[dependencies.ayame_paperdoll]]
+[[dependencies.${mod_id}]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.4.47-beta,)"
+versionRange = "[${neoforge_version},)"
 ordering = "NONE"
 side = "CLIENT"
 
-[[dependencies.ayame_paperdoll]]
+[[dependencies.${mod_id}]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.4,1.22)"
+versionRange = "${neoforge_minecraft_version_range}"
 ordering = "NONE"
 side = "CLIENT"
 
 [[mixins]]
-config = "ayame-paperdoll.mixins.json"
+config = "${mod_mixin_config}"

@@ -1,3 +1,8 @@
 {
-  "accessWidener": "ayame-paperdoll.accesswidener"
+  "accessWidener": "ayame-paperdoll.accesswidener",
+  "injected_interfaces": {
+    "net/minecraft/class_4597/class_4598": [
+      "org/ayamemc/ayamepaperdoll/mixininterface/BufferSourceMixinInterface"
+    ]
+  }
 }
