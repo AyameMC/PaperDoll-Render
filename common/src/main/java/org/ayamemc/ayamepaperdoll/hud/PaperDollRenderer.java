@@ -44,7 +44,6 @@ import net.minecraft.world.level.LightLayer;
 import org.ayamemc.ayamepaperdoll.config.Configs;
 import org.ayamemc.ayamepaperdoll.config.Configs.RotationMode;
 import org.ayamemc.ayamepaperdoll.hud.DataBackup.DataBackupEntry;
-import org.ayamemc.ayamepaperdoll.mixininterface.BufferSourceMixinInterface;
 import org.joml.Matrix4fStack;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
@@ -312,10 +311,9 @@ public class PaperDollRenderer {
                 entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, partialTicks, poseStack, bufferSource, getLight(targetEntity, partialTicks)));
 
         // disable cull to fix item rendering glitches when mirror option is on
-        BufferSourceMixinInterface mixinedBufferSource = (BufferSourceMixinInterface) bufferSource;
-        mixinedBufferSource.ayame_PaperDoll$setForceDisableCulling(mirror);
+        bufferSource.ayame_PaperDoll$setForceDisableCulling(mirror);
         bufferSource.endBatch();
-        mixinedBufferSource.ayame_PaperDoll$setForceDisableCulling(false);
+        bufferSource.ayame_PaperDoll$setForceDisableCulling(true);
 
         // do not need to restore this value in fact
         entityRenderDispatcher.setRenderShadow(true);

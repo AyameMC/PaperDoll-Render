@@ -64,6 +64,10 @@ public class VisualConfigEditorScreen extends Screen {
     @Override
     public void onClose() {
         this.minecraft.setScreen(lastScreen);
+        if (lastScreen instanceof ConfigScreen configScreen) {
+            // 刷新设置中的值
+            configScreen.init();
+        }
     }
 
     @Override

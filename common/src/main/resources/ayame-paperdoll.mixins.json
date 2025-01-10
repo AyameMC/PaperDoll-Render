@@ -6,7 +6,6 @@
   "client": [
     "patch.AbstractBoatRendererMixin",
     "patch.BufferSourceMixin",
-    "patch.GuiGraphicsMixin",
     "retexture.AbstractButtonMixin",
     "retexture.AbstractScrollAreaMixin",
     "retexture.AbstractSliderButtonMixin",
