@@ -337,6 +337,6 @@ public class PaperDollRenderer {
     public interface LockedPaperDoll {
     }
 
-    public static class PaperDollPoseStack extends PoseStack {
+    public static class PaperDollPoseStack extends PoseStack implements LockedPaperDoll{
     }
 }
