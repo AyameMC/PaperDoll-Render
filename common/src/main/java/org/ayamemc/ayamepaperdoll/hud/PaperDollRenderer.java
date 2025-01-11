@@ -112,7 +112,7 @@ public class PaperDollRenderer {
 
     public static boolean shouldLockRotationYaw() {
         final RotationMode rotationUnlock = CONFIGS.rotationMode.getValue();
-        return (rotationUnlock == RotationMode.LOCK) || (rotationUnlock == RotationMode.SMOOTH_LOCK);
+        return (rotationUnlock == RotationMode.LOCK); //|| (rotationUnlock == RotationMode.SMOOTH_LOCK)*/;
 
     }
 
@@ -287,12 +287,12 @@ public class PaperDollRenderer {
 
         final RotationMode rotationMode = CONFIGS.rotationMode.getValue();
 
-        Quaternionf xyzRot = (rotationMode == RotationMode.SMOOTH_LOCK) ?
+        Quaternionf xyzRot = /*(rotationMode == RotationMode.SMOOTH_LOCK) ?
                 new Quaternionf().rotateXYZ(
                         (float) Math.toRadians(CONFIGS.rotationX.getValue()),
                         (float) ((targetEntity.getYRot() + CONFIGS.rotationY.getValue() - 180) * ((float) Math.PI / 180F)),
                         (float) Math.toRadians(CONFIGS.rotationZ.getValue()))
-                :
+                :*/
                 new Quaternionf().rotateXYZ(
                         (float) Math.toRadians(CONFIGS.rotationX.getValue()),
                         (float) Math.toRadians(CONFIGS.rotationY.getValue()),
@@ -337,6 +337,6 @@ public class PaperDollRenderer {
     public interface LockedPaperDoll {
     }
 
-    public static class PaperDollPoseStack extends PoseStack {
+    public static class PaperDollPoseStack extends PoseStack implements LockedPaperDoll {
     }
 }

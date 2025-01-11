@@ -31,7 +31,7 @@
   "config.ayame_paperdoll.option.rotation_x.desc": "X轴旋转",
   "config.ayame_paperdoll.option.rotation_y.desc": "Y轴旋转",
   "config.ayame_paperdoll.option.rotation_z.desc": "Z轴旋转",
-  "config.ayame_paperdoll.option.rotation_mode.desc": "调整玩家的旋转模式\n\n§e解锁§r：使朝向随玩家朝向而变\n§e锁定§r：固定玩家朝向\n§e平滑锁定§r：与§a锁定§r类似，但允许小幅度摆动",
+  "config.ayame_paperdoll.option.rotation_mode.desc": "调整玩家的旋转模式\n\n§e解锁§r：使朝向随玩家朝向而变\n§e锁定§r：固定玩家朝向",
   "config.ayame_paperdoll.option.size.desc": "渲染大小",
   "config.ayame_paperdoll.option.mirrored.desc": "将渲染模型水平镜像",
   "config.ayame_paperdoll.category.rotations": "旋转",
