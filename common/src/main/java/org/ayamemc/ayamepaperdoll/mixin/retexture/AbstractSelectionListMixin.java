@@ -1,6 +1,6 @@
 /*
  *     Highly configurable PaperDoll mod. Forked from Extra Player Renderer.
- *     Copyright (C) 2024-2025  LucunJi(Original author), HappyRespawnanchor
+ *     Copyright (C) 2024  LucunJi(Original author), HappyRespawnanchor
  *
  *     This file is part of Ayame PaperDoll.
  *
@@ -23,7 +23,7 @@ package org.ayamemc.ayamepaperdoll.mixin.retexture;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractScrollArea;
+import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import org.ayamemc.ayamepaperdoll.config.view.Retextured;
@@ -32,12 +32,12 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.function.Function;
 
-@Mixin(AbstractScrollArea.class)
-public abstract class AbstractScrollAreaMixin {
+@Mixin(AbstractSelectionList.class)
+public abstract class AbstractSelectionListMixin {
     /**
      * This is an incomplete implementation. The background and separator/header/footer are untouched.
      */
-    @WrapOperation(method = "renderScrollbar", at = {
+    @WrapOperation(method = "renderWidget", at = {
             @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V")
     })
     public void drawTransparentTextFieldTexture(GuiGraphics instance, Function<ResourceLocation, RenderType> function, ResourceLocation resourceLocation, int i, int j, int k, int l, Operation<Void> original) {

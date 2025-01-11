@@ -7,7 +7,7 @@
     "patch.AbstractBoatRendererMixin",
     "patch.BufferSourceMixin",
     "retexture.AbstractButtonMixin",
-    "retexture.AbstractScrollAreaMixin",
+    "retexture.AbstractSelectionListMixin",
     "retexture.AbstractSliderButtonMixin",
     "retexture.EditBoxMixin"
   ],
