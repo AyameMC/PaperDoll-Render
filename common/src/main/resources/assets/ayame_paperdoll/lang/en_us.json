@@ -31,7 +31,7 @@
   "config.ayame_paperdoll.option.rotation_x.desc": "X rotation of rendered model.",
   "config.ayame_paperdoll.option.rotation_y.desc": "Y rotation of rendered model.",
   "config.ayame_paperdoll.option.rotation_z.desc": "Z rotation of rendered model.",
-  "config.ayame_paperdoll.option.rotation_mode.desc": "Adjust player's rotation mode.\n\n§eUnlock§r: Allows the player to rotate freely.\n§eLock§r: Fixes the player's facing direction.\n§eSmooth Lock§r: Similar to §aLock§r but allows slight swaying.",
+  "config.ayame_paperdoll.option.rotation_mode.desc": "Adjust player's rotation mode.\n\n§eUnlock§r: Allows the player to rotate freely.\n§eLock§r: Fixes the player's facing direction.",
   "config.ayame_paperdoll.option.size.desc": "Rendering size.",
   "config.ayame_paperdoll.option.mirrored.desc": "Flip rendered model horizontally.",
   "config.ayame_paperdoll.category.rotations": "Rotations",
