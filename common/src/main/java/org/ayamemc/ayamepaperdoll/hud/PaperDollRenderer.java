@@ -243,11 +243,11 @@ public class PaperDollRenderer {
         final RotationMode rotationMode = CONFIGS.rotationMode.getValue();
 
         // 头部锁定
-        if (rotationMode == RotationMode.LOCK) {
+        if ((rotationMode == RotationMode.LOCK) | (targetEntity.ayame_paperdoll$isSitting() && (rotationMode == RotationMode.SMOOTH_LOCK))) {
             targetEntity.yHeadRot = targetEntity.yHeadRotO = 180 - headClamp;
         }
         // 身体锁定
-        if (rotationMode == RotationMode.LOCK) {
+        if ((rotationMode == RotationMode.LOCK) | (targetEntity.ayame_paperdoll$isSitting() && (rotationMode == RotationMode.SMOOTH_LOCK))) {
             targetEntity.yBodyRot = targetEntity.yBodyRotO = 180 - bodyClamp;
         }
 
@@ -269,6 +269,7 @@ public class PaperDollRenderer {
         targetEntity.setSharedFlag(0, false);
     }
 
+    @SuppressWarnings("deprecation")
     private void performRendering(Entity targetEntity, double posX, double posY, double size, boolean mirror,
                                   Vector3f offset, double lightDegree, float partialTicks, GuiGraphics guiGraphics) {
         EntityRenderDispatcher entityRenderDispatcher = minecraft.getEntityRenderDispatcher();
@@ -279,7 +280,8 @@ public class PaperDollRenderer {
         // IDK what shit Mojang made but let's add 180 deg to restore the old behavior
         modelViewStack.rotateY((float) Math.toRadians(lightDegree + 180));
 
-        PoseStack poseStack = new PaperDollPoseStack();
+        RenderSystem.applyModelViewMatrix();
+        PoseStack poseStack = new PoseStack();
         poseStack.mulPose(Axis.YP.rotationDegrees(-(float) lightDegree - 180));
         poseStack.translate((mirror ? -1 : 1) * posX, posY, 0);
         poseStack.scale((float) size, (float) size, (float) size);
@@ -287,16 +289,18 @@ public class PaperDollRenderer {
 
         final RotationMode rotationMode = CONFIGS.rotationMode.getValue();
 
-        Quaternionf xyzRot = (rotationMode == RotationMode.SMOOTH_LOCK) ?
-                new Quaternionf().rotateXYZ(
-                        (float) Math.toRadians(CONFIGS.rotationX.getValue()),
-                        (float) ((targetEntity.getYRot() + CONFIGS.rotationY.getValue() - 180) * ((float) Math.PI / 180F)),
-                        (float) Math.toRadians(CONFIGS.rotationZ.getValue()))
-                :
-                new Quaternionf().rotateXYZ(
-                        (float) Math.toRadians(CONFIGS.rotationX.getValue()),
-                        (float) Math.toRadians(CONFIGS.rotationY.getValue()),
-                        (float) Math.toRadians(CONFIGS.rotationZ.getValue()));
+        Quaternionf xyzRot;
+        if (rotationMode == RotationMode.SMOOTH_LOCK && !(targetEntity instanceof Boat)) {
+            xyzRot = new Quaternionf().rotateXYZ(
+                    (float) Math.toRadians(CONFIGS.rotationX.getValue()),
+                    (float) ((targetEntity.getYRot() + CONFIGS.rotationY.getValue() - 180) * ((float) Math.PI / 180F)),
+                    (float) Math.toRadians(CONFIGS.rotationZ.getValue()));
+        } else {
+            xyzRot = new Quaternionf().rotateXYZ(
+                    (float) Math.toRadians(CONFIGS.rotationX.getValue()),
+                    (float) Math.toRadians(CONFIGS.rotationY.getValue()),
+                    (float) Math.toRadians(CONFIGS.rotationZ.getValue()));
+        }
 
         zRot.mul(xyzRot);
         poseStack.mulPose(zRot);
@@ -314,9 +318,13 @@ public class PaperDollRenderer {
         entityRenderDispatcher.setRenderShadow(false);
         MultiBufferSource.BufferSource bufferSource = minecraft.renderBuffers().bufferSource();
 
+
+        final float rotationYaw = ((rotationMode == RotationMode.UNLOCK) || (rotationMode == RotationMode.SMOOTH_LOCK)) ? targetEntity.getYRot() : 0.0F;
+
         // TODO: 修复矿车锁定旋转时不被锁定的问题
-        guiGraphics.drawSpecial(multiBufferSource ->
-                entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, partialTicks, poseStack, bufferSource, getLight(targetEntity, partialTicks)));
+        RenderSystem.runAsFancy(
+                () -> entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, rotationYaw, partialTicks, poseStack, bufferSource, getLight(targetEntity, partialTicks))
+        );
 
         // 事实证明1.21.3+只需一直禁用剔除，镜像也不会导致什么问题
         bufferSource.ayame_PaperDoll$setForceDisableCulling(true);
@@ -327,16 +335,7 @@ public class PaperDollRenderer {
         entityRenderDispatcher.setRenderHitBoxes(renderHitbox);
 
         modelViewStack.popMatrix();
+        RenderSystem.applyModelViewMatrix();
         Lighting.setupFor3DItems();
-    }
-
-    public Rectangle2D.Double getRenderBounds() {
-        return this.currentRenderBounds;
-    }
-
-    public interface LockedPaperDoll {
-    }
-
-    public static class PaperDollPoseStack extends PoseStack {
     }
 }

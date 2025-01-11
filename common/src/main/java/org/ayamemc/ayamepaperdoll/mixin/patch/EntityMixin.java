@@ -20,22 +20,38 @@
 
 package org.ayamemc.ayamepaperdoll.mixin.patch;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.AbstractBoatRenderer;
-import net.minecraft.client.renderer.entity.state.BoatRenderState;
-import org.ayamemc.ayamepaperdoll.hud.PaperDollRenderer;
+import net.minecraft.world.entity.Entity;
+import org.ayamemc.ayamepaperdoll.mixininterface.EntityMixinInterface;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(AbstractBoatRenderer.class)
-public abstract class AbstractBoatRendererMixin {
-    @Inject(method = "render(Lnet/minecraft/client/renderer/entity/state/BoatRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At("HEAD"))
-    private void modifyRotationYaw(BoatRenderState renderState, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, CallbackInfo ci) {
-        if (PaperDollRenderer.shouldLockRotationYaw() && poseStack instanceof PaperDollRenderer.LockedPaperDoll) {
-            renderState.yRot = 0.0F;
-        }
+@Mixin(Entity.class)
+public abstract class EntityMixin implements EntityMixinInterface {
+    @Unique
+    private final Entity ayame_PaperDoll$entity = (Entity) (Object) this;
+    @Unique
+    private boolean ayame_PaperDoll$isSSitting = false;
+    @Inject(method = "startRiding(Lnet/minecraft/world/entity/Entity;Z)Z", at = @At("RETURN"))
+    private void onStartRiding(Entity vehicle, boolean force, CallbackInfoReturnable<Boolean> cir) {
+        ayame_PaperDoll$entity.ayame_paperdoll$setSitting(cir.getReturnValue());
+    }
+
+    @Inject(method = "removeVehicle", at = @At("HEAD"))
+    private void onRemoveVehicle(CallbackInfo ci) {
+        ayame_PaperDoll$entity.ayame_paperdoll$setSitting(false);
+    }
+
+    @Override
+    public void ayame_paperdoll$setSitting(boolean sitting) {
+        ayame_PaperDoll$isSSitting = sitting;
+    }
+
+    @Override
+    public boolean ayame_paperdoll$isSitting() {
+        return ayame_PaperDoll$isSSitting;
     }
 }

@@ -4,7 +4,6 @@
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "client": [
-    "patch.AbstractBoatRendererMixin",
     "patch.BufferSourceMixin",
     "retexture.AbstractButtonMixin",
     "retexture.AbstractSelectionListMixin",
@@ -12,6 +11,7 @@
     "retexture.EditBoxMixin"
   ],
   "mixins": [
+    "patch.EntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

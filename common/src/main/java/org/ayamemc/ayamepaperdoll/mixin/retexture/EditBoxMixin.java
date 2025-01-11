@@ -26,15 +26,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.ARGB;
 import org.ayamemc.ayamepaperdoll.config.view.Retextured;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-
-import java.util.function.Function;
 
 @Mixin(EditBox.class)
 public abstract class EditBoxMixin extends AbstractWidget {
@@ -43,18 +39,17 @@ public abstract class EditBoxMixin extends AbstractWidget {
     }
 
     @WrapOperation(method = "renderWidget", at = {
-            @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V")
+            @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V")
     })
-    public void drawTransparentTextFieldTexture(GuiGraphics instance, Function<ResourceLocation, RenderType> function, ResourceLocation resourceLocation, int i, int j, int k, int l, Operation<Void> original) {
+    public void drawTransparentTextFieldTexture(GuiGraphics instance, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original) {
         if (this instanceof Retextured retextured) {
-            int color = ARGB.white(this.alpha);
-
+            instance.setColor(1.0f, 1.0f, 1.0f, this.alpha);
             RenderSystem.enableBlend();
             RenderSystem.enableDepthTest();
-
-            instance.blitSprite(function, retextured.retexture(resourceLocation), i, j, k, l, color);
-        } else {
-            original.call(instance, function, resourceLocation, i, j, k, l);
+            original.call(instance, retextured.retexture(texture), x, y, width, height);
+            instance.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+            return;
         }
+        original.call(instance, texture, x, y, width, height);
     }
 }

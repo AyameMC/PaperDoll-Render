@@ -150,9 +150,9 @@ public class ConfigScreen extends Screen {
 
     @SuppressWarnings("DataFlowIssue")
     @Override
-    protected void renderBlurredBackground() {
+    protected void renderBlurredBackground(float partialTick) {
         if (minecraft.level == null || !AyamePaperDoll.CONFIGS.disableConfigScreenBlur.getValue()) {
-            super.renderBlurredBackground();
+            super.renderBlurredBackground(partialTick);
         }
     }
 
@@ -161,7 +161,7 @@ public class ConfigScreen extends Screen {
         // only render when the screen is opened in game
         //noinspection DataFlowIssue
         if (this.minecraft.level != null) {
-            this.previewHud.render(this.minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(true), guiGraphics);
+            this.previewHud.render(this.minecraft.getTimer().getGameTimeDeltaPartialTick(true), guiGraphics);
             // put behind GUI
             guiGraphics.pose().translate(0, 0, 200);
         }
