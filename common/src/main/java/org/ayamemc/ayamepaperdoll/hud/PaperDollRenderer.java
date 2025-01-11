@@ -112,7 +112,7 @@ public class PaperDollRenderer {
 
     public static boolean shouldLockRotationYaw() {
         final RotationMode rotationUnlock = CONFIGS.rotationMode.getValue();
-        return (rotationUnlock == RotationMode.LOCK) || (rotationUnlock == RotationMode.SMOOTH_LOCK);
+        return (rotationUnlock == RotationMode.LOCK);//|| (rotationUnlock == RotationMode.SMOOTH_LOCK);
 
     }
 
@@ -243,11 +243,11 @@ public class PaperDollRenderer {
         final RotationMode rotationMode = CONFIGS.rotationMode.getValue();
 
         // 头部锁定
-        if ((rotationMode == RotationMode.LOCK) | (targetEntity.ayame_paperdoll$isSitting() && (rotationMode == RotationMode.SMOOTH_LOCK))) {
+        if (rotationMode == RotationMode.LOCK) {//|| (targetEntity.ayame_paperdoll$isSitting() && (rotationMode == RotationMode.SMOOTH_LOCK))) {
             targetEntity.yHeadRot = targetEntity.yHeadRotO = 180 - headClamp;
         }
         // 身体锁定
-        if ((rotationMode == RotationMode.LOCK) | (targetEntity.ayame_paperdoll$isSitting() && (rotationMode == RotationMode.SMOOTH_LOCK))) {
+        if (rotationMode == RotationMode.LOCK) {//|| (targetEntity.ayame_paperdoll$isSitting() && (rotationMode == RotationMode.SMOOTH_LOCK))) {
             targetEntity.yBodyRot = targetEntity.yBodyRotO = 180 - bodyClamp;
         }
 
@@ -290,17 +290,17 @@ public class PaperDollRenderer {
         final RotationMode rotationMode = CONFIGS.rotationMode.getValue();
 
         Quaternionf xyzRot;
-        if (rotationMode == RotationMode.SMOOTH_LOCK && !(targetEntity instanceof Boat)) {
+        /*if (rotationMode == RotationMode.SMOOTH_LOCK && !(targetEntity instanceof Boat)) {
             xyzRot = new Quaternionf().rotateXYZ(
                     (float) Math.toRadians(CONFIGS.rotationX.getValue()),
                     (float) ((targetEntity.getYRot() + CONFIGS.rotationY.getValue() - 180) * ((float) Math.PI / 180F)),
                     (float) Math.toRadians(CONFIGS.rotationZ.getValue()));
         } else {
-            xyzRot = new Quaternionf().rotateXYZ(
+            8}*/xyzRot = new Quaternionf().rotateXYZ(
                     (float) Math.toRadians(CONFIGS.rotationX.getValue()),
                     (float) Math.toRadians(CONFIGS.rotationY.getValue()),
                     (float) Math.toRadians(CONFIGS.rotationZ.getValue()));
-        }
+
 
         zRot.mul(xyzRot);
         poseStack.mulPose(zRot);
@@ -319,7 +319,7 @@ public class PaperDollRenderer {
         MultiBufferSource.BufferSource bufferSource = minecraft.renderBuffers().bufferSource();
 
 
-        final float rotationYaw = ((rotationMode == RotationMode.UNLOCK) || (rotationMode == RotationMode.SMOOTH_LOCK)) ? targetEntity.getYRot() : 0.0F;
+        final float rotationYaw = ((rotationMode == RotationMode.UNLOCK) /*|| (rotationMode == RotationMode.SMOOTH_LOCK)*/) ? targetEntity.getYRot() : 0.0F;
 
         // TODO: 修复矿车锁定旋转时不被锁定的问题
         RenderSystem.runAsFancy(
