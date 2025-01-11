@@ -63,10 +63,13 @@ public class VisualConfigEditorScreen extends Screen {
     @SuppressWarnings("DataFlowIssue")
     @Override
     public void onClose() {
-        this.minecraft.setScreen(lastScreen);
+        // 通过构造新配置屏幕刷新设置中的值
+
         if (lastScreen instanceof ConfigScreen configScreen) {
-            // 刷新设置中的值
-            configScreen.init();
+            configScreen.onClose();
+            this.minecraft.setScreen(new ConfigScreen(lastScreen, CONFIGS.getOptions()));
+        } else {
+            this.minecraft.setScreen(lastScreen);
         }
     }
 
@@ -74,24 +77,36 @@ public class VisualConfigEditorScreen extends Screen {
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
         boolean onDrag = false;
         if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-            CONFIGS.offsetX.setValue(CONFIGS.offsetX.getValue() + (deltaX * 0.001));
-            CONFIGS.offsetY.setValue(CONFIGS.offsetY.getValue() + (deltaY * 0.001));
+            final double newOffsetX = CONFIGS.offsetX.getValue() + (deltaX * 0.0015);
+            final double newOffsetY = CONFIGS.offsetY.getValue() + (deltaY * 0.0015);
+            if (newOffsetX < CONFIGS.offsetX.getMax() && newOffsetY > CONFIGS.offsetY.getMin()) {
+                CONFIGS.offsetX.setValue(newOffsetX);
+            }
+            if (newOffsetY < CONFIGS.offsetY.getMax() && newOffsetX > CONFIGS.offsetX.getMin()) {
+                CONFIGS.offsetY.setValue(newOffsetY);
+            }
             onDrag = true;
         }
         if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
-            CONFIGS.rotationY.setValue(CONFIGS.rotationY.getValue() + deltaX);
+            final double newRotationY = CONFIGS.rotationY.getValue() + deltaX;
+            if (newRotationY < CONFIGS.rotationY.getMax() && newRotationY > CONFIGS.rotationY.getMin()) {
+                CONFIGS.rotationY.setValue(newRotationY);
+            }
             onDrag = true;
         }
         return onDrag;
     }
 
-//    @Override
-//    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-//        if (scrollY != 0) {
-//            CONFIGS.size.setValue(CONFIGS.size.getValue() + (scrollY / 80));
-//            return true;
-//        }
-//        return false;
-//    }
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        if (scrollY != 0) {
+            final double newSize = CONFIGS.size.getValue() + (scrollY / 80);
+            if (newSize < CONFIGS.size.getMax() && newSize > CONFIGS.size.getMin()) {
+                CONFIGS.size.setValue(newSize);
+            }
+            return true;
+        }
+        return false;
+    }
 
 }

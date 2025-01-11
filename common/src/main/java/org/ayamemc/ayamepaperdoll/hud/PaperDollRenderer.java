@@ -112,7 +112,7 @@ public class PaperDollRenderer {
 
     public static boolean shouldLockRotationYaw() {
         final RotationMode rotationUnlock = CONFIGS.rotationMode.getValue();
-        return rotationUnlock == RotationMode.LOCK;
+        return (rotationUnlock == RotationMode.LOCK) || (rotationUnlock == RotationMode.SMOOTH_LOCK);
 
     }
 
@@ -284,8 +284,17 @@ public class PaperDollRenderer {
         poseStack.translate((mirror ? -1 : 1) * posX, posY, 0);
         poseStack.scale((float) size, (float) size, (float) size);
         Quaternionf zRot = new Quaternionf().rotateZ((float) Math.PI);
-        Quaternionf xyzRot = new Quaternionf()
-                .rotateXYZ((float) Math.toRadians(CONFIGS.rotationX.getValue()),
+
+        final RotationMode rotationMode = CONFIGS.rotationMode.getValue();
+
+        Quaternionf xyzRot = (rotationMode == RotationMode.SMOOTH_LOCK) ?
+                new Quaternionf().rotateXYZ(
+                        (float) Math.toRadians(CONFIGS.rotationX.getValue()),
+                        (float) ((targetEntity.getYRot() + CONFIGS.rotationY.getValue() - 180) * ((float) Math.PI / 180F)),
+                        (float) Math.toRadians(CONFIGS.rotationZ.getValue()))
+                :
+                new Quaternionf().rotateXYZ(
+                        (float) Math.toRadians(CONFIGS.rotationX.getValue()),
                         (float) Math.toRadians(CONFIGS.rotationY.getValue()),
                         (float) Math.toRadians(CONFIGS.rotationZ.getValue()));
 
@@ -295,7 +304,6 @@ public class PaperDollRenderer {
         if (targetEntity instanceof Boat) {
             poseStack.mulPose(new Quaternionf().rotateY((float) Math.toRadians(180)));
         }
-
 
         Lighting.setupForEntityInInventory();
         xyzRot.conjugate();
@@ -310,10 +318,9 @@ public class PaperDollRenderer {
         guiGraphics.drawSpecial(multiBufferSource ->
                 entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, partialTicks, poseStack, bufferSource, getLight(targetEntity, partialTicks)));
 
-        // disable cull to fix item rendering glitches when mirror option is on
-        bufferSource.ayame_PaperDoll$setForceDisableCulling(mirror);
-        bufferSource.endBatch();
+        // 事实证明1.21.3+只需一直禁用剔除，镜像也不会导致什么问题
         bufferSource.ayame_PaperDoll$setForceDisableCulling(true);
+        bufferSource.endBatch();
 
         // do not need to restore this value in fact
         entityRenderDispatcher.setRenderShadow(true);

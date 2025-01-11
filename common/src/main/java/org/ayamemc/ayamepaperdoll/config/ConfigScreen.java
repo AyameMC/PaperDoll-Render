@@ -62,6 +62,12 @@ public class ConfigScreen extends Screen {
 
     public ConfigScreen(Screen lastScreen, List<? extends ConfigOption<?>> options) {
         super(Component.nullToEmpty("Config Screen"));
+
+        // 确保 lastScreen 是非 ConfigScreen 的实例
+        while (lastScreen instanceof ConfigScreen configScreen) {
+            lastScreen = configScreen.lastScreen;
+        }
+
         this.lastScreen = lastScreen;
         this.previewHud = PaperDollRenderer.getInstance();
         this.tabManager = new TabManager(this::addRenderableWidget, this::removeWidget);
@@ -136,8 +142,9 @@ public class ConfigScreen extends Screen {
     public void onClose() {
         // -1 will become 0 after validation
         AyamePaperDoll.CONFIGS.lastConfigTabIdx.setValue(ArrayUtils.indexOf(tabs, tabManager.getCurrentTab()));
+
         //noinspection DataFlowIssue
-        this.minecraft.setScreen(this.lastScreen);
+        this.minecraft.setScreen(lastScreen);
         AyamePaperDoll.CONFIG_PERSISTENCE.save(AyamePaperDoll.CONFIGS.getOptions());
     }
 
@@ -211,12 +218,14 @@ public class ConfigScreen extends Screen {
 
     @SuppressWarnings("DataFlowIssue")
     private ListWidget.ListEntry getVisualConfigEditorLabelEntry() {
-        final int buttonWidth = 140, gap = 10, buttonHeight = 20;
+        final int buttonWidth = 140, buttonHeight = 20;
 
         var visualConfigEditorButton = new ConfigWidgetRegistry.ConfigButton(buttonWidth, buttonHeight, getButtonText("visual_config_editor"),
                 (button) -> minecraft.setScreen(new VisualConfigEditorScreen(this)));
         if (minecraft.level == null) {
             visualConfigEditorButton.active = false;
+            visualConfigEditorButton.setTooltip(Tooltip.create(Component.translatable("config.%s.option.visual_config_editor_not_available.desc".formatted(AyamePaperDoll.MOD_ID))));
+        } else {
             visualConfigEditorButton.setTooltip(Tooltip.create(Component.translatable("config.%s.option.visual_config_editor.desc".formatted(AyamePaperDoll.MOD_ID))));
         }
 

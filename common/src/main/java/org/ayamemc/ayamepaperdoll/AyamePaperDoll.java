@@ -57,6 +57,5 @@ public final class AyamePaperDoll {
     public static void init() {
         // Write common init code here.
         CONFIG_PERSISTENCE.load(AyamePaperDoll.CONFIGS.getOptions());
-        AyamePaperDoll.LOGGER.info(MOD_NAME + " init{}", CONFIG_PERSISTENCE);
     }
 }

@@ -39,7 +39,7 @@ public class Configs {
     public static final ResourceLocation DETAILS_CATEGORY = AyamePaperDoll.path("details");
     public static final ResourceLocation HIDDEN_CATEGORY = AyamePaperDoll.path("hidden");
     public final SimpleOption<Boolean> displayPaperDoll = new SimpleOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("display_paperdoll"), true);
-    public final SimpleOption<RotationMode> rotationMode = new SimpleOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("rotation_mode"), RotationMode.LOCK);
+    public final SimpleOption<RotationMode> rotationMode = new SimpleOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("rotation_mode"), RotationMode.SMOOTH_LOCK);
     public final SimpleNumericOption<Double> offsetX = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("offset_x"), 0.08, -0.5, 1.5);
     public final SimpleNumericOption<Double> offsetY = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("offset_y"), 0.23, -0.5, 2.5);
     public final SimpleNumericOption<Double> rotationX = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("rotation_x"), -4.96, -180D, 180D);
@@ -138,7 +138,7 @@ public class Configs {
     }
 
     public enum RotationMode {
-        UNLOCK, LOCK,
+        UNLOCK, LOCK, SMOOTH_LOCK
     }
 
     @FunctionalInterface
