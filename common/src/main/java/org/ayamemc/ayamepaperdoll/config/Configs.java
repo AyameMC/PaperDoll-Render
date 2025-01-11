@@ -138,7 +138,7 @@ public class Configs {
     }
 
     public enum RotationMode {
-        UNLOCK, LOCK, SMOOTH_LOCK
+        UNLOCK, LOCK
     }
 
     @FunctionalInterface
