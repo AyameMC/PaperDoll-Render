@@ -36,13 +36,15 @@ public class EventHandler {
     private static final PaperDollRenderer paperDollRenderer = PaperDollRenderer.getInstance();
     public static Screen lastScreen;
 
+    @SuppressWarnings("DataFlowIssue")
     public static void renderPaperDoll(GuiGraphics guiGraphics, DeltaTracker partialTick) {
         if (
                 !minecraft.options.hideGui &&
                         !(AyamePaperDoll.CONFIGS.hideUnderDebug.getValue() && minecraft.getDebugOverlay().showDebugScreen()) &&
                         (minecraft.screen == null || !CONFIGS.hideOnScreenOpen.getValue()) &&
                         !(minecraft.screen instanceof ConfigScreen) &&
-                        !(minecraft.screen instanceof VisualConfigEditorScreen)
+                        !(minecraft.screen instanceof VisualConfigEditorScreen) &&
+                        minecraft.player.isSprinting()
 
         ) {
             paperDollRenderer.render(partialTick.getGameTimeDeltaPartialTick(true), guiGraphics);
