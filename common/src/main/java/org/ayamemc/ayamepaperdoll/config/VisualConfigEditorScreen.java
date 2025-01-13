@@ -56,7 +56,7 @@ public class VisualConfigEditorScreen extends Screen {
         guiGraphics.vLine(BORDER_MARGIN, -1, height, LINE_COLOR);
         paperDollRenderer.render(partialTick, guiGraphics);
         // follow convention in LayeredDrawer#renderInternal
-        guiGraphics.pose().translate(0, 0, 200);
+        // guiGraphics.pose().translate(0, 0, 200);
     }
 
 

@@ -163,7 +163,7 @@ public class ConfigScreen extends Screen {
         if (this.minecraft.level != null) {
             this.previewHud.render(this.minecraft.getTimer().getGameTimeDeltaPartialTick(true), guiGraphics);
             // put behind GUI
-            guiGraphics.pose().translate(0, 0, 200);
+            // guiGraphics.pose().translate(0, 0, 200);
         }
         super.render(guiGraphics, mouseX, mouseY, delta);
     }

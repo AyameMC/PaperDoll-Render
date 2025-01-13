@@ -48,7 +48,7 @@ public class EventHandler {
             paperDollRenderer.render(partialTick.getGameTimeDeltaPartialTick(true), guiGraphics);
         }
         // follow convention in LayeredDrawer#renderInternal
-        guiGraphics.pose().translate(0, 0, 200);
+        // guiGraphics.pose().translate(0, 0, 200);
     }
 
     public static void keyPressed() {
