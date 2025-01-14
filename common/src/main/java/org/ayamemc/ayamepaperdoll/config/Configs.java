@@ -65,6 +65,7 @@ public class Configs {
     public final SimpleOption<Boolean> renderVehicle = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("render_vehicle"), true);
     public final SimpleOption<Boolean> pauseGameOnConfigScreen = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("pause_game_on_config_screen"), true);
     public final SimpleOption<Boolean> disableConfigScreenBlur = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("disable_config_screen_blur"), true);
+    public final SimpleOption<Boolean> visibleDuringActivity = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("visible_during_activity"), false);
     public final SimpleOption<Boolean> hideUnderDebug = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("hide_under_debug"), true);
     public final SimpleOption<Boolean> hideOnScreenOpen = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("hide_on_screen_open"), false);
     public final SimpleOption<Boolean> spectatorAutoSwitch = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("spectator_auto_switch"), true);

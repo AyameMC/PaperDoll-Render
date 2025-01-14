@@ -161,7 +161,7 @@ public class ConfigScreen extends Screen {
         // only render when the screen is opened in game
         //noinspection DataFlowIssue
         if (this.minecraft.level != null) {
-            this.previewHud.render(this.minecraft.getTimer().getGameTimeDeltaPartialTick(true), guiGraphics);
+            this.previewHud.renderWithTranslate(this.minecraft.getTimer().getGameTimeDeltaPartialTick(true), guiGraphics);
             // put behind GUI
             // guiGraphics.pose().translate(0, 0, 200);
         }

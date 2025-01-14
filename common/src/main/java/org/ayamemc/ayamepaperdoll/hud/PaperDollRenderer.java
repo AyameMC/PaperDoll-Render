@@ -116,10 +116,16 @@ public class PaperDollRenderer {
 
     }
 
+    public void renderWithTranslate(float partialTicks, GuiGraphics guiGraphics) {
+        this.render(partialTicks, guiGraphics);
+        // follow convention in LayeredDrawer#renderInternal
+        guiGraphics.pose().translate(0, 0, 200);
+    }
+
     /**
      * Mimics the code in {@link InventoryScreen#renderEntityInInventory}
      */
-    public void render(float partialTicks, GuiGraphics guiGraphics) {
+    private void render(float partialTicks, GuiGraphics guiGraphics) {
         if (minecraft.level == null || minecraft.player == null || !CONFIGS.displayPaperDoll.getValue()) return;
         LivingEntity targetEntity = minecraft.level.players().stream().filter(p -> p.getName().getString().equals(CONFIGS.playerName.getValue())).findFirst().orElse(minecraft.player);
         if (CONFIGS.spectatorAutoSwitch.getValue() && minecraft.player.isSpectator()) {
@@ -296,10 +302,11 @@ public class PaperDollRenderer {
                     (float) ((targetEntity.getYRot() + CONFIGS.rotationY.getValue() - 180) * ((float) Math.PI / 180F)),
                     (float) Math.toRadians(CONFIGS.rotationZ.getValue()));
         } else {
-            8}*/xyzRot = new Quaternionf().rotateXYZ(
-                    (float) Math.toRadians(CONFIGS.rotationX.getValue()),
-                    (float) Math.toRadians(CONFIGS.rotationY.getValue()),
-                    (float) Math.toRadians(CONFIGS.rotationZ.getValue()));
+            8}*/
+        xyzRot = new Quaternionf().rotateXYZ(
+                (float) Math.toRadians(CONFIGS.rotationX.getValue()),
+                (float) Math.toRadians(CONFIGS.rotationY.getValue()),
+                (float) Math.toRadians(CONFIGS.rotationZ.getValue()));
 
 
         zRot.mul(xyzRot);
