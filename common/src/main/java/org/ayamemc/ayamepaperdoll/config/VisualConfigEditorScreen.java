@@ -54,7 +54,7 @@ public class VisualConfigEditorScreen extends Screen {
         guiGraphics.vLine((width - BORDER_MARGIN), -1, height, LINE_COLOR);
         // 右边的线
         guiGraphics.vLine(BORDER_MARGIN, -1, height, LINE_COLOR);
-        paperDollRenderer.renderWithTranslate(partialTick, guiGraphics);
+        paperDollRenderer.render(partialTick, guiGraphics);
     }
 
 

@@ -44,22 +44,23 @@ public class EventHandler {
         final Pose playerPose = player.getPose();
         if (
                 !minecraft.options.hideGui &&
-                        !(AyamePaperDoll.CONFIGS.hideUnderDebug.getValue() && minecraft.getDebugOverlay().showDebugScreen()) &&
+                        !(CONFIGS.hideUnderDebug.getValue() && minecraft.getDebugOverlay().showDebugScreen()) &&
                         (minecraft.screen == null || !CONFIGS.hideOnScreenOpen.getValue()) &&
                         !(minecraft.screen instanceof ConfigScreen) &&
                         !(minecraft.screen instanceof VisualConfigEditorScreen) &&
-                        hasBedrockLikeAction(player, playerPose)
+                        (!(CONFIGS.visibleDuringActivity.getValue()) ||
+                                (CONFIGS.visibleDuringActivity.getValue() && hasActivity(player, playerPose)))
 
 
         ) {
-            paperDollRenderer.renderWithTranslate(partialTick.getGameTimeDeltaPartialTick(true), guiGraphics);
+            paperDollRenderer.render(partialTick.getGameTimeDeltaPartialTick(true), guiGraphics);
         }
     }
 
     private static long lastInactiveTime = 0;
     private static boolean previousState = false;
 
-    public static boolean hasBedrockLikeAction(Player player, Pose playerPose) {
+    public static boolean hasActivity(Player player, Pose playerPose) {
         boolean currentState = playerPose == Pose.SWIMMING ||
                 playerPose == Pose.CROUCHING ||
                 player.getAbilities().flying ||

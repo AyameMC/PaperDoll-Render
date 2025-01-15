@@ -116,16 +116,13 @@ public class PaperDollRenderer {
 
     }
 
-    public void renderWithTranslate(float partialTicks, GuiGraphics guiGraphics) {
-        this.render(partialTicks, guiGraphics);
-        // follow convention in LayeredDrawer#renderInternal
-        guiGraphics.pose().translate(0, 0, 200);
-    }
-
+    // 这会导致织布机渲染问题，不要使用↓
+    // follow convention in LayeredDrawer#renderInternal
+    // guiGraphics.pose().translate(0, 0, 200);
     /**
      * Mimics the code in {@link InventoryScreen#renderEntityInInventory}
      */
-    private void render(float partialTicks, GuiGraphics guiGraphics) {
+    public void render(float partialTicks, GuiGraphics guiGraphics) {
         if (minecraft.level == null || minecraft.player == null || !CONFIGS.displayPaperDoll.getValue()) return;
         LivingEntity targetEntity = minecraft.level.players().stream().filter(p -> p.getName().getString().equals(CONFIGS.playerName.getValue())).findFirst().orElse(minecraft.player);
         if (CONFIGS.spectatorAutoSwitch.getValue() && minecraft.player.isSpectator()) {
