@@ -24,6 +24,8 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.player.Player;
 import org.ayamemc.ayamepaperdoll.AyamePaperDoll;
 import org.ayamemc.ayamepaperdoll.config.ConfigScreen;
 import org.ayamemc.ayamepaperdoll.config.VisualConfigEditorScreen;
@@ -36,20 +38,56 @@ public class EventHandler {
     private static final PaperDollRenderer paperDollRenderer = PaperDollRenderer.getInstance();
     public static Screen lastScreen;
 
+    @SuppressWarnings("DataFlowIssue")
     public static void renderPaperDoll(GuiGraphics guiGraphics, DeltaTracker partialTick) {
+        final Player player = minecraft.player;
+        final Pose playerPose = player.getPose();
         if (
                 !minecraft.options.hideGui &&
-                        !(AyamePaperDoll.CONFIGS.hideUnderDebug.getValue() && minecraft.getDebugOverlay().showDebugScreen()) &&
+                        !(CONFIGS.hideUnderDebug.getValue() && minecraft.getDebugOverlay().showDebugScreen()) &&
                         (minecraft.screen == null || !CONFIGS.hideOnScreenOpen.getValue()) &&
                         !(minecraft.screen instanceof ConfigScreen) &&
-                        !(minecraft.screen instanceof VisualConfigEditorScreen)
+                        !(minecraft.screen instanceof VisualConfigEditorScreen) &&
+                        (!(CONFIGS.visibleDuringActivity.getValue()) ||
+                                (CONFIGS.visibleDuringActivity.getValue() && hasActivity(player, playerPose)))
+
 
         ) {
             paperDollRenderer.render(partialTick.getGameTimeDeltaPartialTick(true), guiGraphics);
         }
-        // follow convention in LayeredDrawer#renderInternal
-        guiGraphics.pose().translate(0, 0, 200);
     }
+
+    private static long lastInactiveTime = 0;
+    private static boolean previousState = false;
+
+    public static boolean hasActivity(Player player, Pose playerPose) {
+        boolean currentState = playerPose == Pose.SWIMMING ||
+                playerPose == Pose.CROUCHING ||
+                player.getAbilities().flying ||
+                player.isSprinting() ||
+                playerPose == Pose.FALL_FLYING ||
+                player.ayame_paperdoll$isSitting();
+
+        if (currentState) {
+            // 状态为 true 时立即返回 true，并重置时间戳
+            previousState = true;
+            lastInactiveTime = 0;
+        } else {
+            // 如果状态从 true 变为 false，记录当前时间戳
+            if (previousState && lastInactiveTime == 0) {
+                lastInactiveTime = System.currentTimeMillis();
+            }
+
+            // 检查是否超过 1 秒延迟
+            if (lastInactiveTime > 0 && System.currentTimeMillis() - lastInactiveTime >= 500) {
+                previousState = false;
+                lastInactiveTime = 0; // 重置时间戳
+            }
+        }
+
+        return previousState;
+    }
+
 
     public static void keyPressed() {
         while (AyamePaperDoll.SHOW_PAPERDOLL_KEY.consumeClick()) {

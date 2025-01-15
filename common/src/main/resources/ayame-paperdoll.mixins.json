@@ -12,6 +12,7 @@
     "retexture.EditBoxMixin"
   ],
   "mixins": [
+    "patch.EntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -116,6 +116,9 @@ public class PaperDollRenderer {
 
     }
 
+    // 这会导致织布机渲染问题，不要使用↓
+    // follow convention in LayeredDrawer#renderInternal
+    // guiGraphics.pose().translate(0, 0, 200);
     /**
      * Mimics the code in {@link InventoryScreen#renderEntityInInventory}
      */
@@ -337,6 +340,6 @@ public class PaperDollRenderer {
     public interface LockedPaperDoll {
     }
 
-    public static class PaperDollPoseStack extends PoseStack implements LockedPaperDoll {
+    public static class PaperDollPoseStack extends PoseStack implements LockedPaperDoll{
     }
 }
